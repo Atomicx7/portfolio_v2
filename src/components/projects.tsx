@@ -4,13 +4,13 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { Github, ExternalLink } from "lucide-react"
 import { Button } from "../components/ui/button"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import kool from "../assets/kool.png"
 
 interface Project {
   title: string
   description: string
-  imageUrl: string
+  imageUrl: string | StaticImageData
   liveUrl?: string
   githubUrl?: string
   technologies: string[]
