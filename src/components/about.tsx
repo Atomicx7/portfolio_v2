@@ -26,12 +26,12 @@ const defaultAbout: AboutType = {
 const defaultTimeline: Timeline[] = [
   {
     _id: "1",
-    jobTitle: "Computer Science",
+    jobTitle: "Information Technology",
     company_name: "Chandigarh Engineering College",
     jobLocation: "SAS Nagar, India",
     startDate: "2022-07-01",
     endDate: "2026-06-30",
-    summary: "Studied Computer Science with a focus on Software Engineering and Information Technology",
+    summary: "Studied Information Technology with a focus on Software Engineering and Information Technology",
     bulletPoints: [
       "Dean's List for Academic Excellence",
       "Filed a patent for Home cleaning and helping service",
@@ -41,23 +41,23 @@ const defaultTimeline: Timeline[] = [
     enabled: true,
     sequence: 1,
   },
-  {
-    _id: "2",
-    jobTitle: "Masters in AI",
-    company_name: "MIT",
-    jobLocation: "Massachusetts, USA",
-    startDate: "2022-09-01",
-    endDate: "2024-05-30",
-    summary: "Specialized in Artificial Intelligence and Machine Learning",
-    bulletPoints: [
-      "Published research paper on Deep Learning",
-      "Teaching Assistant for Advanced Algorithm course",
-      "Developed novel approaches to computer vision",
-    ],
-    forEducation: true,
-    enabled: true,
-    sequence: 2,
-  },
+  // {
+  //   _id: "2",
+  //   jobTitle: "Masters in AI",
+  //   company_name: "MIT",
+  //   jobLocation: "Massachusetts, USA",
+  //   startDate: "2022-09-01",
+  //   endDate: "2024-05-30",
+  //   summary: "Specialized in Artificial Intelligence and Machine Learning",
+  //   bulletPoints: [
+  //     "Published research paper on Deep Learning",
+  //     "Teaching Assistant for Advanced Algorithm course",
+  //     "Developed novel approaches to computer vision",
+  //   ],
+  //   forEducation: true,
+  //   enabled: true,
+  //   sequence: 2,
+  // },
 ]
 
 export function About({ about = defaultAbout, timeline = defaultTimeline }: Partial<AboutProps>) {

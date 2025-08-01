@@ -33,8 +33,8 @@ const projects: Project[] = [
     technologies: ["React", "OpenAI", "TailwindCSS", "Node.js"],
   },
   {
-    title: "Portfolio Website",
-    description: "A modern portfolio website built with Next.js and Framer Motion.",
+    title: "Advo-Kids",
+    description: "The modern way to learn about your rights as a child. A platform for children to understand their rights through interactive content.",
     imageUrl: "/placeholder.svg?height=600&width=800",
     technologies: ["Next.js", "Framer Motion", "TailwindCSS", "TypeScript"],
   },
