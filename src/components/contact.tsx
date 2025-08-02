@@ -100,17 +100,33 @@ export function Contact() {
             <div className="grid gap-4">
               <Button variant="outline" className="w-full justify-start h-12 text-lg bg-white/80 dark:bg-zinc-900/80">
                 <Mail className="w-5 h-5 mr-3" />
-                your.email@example.com
+                punnyyashdeep@gmail.com
               </Button>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Button variant="outline" className="h-12 bg-white/80 dark:bg-zinc-900/80">
-                  <Github className="w-5 h-5 mr-2" />
-                  GitHub
-                </Button>
-                <Button variant="outline" className="h-12 bg-white/80 dark:bg-zinc-900/80">
-                  <Linkedin className="w-5 h-5 mr-2" />
-                  LinkedIn
-                </Button>
+                <a
+                  href="https://github.com/atomicx7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-12 w-full"
+                  tabIndex={-1}
+                >
+                  <Button variant="outline" className="h-12 bg-white/80 dark:bg-zinc-900/80 w-full">
+                    <Github className="w-5 h-5 mr-2" />
+                    GitHub
+                  </Button>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/yash-deep-singh/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="h-12 w-full"
+                  tabIndex={-1}
+                >
+                  <Button variant="outline" className="h-12 bg-white/80 dark:bg-zinc-900/80 w-full">
+                    <Linkedin className="w-5 h-5 mr-2" />
+                    LinkedIn
+                  </Button>
+                </a>
                 <Button variant="outline" className="h-12 bg-white/80 dark:bg-zinc-900/80">
                   <Twitter className="w-5 h-5 mr-2" />
                   Twitter
