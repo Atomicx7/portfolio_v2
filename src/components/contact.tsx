@@ -11,7 +11,9 @@ import adobe from '../assets/icons/adobe.png';
 import sih from '../assets/icons/SIH2.webp';
 import { StaticImageData } from "next/image";
 import Image from "next/image";
-const resumeUrl = "https://picsum.photos/id/1069/800/1131";
+import resumePreview from '../assets/resume.png';
+
+const resumeUrl = "https://drive.google.com/file/d/1bPofobHKLObkoCSNqeQwAs9ZuZOETtaI/view?usp=sharing";
 
 const certificatesData: Certificate[] = [
   {
@@ -152,7 +154,13 @@ export const Contact: React.FC = () => {
               <h2 id="resume-heading" className="text-3xl font-bold mb-6 text-white">My Resume</h2>
               <div className="flex flex-col md:flex-row gap-8 items-center">
                 <div className="md:w-1/3 w-full rounded-lg overflow-hidden border-2 border-zinc-700 group hover:border-white transition-all duration-300">
-                  <img src={resumeUrl} alt="Resume Preview" className="w-full object-cover" />
+                  <Image 
+                    src={resumePreview} 
+                    alt="Resume Preview" 
+                    width={300}
+                    height={400}
+                    className="w-full object-cover"
+                  />
                 </div>
                 <div className="md:w-2/3 w-full space-y-4">
                   <p className="text-zinc-300">
@@ -160,7 +168,7 @@ export const Contact: React.FC = () => {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 pt-2">
                     <button
-                      onClick={() => setModalImage(resumeUrl)}
+                      onClick={() => window.open(resumeUrl, '_blank')}
                       className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-zinc-900 bg-white hover:bg-zinc-200 transition-colors"
                     >
                       <ExternalLink className="w-5 h-5 mr-2" />
