@@ -3,42 +3,10 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { Github, ExternalLink } from "lucide-react"
-import { Button } from "../components/ui/button"
-import Image, { StaticImageData } from "next/image"
-import kool from "../assets/kool.png"
-
-interface Project {
-  title: string
-  description: string
-  imageUrl: string | StaticImageData
-  liveUrl?: string
-  githubUrl?: string
-  technologies: string[]
-}
-
-const projects: Project[] = [
-  {
-    title: "Koolnotes.ai",
-    description:
-      "A full-stack learning and notes uploading platform built with Next.js, featuring upload notes feature and Kool.ai agent.",
-    imageUrl: kool,
-    liveUrl: "#",
-    githubUrl: "#",
-    technologies: ["Next.js", "TypeScript", "Stripe", "Prisma"],
-  },
-  {
-    title: "Kwick",
-    description: "Transform text prompts into stunning images using AI. Built with React and OpenAI's API.",
-    imageUrl: "/placeholder.svg?height=600&width=800",
-    technologies: ["React", "OpenAI", "TailwindCSS", "Node.js"],
-  },
-  {
-    title: "Advo-Kids",
-    description: "The modern way to learn about your rights as a child. A platform for children to understand their rights through interactive content.",
-    imageUrl: "/placeholder.svg?height=600&width=800",
-    technologies: ["Next.js", "Framer Motion", "TailwindCSS", "TypeScript"],
-  },
-]
+import { Button } from "./ui/button"
+import Image from "next/image"
+import Link from "next/link"
+import { featuredProjects, Project } from "../lib/data"
 
 export function Projects() {
   return (
@@ -52,15 +20,20 @@ export function Projects() {
         >
           Featured Projects
         </motion.h2>
-        {projects.map((project, index) => (
+        {featuredProjects.map((project, index) => (
           <ProjectCard key={index} project={project} index={index} />
         ))}
+        <div className="text-center mt-4">
+          <Link href="/projects">
+            <Button className="py-4 px-8 text-lg font-semibold">Explore All Projects</Button>
+          </Link>
+        </div>
       </div>
     </div>
   )
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+export function ProjectCard({ project, index }: { project: Project; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -80,13 +53,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       className="mb-32"
     >
       <div className="relative max-w-4xl mx-auto">
-        <motion.div className="bg-white/80 dark:bg-zinc-800/80 backdrop-blur-lg rounded-2xl overflow-hidden border border-zinc-200/50 dark:border-zinc-700/50 shadow-xl">
+        <div className="bg-white/80 dark:bg-zinc-800/80 backdrop-blur-lg rounded-2xl overflow-hidden border border-zinc-200/50 dark:border-zinc-700/50 shadow-xl h-full flex flex-col">
           <div className="aspect-video relative overflow-hidden">
-            <Image src={project.imageUrl || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+            <Image src={project.imageUrl} alt={project.title} fill className="object-cover" />
           </div>
-          <div className="relative p-8">
+          <div className="relative p-8 flex-grow flex flex-col">
             <h3 className="text-2xl font-bold mb-4 text-zinc-900 dark:text-zinc-100">{project.title}</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 text-lg mb-6">{project.description}</p>
+            <p className="text-zinc-600 dark:text-zinc-400 text-lg mb-6 flex-grow">{project.description}</p>
             <div className="flex flex-wrap gap-2 mb-6">
               {project.technologies.map((tech) => (
                 <span key={tech} className="px-3 py-1 bg-zinc-100 dark:bg-zinc-700 rounded-full text-sm">
@@ -94,7 +67,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 </span>
               ))}
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4 mt-auto">
               {project.githubUrl && (
                 <Button variant="outline">
                   <Github className="w-4 h-4 mr-2" />
@@ -109,9 +82,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               )}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   )
 }
-

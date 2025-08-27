@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "next build"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
@@ -40,11 +41,10 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
-    "date-fns": "4.1.0",
+    "date-fns": "^3.0.0",
     "embla-carousel-react": "8.5.1",
     "framer-motion": "latest",
     "input-otp": "1.4.1",
@@ -60,7 +60,7 @@
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwind-scrollbar": "^4.0.0",
-    "tailwindcss": "latest",
+    "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
     "zod": "^3.24.1"
@@ -69,8 +69,18 @@
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.17",
+    "autoprefixer": "^10.4.17",
+    "cssnano": "^6.1.2",
+    "postcss": "^8.4.35",
+    "tailwind-scrollbar": "^3.0.5",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
+  },
+  "buildCommand": "npm run vercel-build",
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "nextjs",
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

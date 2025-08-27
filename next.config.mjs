@@ -16,6 +16,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  
+  // Add this to reduce build output noise
+  logging: {
+    level: 'error' // Only show error messages
+  },
+  
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,

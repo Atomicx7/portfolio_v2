@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import Image from "next/image"
-import hero from "../assets/hero.jpg"
+
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -18,7 +18,7 @@ export function Hero() {
     <div ref={ref} className="relative h-screen overflow-hidden" id="hero">
       <div className="absolute inset-0">
         <Image
-          src="/placeholder.svg?height=1080&width=1920"
+          src=""
           alt="Hero Background"
           fill
           className="object-cover opacity-10"
