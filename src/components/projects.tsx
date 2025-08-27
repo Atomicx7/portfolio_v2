@@ -75,10 +75,12 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
                 </Button>
               )}
               {project.liveUrl && (
-                <Button>
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Live Demo
-                </Button>
+                <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                  <Button>
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Live Demo
+                  </Button>
+                </Link>
               )}
             </div>
           </div>
