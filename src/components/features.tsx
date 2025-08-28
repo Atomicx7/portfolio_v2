@@ -51,7 +51,7 @@ export function Skills() {
     <motion.div
       ref={ref}
       style={{ scale, opacity }}
-      className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-white to-zinc-50/50 dark:from-zinc-900 dark:to-zinc-900/50"
+      className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-white to-zinc-50/50 dark:from-zinc-900 dark:to-zinc-900/50 relative overflow-hidden"
     >
       <div className="relative max-w-6xl mx-auto">
         {/* Light mode animated backgrounds */}
@@ -130,4 +130,3 @@ export function Skills() {
     </motion.div>
   )
 }
-

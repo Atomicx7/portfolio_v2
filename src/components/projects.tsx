@@ -10,7 +10,7 @@ import { featuredProjects, Project } from "../lib/data"
 
 export function Projects() {
   return (
-    <div className="relative py-32">
+    <div className="relative py-32 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

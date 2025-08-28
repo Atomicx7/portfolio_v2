@@ -95,7 +95,7 @@ const ImageModal: React.FC<{ imageUrl: string; onClose: () => void }> = ({ image
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 120 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative max-w-4xl max-h-[90vh] bg-zinc-800 rounded-lg overflow-hidden shadow-2xl"
+        className="relative max-w-4xl max-h-[90vh] bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-2xl"
       >
         <img src={imageUrl} alt="Preview" className="w-full h-full object-contain" />
         <button
@@ -110,6 +110,7 @@ const ImageModal: React.FC<{ imageUrl: string; onClose: () => void }> = ({ image
   );
 };
 
+
 export const Contact: React.FC = () => {
   const [modalImage, setModalImage] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -118,33 +119,40 @@ export const Contact: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  const animationRange = [0.25, 0.4];
-  const animationRange2 = [0.6, 0.75];
+  // Card 1 (Resume) animation: Animate out as Card 2 comes into view
+  const scaleCard1 = useTransform(scrollYProgress, [0.3, 0.45], [1, 0.9]);
+  const yCard1 = useTransform(scrollYProgress, [0.3, 0.45], [0, -80]);
 
-  const scaleCard1 = useTransform(scrollYProgress, animationRange, [1, 0.9]);
-  const yCard1 = useTransform(scrollYProgress, animationRange, [0, -60]);
+  // Card 2 (Certs) animation: Animate out as Card 3 comes into view
+  const scaleCard2 = useTransform(scrollYProgress, [0.63, 0.78], [1, 0.95]);
+  const yCard2 = useTransform(scrollYProgress, [0.63, 0.78], [0, -40]);
 
-  const scaleCard2 = useTransform(scrollYProgress, animationRange2, [1, 0.9]);
-  const yCard2 = useTransform(scrollYProgress, animationRange2, [0, -30]);
+  // Animation for "Let's Connect" content reveal
+  const connectRevealStart = 0.8;
+  const titleY = useTransform(scrollYProgress, [connectRevealStart, connectRevealStart + 0.05], [20, 0]);
+  const titleOpacity = useTransform(scrollYProgress, [connectRevealStart, connectRevealStart + 0.05], [0, 1]);
+
+  const emailY = useTransform(scrollYProgress, [connectRevealStart + 0.05, connectRevealStart + 0.1], [20, 0]);
+  const emailOpacity = useTransform(scrollYProgress, [connectRevealStart + 0.05, connectRevealStart + 0.1], [0, 1]);
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white dark:from-zinc-900 dark:to-black text-zinc-900 dark:text-white py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white dark:from-zinc-900 dark:to-black text-zinc-900 dark:text-white py-16 md:py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
-        <div ref={containerRef} className="relative h-[225vh]">
+        <div ref={containerRef} className="relative h-[300vh]">
           {/* Resume Section */}
           <motion.div
-            style={{ position: 'sticky', top: 0, zIndex: 1, scale: scaleCard1, y: yCard1 }}
-            className="h-screen flex items-center"
+            style={{ position: 'sticky', top: 'calc(50vh - 37.5vh)', zIndex: 1, scale: scaleCard1, y: yCard1 }}
+            className="h-screen flex items-center justify-center"
           >
             <motion.section
               aria-labelledby="resume-heading"
-              className="h-[65vh] w-full"
+              className="h-[75vh] w-full"
             >
               <div className="bg-indigo-100 dark:bg-indigo-600/80 border border-indigo-200 dark:border-indigo-500 rounded-2xl p-6 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
                 <h2 id="resume-heading" className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white">My Resume</h2>
-                <div className="flex flex-col md:flex-row gap-8 items-center">
-                  <div className="md:w-1/3 w-full rounded-lg overflow-hidden border-2 border-zinc-400/50 dark:border-zinc-200/50 group hover:border-zinc-600 dark:hover:border-white transition-all duration-300">
+                <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+                  <div className="md:w-1/3 w-full max-w-[280px] mx-auto md:mx-0 rounded-lg overflow-hidden border-2 border-zinc-400/50 dark:border-zinc-200/50 group hover:border-zinc-600 dark:hover:border-white transition-all duration-300">
                     <Image
                       src={resumePreview}
                       alt="Resume Preview"
@@ -182,12 +190,12 @@ export const Contact: React.FC = () => {
 
           {/* Certifications Section */}
            <motion.div
-            style={{ position: 'sticky', top: 0, zIndex: 2, scale: scaleCard2, y: yCard2 }}
-            className="h-screen flex items-center"
+            style={{ position: 'sticky', top: 'calc(50vh - 37.5vh)', zIndex: 2, scale: scaleCard2, y: yCard2 }}
+            className="h-screen flex items-center justify-center"
           >
             <motion.section
               aria-labelledby="certs-heading"
-              className="h-[65vh] w-full"
+              className="h-[75vh] w-full"
             >
               <div className="bg-pink-100 dark:bg-pink-600/80 border border-pink-200 dark:border-pink-500 rounded-2xl p-6 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
                 <h2 id="certs-heading" className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white">Certifications</h2>
@@ -221,37 +229,47 @@ export const Contact: React.FC = () => {
 
           {/* Let's Connect Section */}
            <motion.div
-            style={{ position: 'sticky', top: 0, zIndex: 3 }}
-             className="h-screen flex items-center"
+            style={{ position: 'sticky', top: 'calc(50vh - 37.5vh)', zIndex: 3 }}
+             className="h-screen flex items-center justify-center"
           >
             <motion.section
               aria-labelledby="connect-heading"
-              className="h-[65vh] w-full"
+              className="h-[75vh] w-full"
             >
               <div className="bg-blue-200/40 dark:bg-blue-900/40 border border-blue-300/40 dark:border-blue-500/40 rounded-2xl p-6 sm:p-8 backdrop-blur-xl h-full flex flex-col justify-center">
-                <h2 id="connect-heading" className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white">Let's Connect</h2>
+                <motion.h2
+                  id="connect-heading"
+                  style={{ y: titleY, opacity: titleOpacity }}
+                  className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white"
+                >
+                  Let's Connect
+                </motion.h2>
                 <div className="space-y-4">
-                  <a
+                  <motion.a
                     href="mailto:punnyyashdeep@gmail.com"
+                    style={{ y: emailY, opacity: emailOpacity }}
                     className="w-full flex items-center p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
                   >
                     <Mail className="w-6 h-6 mr-4 text-zinc-800 dark:text-white" />
                     <span className="text-lg text-zinc-800/90 dark:text-white/90">punnyyashdeep@gmail.com</span>
-                  </a>
+                  </motion.a>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {socialLinks.map((link) => {
+                    {socialLinks.map((link, index) => {
                       const Icon = link.icon;
+                      const linkY = useTransform(scrollYProgress, [connectRevealStart + 0.1 + (index * 0.02), connectRevealStart + 0.15 + (index * 0.02)], [20, 0]);
+                      const linkOpacity = useTransform(scrollYProgress, [connectRevealStart + 0.1 + (index * 0.02), connectRevealStart + 0.15 + (index * 0.02)], [0, 1]);
                       return (
-                        <a
+                        <motion.a
                           key={link.name}
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
+                          style={{ y: linkY, opacity: linkOpacity }}
                           className="flex items-center justify-center p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
                         >
                           <Icon className="w-6 h-6 mr-3 text-zinc-800/90 dark:text-white/90" />
                           <span className="text-lg text-zinc-800/90 dark:text-white/90">{link.name}</span>
-                        </a>
+                        </motion.a>
                       );
                     })}
                   </div>
