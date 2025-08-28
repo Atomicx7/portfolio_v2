@@ -21,7 +21,7 @@ export function Hero() {
           src=""
           alt="Hero Background"
           fill
-          className="object-cover opacity-10"
+          className="object-cover opacity-0"
           priority
         />
       </div>
