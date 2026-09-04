@@ -6,7 +6,7 @@ import { type Dispatch, type SetStateAction, useState } from "react"
 import { motion } from "framer-motion"
 import { formatDate } from "../utils"
 import { SlideIn, Transition } from "./ui"
-import avatarImg from "../assets/iamge.png";
+import avatarImg from "../assets/image.jpg";
 
 interface AboutProps {
   about: AboutType

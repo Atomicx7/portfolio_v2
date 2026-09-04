@@ -31,11 +31,11 @@ export function ModeToggle() {
 
   return (
     <Select defaultValue={theme} onValueChange={setTheme}>
-      <SelectTrigger className="w-[140px] bg-white/50 dark:bg-zinc-900/50">
+      <SelectTrigger className="h-9 w-10 justify-center rounded-full border-0 bg-white/35 px-0 dark:bg-zinc-900/35 sm:w-[140px] sm:justify-between sm:px-3">
         <SelectValue placeholder="Select theme">
           <span className="flex items-center gap-2">
             <Icon className="h-4 w-4" />
-            {themes[theme as ThemeName]?.name || "System"}
+            <span className="hidden sm:inline">{themes[theme as ThemeName]?.name || "System"}</span>
           </span>
         </SelectValue>
       </SelectTrigger>

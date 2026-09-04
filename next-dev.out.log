@@ -1,0 +1,13 @@
+  ▲ Next.js 14.2.23
+  - Local:        http://localhost:3003
+  - Experiments (use with caution):
+    · webpackBuildWorker
+
+ ✓ Starting...
+ ✓ Ready in 1669ms
+ ○ Compiling / ...
+ ✓ Compiled / in 4.5s (1647 modules)
+ HEAD / 200 in 4755ms
+ ✓ Compiled in 366ms (827 modules)
+ ✓ Compiled in 784ms (1638 modules)
+ HEAD / 200 in 114ms

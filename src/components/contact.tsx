@@ -141,18 +141,19 @@ export const Contact: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         <div ref={containerRef} className="relative h-[300vh]">
           {/* Resume Section */}
-          <motion.div
-            style={{ position: 'sticky', top: 'calc(50vh - 37.5vh)', zIndex: 1, scale: scaleCard1, y: yCard1 }}
-            className="h-screen flex items-center justify-center"
+          <div
+            style={{ zIndex: 1 }}
+            className="sticky top-[calc(50vh-32.5vh)] md:top-[calc(50vh-37.5vh)] h-screen flex items-center justify-center"
           >
             <motion.section
+              style={{ scale: scaleCard1, y: yCard1 }}
               aria-labelledby="resume-heading"
-              className="h-[75vh] w-full"
+              className="h-[65vh] md:h-[75vh] w-full"
             >
-              <div className="bg-indigo-100 dark:bg-indigo-600/80 border border-indigo-200 dark:border-indigo-500 rounded-2xl p-6 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
-                <h2 id="resume-heading" className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white">My Resume</h2>
-                <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center">
-                  <div className="md:w-1/3 w-full max-w-[280px] mx-auto md:mx-0 rounded-lg overflow-hidden border-2 border-zinc-400/50 dark:border-zinc-200/50 group hover:border-zinc-600 dark:hover:border-white transition-all duration-300">
+              <div className="bg-indigo-100 dark:bg-indigo-600/80 border border-indigo-200 dark:border-indigo-500 rounded-2xl p-4 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
+                <h2 id="resume-heading" className="text-2xl sm:text-3xl font-bold mb-4 text-zinc-900 dark:text-white flex-shrink-0">My Resume</h2>
+                <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center md:flex-grow min-h-0">
+                  <div className="md:w-1/3 w-full max-w-[200px] md:max-w-full mx-auto md:mx-0 rounded-lg overflow-hidden border-2 border-zinc-400/50 dark:border-zinc-200/50 group hover:border-zinc-600 dark:hover:border-white transition-all duration-300 flex-shrink-0">
                     <Image
                       src={resumePreview}
                       alt="Resume Preview"
@@ -161,24 +162,24 @@ export const Contact: React.FC = () => {
                       className="w-full object-cover"
                     />
                   </div>
-                  <div className="md:w-2/3 w-full space-y-4">
-                    <p className="text-indigo-800 dark:text-indigo-100">
+                  <div className="md:w-2/3 w-full space-y-3 sm:space-y-4 text-center md:text-left">
+                    <p className="text-sm md:text-base text-indigo-800 dark:text-indigo-100">
                       Here's a snapshot of my professional journey. For a detailed view, feel free to preview or download my resume.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
                       <button
                         onClick={() => window.open(resumeUrl, '_blank')}
-                        className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50 dark:text-indigo-900 dark:bg-white dark:hover:bg-indigo-100 transition-colors"
+                        className="flex-1 inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50 dark:text-indigo-900 dark:bg-white dark:hover:bg-indigo-100 transition-colors"
                       >
-                        <ExternalLink className="w-5 h-5 mr-2" />
+                        <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         Preview
                       </button>
                       <a
                         href={resumeUrl}
                         download="Resume.jpg"
-                        className="flex-1 inline-flex items-center justify-center px-6 py-3 border border-indigo-400 text-base font-medium rounded-md text-indigo-50 bg-indigo-500 hover:bg-indigo-600 dark:text-white dark:bg-indigo-500/50 dark:hover:bg-indigo-500/80 transition-colors"
+                        className="flex-1 inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 border border-indigo-400 text-sm sm:text-base font-medium rounded-md text-indigo-50 bg-indigo-500 hover:bg-indigo-600 dark:text-white dark:bg-indigo-500/50 dark:hover:bg-indigo-500/80 transition-colors"
                       >
-                        <Download className="w-5 h-5 mr-2" />
+                        <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         Download
                       </a>
                     </div>
@@ -186,26 +187,27 @@ export const Contact: React.FC = () => {
                 </div>
               </div>
             </motion.section>
-          </motion.div>
+          </div>
 
           {/* Certifications Section */}
-           <motion.div
-            style={{ position: 'sticky', top: 'calc(50vh - 37.5vh)', zIndex: 2, scale: scaleCard2, y: yCard2 }}
-            className="h-screen flex items-center justify-center"
+           <div
+            style={{ zIndex: 2 }}
+            className="sticky top-[calc(50vh-32.5vh)] md:top-[calc(50vh-37.5vh)] h-screen flex items-center justify-center"
           >
             <motion.section
+              style={{ scale: scaleCard2, y: yCard2 }}
               aria-labelledby="certs-heading"
-              className="h-[75vh] w-full"
+              className="h-[65vh] md:h-[75vh] w-full"
             >
-              <div className="bg-pink-100 dark:bg-pink-600/80 border border-pink-200 dark:border-pink-500 rounded-2xl p-6 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
-                <h2 id="certs-heading" className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white">Certifications</h2>
+              <div className="bg-pink-100 dark:bg-pink-600/80 border border-pink-200 dark:border-pink-500 rounded-2xl p-4 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
+                <h2 id="certs-heading" className="text-2xl sm:text-3xl font-bold mb-6 text-zinc-900 dark:text-white">Certifications</h2>
                 <div className="relative">
                   <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-pink-400 scrollbar-track-pink-600/50">
                     {certificatesData.map((cert) => (
                       <button
                         key={cert.id}
                         onClick={() => setModalImage(cert.imageUrl)}
-                        className="group flex-shrink-0 w-28 h-28 flex flex-col items-center justify-center bg-black/5 dark:bg-white/10 rounded-lg p-4 border border-black/10 dark:border-white/20 hover:border-black/20 dark:hover:border-white hover:bg-black/10 dark:hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1"
+                        className="group flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 flex flex-col items-center justify-center bg-black/5 dark:bg-white/10 rounded-lg p-2 sm:p-4 border border-black/10 dark:border-white/20 hover:border-black/20 dark:hover:border-white hover:bg-black/10 dark:hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1"
                         title={`${cert.company} - ${cert.title}`}
                         aria-label={`View certificate from ${cert.company}: ${cert.title}`}
                       >
@@ -214,7 +216,7 @@ export const Contact: React.FC = () => {
                           alt={`${cert.company} logo`}
                           width={48}
                           height={48}
-                          className="w-12 h-12 object-contain"
+                          className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                         />
                         <p className="mt-2 text-xs text-center text-pink-800 dark:text-pink-100 group-hover:text-pink-900 dark:group-hover:text-white transition-colors">
                           {cert.company}
@@ -225,22 +227,22 @@ export const Contact: React.FC = () => {
                 </div>
               </div>
             </motion.section>
-          </motion.div>
+          </div>
 
           {/* Let's Connect Section */}
-           <motion.div
-            style={{ position: 'sticky', top: 'calc(50vh - 37.5vh)', zIndex: 3 }}
-             className="h-screen flex items-center justify-center"
+           <div
+            style={{ zIndex: 3 }}
+            className="sticky top-[calc(50vh-32.5vh)] md:top-[calc(50vh-37.5vh)] h-screen flex items-center justify-center"
           >
             <motion.section
               aria-labelledby="connect-heading"
-              className="h-[75vh] w-full"
+              className="h-[65vh] md:h-[75vh] w-full"
             >
-              <div className="bg-blue-200/40 dark:bg-blue-900/40 border border-blue-300/40 dark:border-blue-500/40 rounded-2xl p-6 sm:p-8 backdrop-blur-xl h-full flex flex-col justify-center">
+              <div className="bg-blue-200/40 dark:bg-blue-900/40 border border-blue-300/40 dark:border-blue-500/40 rounded-2xl p-4 sm:p-8 backdrop-blur-xl h-full flex flex-col justify-center">
                 <motion.h2
                   id="connect-heading"
                   style={{ y: titleY, opacity: titleOpacity }}
-                  className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white"
+                  className="text-2xl sm:text-3xl font-bold mb-6 text-zinc-900 dark:text-white flex-shrink-0"
                 >
                   Let's Connect
                 </motion.h2>
@@ -248,12 +250,12 @@ export const Contact: React.FC = () => {
                   <motion.a
                     href="mailto:punnyyashdeep@gmail.com"
                     style={{ y: emailY, opacity: emailOpacity }}
-                    className="w-full flex items-center p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
+                    className="w-full flex items-center p-3 sm:p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
                   >
-                    <Mail className="w-6 h-6 mr-4 text-zinc-800 dark:text-white" />
-                    <span className="text-lg text-zinc-800/90 dark:text-white/90">punnyyashdeep@gmail.com</span>
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 mr-3 sm:mr-4 text-zinc-800 dark:text-white" />
+                    <span className="text-sm sm:text-lg text-zinc-800/90 dark:text-white/90">punnyyashdeep@gmail.com</span>
                   </motion.a>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                     {socialLinks.map((link, index) => {
                       const Icon = link.icon;
                       const linkY = useTransform(scrollYProgress, [connectRevealStart + 0.1 + (index * 0.02), connectRevealStart + 0.15 + (index * 0.02)], [20, 0]);
@@ -265,10 +267,10 @@ export const Contact: React.FC = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{ y: linkY, opacity: linkOpacity }}
-                          className="flex items-center justify-center p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
+                          className="flex items-center justify-center p-3 sm:p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
                         >
-                          <Icon className="w-6 h-6 mr-3 text-zinc-800/90 dark:text-white/90" />
-                          <span className="text-lg text-zinc-800/90 dark:text-white/90">{link.name}</span>
+                          <Icon className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-zinc-800/90 dark:text-white/90" />
+                          <span className="text-base sm:text-lg text-zinc-800/90 dark:text-white/90">{link.name}</span>
                         </motion.a>
                       );
                     })}
@@ -276,7 +278,7 @@ export const Contact: React.FC = () => {
                 </div>
               </div>
             </motion.section>
-          </motion.div>
+          </div>
         </div>
       </div>
 

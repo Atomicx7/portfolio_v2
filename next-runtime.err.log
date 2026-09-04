@@ -1,0 +1,7 @@
+(node:21480) ExperimentalWarning: CommonJS module C:\Program Files\nodejs\node_modules\npm\node_modules\debug\src\node.js is loading ES Module C:\Program Files\nodejs\node_modules\npm\node_modules\supports-color\index.js using require().
+Support for loading ES Module in require() is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at setupFsCheck (X:\PROJECTS\NextJS\portfolio\node_modules\next\dist\server\lib\router-utils\filesystem.js:151:19)
+    at async initialize (X:\PROJECTS\NextJS\portfolio\node_modules\next\dist\server\lib\router-server.js:62:23)
+    at async Server.<anonymous> (X:\PROJECTS\NextJS\portfolio\node_modules\next\dist\server\lib\start-server.js:249:36)
