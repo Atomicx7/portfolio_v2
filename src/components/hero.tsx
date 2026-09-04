@@ -33,11 +33,11 @@ export function Hero() {
           noiseAmp={1}
           chromaticAberration={0}
           dither={0}
-          curvature={0}
+          curvature={0.2}
           tint="#da23f4"
           mouseReact={true}
           mouseStrength={0.5}
-          pageLoadAnimation={false}
+          pageLoadAnimation={true}
           brightness={1}
           dpr={1}
         />
