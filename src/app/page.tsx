@@ -6,9 +6,9 @@ import { Hero } from "../components/hero"
 import { About } from "../components/about"
 import { Projects } from "../components/projects"
 import { Skills } from "../components/features"
+import { Journey } from "../components/journey"
 import { Contact } from "../components/contact"
 import { MouseMoveEffect } from "../components/mouse-move-effect"
-import { ThemeProvider } from "../components/theme-provider";
 import { useState } from "react";
 
 export default function Page() {
@@ -22,8 +22,7 @@ export default function Page() {
 
 
   return (
-    <ThemeProvider>
-    <main className="min-h-screen bg-white dark:bg-zinc-900">
+    <main className="min-h-screen bg-background text-foreground">
       <MouseMoveEffect />
       <Navigation />
       <Hero />
@@ -36,11 +35,13 @@ export default function Page() {
       <section id="skills">
         <Skills />
       </section>
+      <section id="experience">
+        <Journey />
+      </section>
       <section id="contact">
         <Contact />
       </section>
     </main>
-    </ThemeProvider>
   )
 }
 

@@ -236,6 +236,7 @@ export default function FaultyTerminal({
   const smoothMouseRef = useRef({ x: 0.5, y: 0.5 })
   const frozenTimeRef = useRef(0)
   const rafRef = useRef<number | null>(null)
+  const firstFrameRef = useRef(false)
   const lastFrameTimeRef = useRef(0)
   const loadAnimationStartRef = useRef(0)
   const timeOffsetRef = useRef(Math.random() * 100)
@@ -351,6 +352,11 @@ export default function FaultyTerminal({
       }
 
       renderer.render({ scene: mesh })
+
+      if (!firstFrameRef.current) {
+        firstFrameRef.current = true
+        gl.canvas.style.opacity = "1"
+      }
     }
 
     rafRef.current = requestAnimationFrame(update)
@@ -358,6 +364,8 @@ export default function FaultyTerminal({
     gl.canvas.style.display = "block"
     gl.canvas.style.width = "100%"
     gl.canvas.style.height = "100%"
+    gl.canvas.style.opacity = "0"
+    gl.canvas.style.transition = "opacity 0.9s ease-out"
 
     if (mouseReact) container.addEventListener("mousemove", handleMouseMove)
 
@@ -373,6 +381,7 @@ export default function FaultyTerminal({
       rendererRef.current = null
       loadAnimationStartRef.current = 0
       lastFrameTimeRef.current = 0
+      firstFrameRef.current = false
       timeOffsetRef.current = Math.random() * 100
     }
   }, [

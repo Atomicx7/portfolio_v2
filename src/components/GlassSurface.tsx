@@ -52,7 +52,7 @@ const useDarkMode = () => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
     const syncTheme = () => {
       const root = document.documentElement
-      const hasDarkClass = root.classList.contains("dark") || root.classList.contains("theme-dark") || root.classList.contains("cyberpunk")
+      const hasDarkClass = root.classList.contains("dark") || root.classList.contains("theme-dark") || root.classList.contains("cyberpunk") || root.classList.contains("theme-cyberpunk")
       const hasLightClass = root.classList.contains("light") || root.classList.contains("theme-light") || root.classList.contains("comfort") || root.classList.contains("minimal")
       setIsDark(hasDarkClass || (!hasLightClass && mediaQuery.matches))
     }

@@ -1,66 +1,35 @@
-import React, { useState, useRef } from 'react';
-// FIX: Import `Variants` type from framer-motion to resolve type errors.
-import { motion, AnimatePresence, useInView, type Variants } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion } from 'framer-motion';
 import { useScroll, useTransform } from 'framer-motion';
-import { Github, Linkedin, Mail, Twitter, Download, ExternalLink, X } from 'lucide-react';
-import type { Certificate } from '../../types';
+import { Github, Linkedin, Mail, Phone, Download, ExternalLink, Award } from 'lucide-react';
+import Image, { StaticImageData } from "next/image";
+import resumePreview from '../assets/resume.png';
 import nptel from '../assets/icons/nptel.png';
 import aws from '../assets/icons/aws.png';
 import infosys from '../assets/icons/infosys.png';
 import mongo from '../assets/icons/Mongodb.png';
-import adobe from '../assets/icons/adobe.png';
-import sih from '../assets/icons/SIH2.webp';
-import { StaticImageData } from "next/image";
-import Image from "next/image";
-import resumePreview from '../assets/resume.png';
 
-const resumeUrl = "https://drive.google.com/file/d/1bPofobHKLObkoCSNqeQwAs9ZuZOETtaI/view?usp=sharing";
+const resumeUrl = "/Yashdeep_Singh_Resume.pdf";
 
-const certificatesData: Certificate[] = [
-  {
-    id: 1,
-    company: 'NPTEL',
-    title: 'Programming in Java',
-    logo: nptel,
-    imageUrl: 'https://picsum.photos/seed/nptel-cert/1200/800',
-  },
-  {
-    id: 2,
-    company: 'AWS',
-    title: 'Solutions Architect - Associate',
-    logo: aws,
-    imageUrl: 'https://picsum.photos/seed/aws-cert/1200/800',
-  },
-  {
-    id: 3,
-    company: 'Infosys',
-    title: 'Certified Python Developer',
-    logo: infosys,
-    imageUrl: 'https://picsum.photos/seed/infosys-cert/1200/800',
-  },
-  {
-    id: 4,
-    company: 'MongoDB',
-    title: 'Developer Certification',
-    logo: mongo,
-    imageUrl: 'https://picsum.photos/seed/mongodb-cert/1200/800',
-  },
-  {
-    id: 5,
-    company: 'Adobe',
-    title: 'Adobe Creative Suite',
-    logo: adobe,
-    imageUrl: 'https://picsum.photos/seed/adobe-cert/1200/800',
-  },
-  {
-    id: 6,
-    company: 'SIH',
-    title: 'Smart India Hackathon Winner',
-    logo: sih,
-    imageUrl: 'https://picsum.photos/seed/sih-cert/1200/800',
-  },
+interface Cert {
+  id: number;
+  issuer: string;
+  title: string;
+  logo?: StaticImageData;
+  initials: string;
+}
+
+const certificatesData: Cert[] = [
+  { id: 1, issuer: 'Microsoft & LinkedIn', title: 'Career Essentials in Generative AI', initials: 'MS' },
+  { id: 2, issuer: 'Generative AI', title: 'Working with Large Language Models', initials: 'AI' },
+  { id: 3, issuer: 'Agentic AI', title: 'Build Your First Agentic AI System', initials: 'AG' },
+  { id: 4, issuer: 'AWS', title: 'AWS Cloud Foundations', logo: aws, initials: 'AW' },
+  { id: 5, issuer: 'MongoDB', title: 'MongoDB Certification', logo: mongo, initials: 'MG' },
+  { id: 6, issuer: 'NPTEL', title: 'Database Management Systems', logo: nptel, initials: 'NP' },
+  { id: 7, issuer: 'Data Engineering', title: 'Data Engineering Fundamentals', initials: 'DE' },
+  { id: 8, issuer: 'Infosys Springboard', title: 'Software Engineering', logo: infosys, initials: 'IS' },
+  { id: 9, issuer: 'Infosys Springboard', title: 'Java Programming', logo: infosys, initials: 'IS' },
 ];
-
 
 const socialLinks = [
   {
@@ -73,46 +42,30 @@ const socialLinks = [
     icon: Linkedin,
     href: 'https://www.linkedin.com/in/yash-deep-singh/',
   },
-  {
-    name: 'Twitter',
-    icon: Twitter,
-    href: 'https://twitter.com/example',
-  },
 ];
 
-const ImageModal: React.FC<{ imageUrl: string; onClose: () => void }> = ({ imageUrl, onClose }) => {
+function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ type: 'spring', damping: 25, stiffness: 120 }}
-        onClick={(e) => e.stopPropagation()}
-        className="relative max-w-4xl max-h-[90vh] bg-white dark:bg-zinc-800 rounded-lg overflow-hidden shadow-2xl"
-      >
-        <img src={imageUrl} alt="Preview" className="w-full h-full object-contain" />
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 p-2 bg-black/50 text-white rounded-full hover:bg-black/80 transition-colors"
-          aria-label="Close image preview"
-        >
-          <X className="w-6 h-6" />
-        </button>
-      </motion.div>
-    </motion.div>
+    <div className="bg-white/80 dark:bg-zinc-800/80 border border-zinc-200/50 dark:border-zinc-700/50 rounded-3xl p-5 sm:p-8 backdrop-blur-lg shadow-xl h-full flex flex-col justify-center overflow-hidden">
+      {children}
+    </div>
   );
-};
+}
 
+function CardHeading({ eyebrow, title, id }: { eyebrow: string; title: string; id: string }) {
+  return (
+    <div className="flex-shrink-0 mb-5">
+      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-500 dark:text-zinc-400">
+        {eyebrow}
+      </p>
+      <h2 id={id} className="mt-1.5 text-2xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+        {title}
+      </h2>
+    </div>
+  );
+}
 
 export const Contact: React.FC = () => {
-  const [modalImage, setModalImage] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -127,17 +80,8 @@ export const Contact: React.FC = () => {
   const scaleCard2 = useTransform(scrollYProgress, [0.63, 0.78], [1, 0.95]);
   const yCard2 = useTransform(scrollYProgress, [0.63, 0.78], [0, -40]);
 
-  // Animation for "Let's Connect" content reveal
-  const connectRevealStart = 0.8;
-  const titleY = useTransform(scrollYProgress, [connectRevealStart, connectRevealStart + 0.05], [20, 0]);
-  const titleOpacity = useTransform(scrollYProgress, [connectRevealStart, connectRevealStart + 0.05], [0, 1]);
-
-  const emailY = useTransform(scrollYProgress, [connectRevealStart + 0.05, connectRevealStart + 0.1], [20, 0]);
-  const emailOpacity = useTransform(scrollYProgress, [connectRevealStart + 0.05, connectRevealStart + 0.1], [0, 1]);
-
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-white dark:from-zinc-900 dark:to-black text-zinc-900 dark:text-white py-16 md:py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-muted/50 to-background text-foreground py-16 md:py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-4xl mx-auto">
         <div ref={containerRef} className="relative h-[300vh]">
           {/* Resume Section */}
@@ -150,10 +94,10 @@ export const Contact: React.FC = () => {
               aria-labelledby="resume-heading"
               className="h-[65vh] md:h-[75vh] w-full"
             >
-              <div className="bg-indigo-100 dark:bg-indigo-600/80 border border-indigo-200 dark:border-indigo-500 rounded-2xl p-4 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
-                <h2 id="resume-heading" className="text-2xl sm:text-3xl font-bold mb-4 text-zinc-900 dark:text-white flex-shrink-0">My Resume</h2>
-                <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-center md:flex-grow min-h-0">
-                  <div className="md:w-1/3 w-full max-w-[200px] md:max-w-full mx-auto md:mx-0 rounded-lg overflow-hidden border-2 border-zinc-400/50 dark:border-zinc-200/50 group hover:border-zinc-600 dark:hover:border-white transition-all duration-300 flex-shrink-0">
+              <Shell>
+                <CardHeading eyebrow="Resume" title="My Resume" id="resume-heading" />
+                <div className="flex flex-col md:flex-row gap-5 md:gap-8 items-center min-h-0">
+                  <div className="md:w-1/3 w-full max-w-[180px] md:max-w-[240px] mx-auto md:mx-0 rounded-2xl overflow-hidden border border-zinc-200/70 dark:border-zinc-700/70 shadow-lg flex-shrink-0">
                     <Image
                       src={resumePreview}
                       alt="Resume Preview"
@@ -162,22 +106,23 @@ export const Contact: React.FC = () => {
                       className="w-full object-cover"
                     />
                   </div>
-                  <div className="md:w-2/3 w-full space-y-3 sm:space-y-4 text-center md:text-left">
-                    <p className="text-sm md:text-base text-indigo-800 dark:text-indigo-100">
-                      Here's a snapshot of my professional journey. For a detailed view, feel free to preview or download my resume.
+                  <div className="md:w-2/3 w-full space-y-4 text-center md:text-left">
+                    <p className="text-sm md:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                      Software Engineering Intern @ BigBasket · B.Tech IT &rsquo;26 · CGPA 8.96.
+                      Preview the full PDF or download it below.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
+                    <div className="flex flex-col sm:flex-row gap-3 pt-1">
                       <button
                         onClick={() => window.open(resumeUrl, '_blank')}
-                        className="flex-1 inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50 dark:text-indigo-900 dark:bg-white dark:hover:bg-indigo-100 transition-colors"
+                        className="flex-1 inline-flex items-center justify-center px-4 py-2.5 sm:px-6 sm:py-3 border border-zinc-300 dark:border-zinc-600 text-sm sm:text-base font-semibold rounded-xl text-zinc-900 dark:text-zinc-100 bg-white/60 dark:bg-zinc-700/60 hover:border-purple-500/50 transition-colors"
                       >
                         <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         Preview
                       </button>
                       <a
                         href={resumeUrl}
-                        download="Resume.jpg"
-                        className="flex-1 inline-flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 border border-indigo-400 text-sm sm:text-base font-medium rounded-md text-indigo-50 bg-indigo-500 hover:bg-indigo-600 dark:text-white dark:bg-indigo-500/50 dark:hover:bg-indigo-500/80 transition-colors"
+                        download="Yashdeep_Singh_Resume.pdf"
+                        className="flex-1 inline-flex items-center justify-center px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold rounded-xl text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/20"
                       >
                         <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         Download
@@ -185,12 +130,12 @@ export const Contact: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Shell>
             </motion.section>
           </div>
 
           {/* Certifications Section */}
-           <div
+          <div
             style={{ zIndex: 2 }}
             className="sticky top-[calc(50vh-32.5vh)] md:top-[calc(50vh-37.5vh)] h-screen flex items-center justify-center"
           >
@@ -199,38 +144,52 @@ export const Contact: React.FC = () => {
               aria-labelledby="certs-heading"
               className="h-[65vh] md:h-[75vh] w-full"
             >
-              <div className="bg-pink-100 dark:bg-pink-600/80 border border-pink-200 dark:border-pink-500 rounded-2xl p-4 sm:p-8 backdrop-blur-lg h-full flex flex-col justify-center">
-                <h2 id="certs-heading" className="text-2xl sm:text-3xl font-bold mb-6 text-zinc-900 dark:text-white">Certifications</h2>
-                <div className="relative">
-                  <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-pink-400 scrollbar-track-pink-600/50">
-                    {certificatesData.map((cert) => (
-                      <button
-                        key={cert.id}
-                        onClick={() => setModalImage(cert.imageUrl)}
-                        className="group flex-shrink-0 w-24 h-24 sm:w-28 sm:h-28 flex flex-col items-center justify-center bg-black/5 dark:bg-white/10 rounded-lg p-2 sm:p-4 border border-black/10 dark:border-white/20 hover:border-black/20 dark:hover:border-white hover:bg-black/10 dark:hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1"
-                        title={`${cert.company} - ${cert.title}`}
-                        aria-label={`View certificate from ${cert.company}: ${cert.title}`}
-                      >
+              <Shell>
+                <CardHeading eyebrow="Credentials" title="Certifications" id="certs-heading" />
+                <ul className="grid sm:grid-cols-2 gap-2.5 sm:gap-3 overflow-y-auto min-h-0 pr-1">
+                  {certificatesData.map((cert, i) => (
+                    <motion.li
+                      key={cert.id}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: Math.min(i * 0.05, 0.3), duration: 0.35 }}
+                      className="flex items-center gap-3 rounded-2xl border border-zinc-200/60 dark:border-zinc-700/60 bg-white/60 dark:bg-zinc-900/50 px-3.5 py-2.5 transition-colors hover:border-purple-500/40 dark:hover:border-purple-400/30"
+                    >
+                      {cert.logo ? (
                         <Image
                           src={cert.logo}
-                          alt={`${cert.company} logo`}
-                          width={48}
-                          height={48}
-                          className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+                          alt={`${cert.issuer} logo`}
+                          width={40}
+                          height={40}
+                          className="w-9 h-9 object-contain flex-shrink-0"
                         />
-                        <p className="mt-2 text-xs text-center text-pink-800 dark:text-pink-100 group-hover:text-pink-900 dark:group-hover:text-white transition-colors">
-                          {cert.company}
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                      ) : (
+                        <span
+                          aria-hidden
+                          className="flex w-9 h-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 border border-zinc-200/60 dark:border-zinc-700/60 text-xs font-extrabold text-zinc-700 dark:text-zinc-200"
+                        >
+                          {cert.initials}
+                        </span>
+                      )}
+                      <span className="min-w-0">
+                        <span className="block truncate text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+                          {cert.issuer}
+                        </span>
+                        <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                          {cert.title}
+                        </span>
+                      </span>
+                      <Award className="ml-auto size-4 flex-shrink-0 text-purple-500/60 dark:text-purple-300/60" />
+                    </motion.li>
+                  ))}
+                </ul>
+              </Shell>
             </motion.section>
           </div>
 
           {/* Let's Connect Section */}
-           <div
+          <div
             style={{ zIndex: 3 }}
             className="sticky top-[calc(50vh-32.5vh)] md:top-[calc(50vh-37.5vh)] h-screen flex items-center justify-center"
           >
@@ -238,53 +197,66 @@ export const Contact: React.FC = () => {
               aria-labelledby="connect-heading"
               className="h-[65vh] md:h-[75vh] w-full"
             >
-              <div className="bg-blue-200/40 dark:bg-blue-900/40 border border-blue-300/40 dark:border-blue-500/40 rounded-2xl p-4 sm:p-8 backdrop-blur-xl h-full flex flex-col justify-center">
-                <motion.h2
-                  id="connect-heading"
-                  style={{ y: titleY, opacity: titleOpacity }}
-                  className="text-2xl sm:text-3xl font-bold mb-6 text-zinc-900 dark:text-white flex-shrink-0"
-                >
-                  Let's Connect
-                </motion.h2>
-                <div className="space-y-4">
+              <Shell>
+                <CardHeading eyebrow="Contact" title="Let's Connect" id="connect-heading" />
+                <p className="-mt-2 mb-5 text-sm md:text-base text-zinc-600 dark:text-zinc-300">
+                  The fastest way to reach me is email — my inbox is always open.
+                </p>
+                <div className="space-y-3">
                   <motion.a
                     href="mailto:punnyyashdeep@gmail.com"
-                    style={{ y: emailY, opacity: emailOpacity }}
-                    className="w-full flex items-center p-3 sm:p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="w-full flex items-center p-3.5 sm:p-4 rounded-2xl border border-zinc-200/60 dark:border-zinc-700/60 bg-white/60 dark:bg-zinc-900/50 hover:border-purple-500/40 dark:hover:border-purple-400/30 transition-colors"
                   >
-                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 mr-3 sm:mr-4 text-zinc-800 dark:text-white" />
-                    <span className="text-sm sm:text-lg text-zinc-800/90 dark:text-white/90">punnyyashdeep@gmail.com</span>
+                    <Mail className="w-5 h-5 sm:w-6 sm:h-6 mr-3 sm:mr-4 text-purple-600 dark:text-purple-300 flex-shrink-0" />
+                    <span className="text-sm sm:text-lg text-zinc-900 dark:text-zinc-100 break-all">
+                      punnyyashdeep@gmail.com
+                    </span>
                   </motion.a>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                  <motion.a
+                    href="tel:+917690000318"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.08 }}
+                    className="w-full flex items-center p-3.5 sm:p-4 rounded-2xl border border-zinc-200/60 dark:border-zinc-700/60 bg-white/60 dark:bg-zinc-900/50 hover:border-purple-500/40 dark:hover:border-purple-400/30 transition-colors"
+                  >
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 mr-3 sm:mr-4 text-purple-600 dark:text-purple-300 flex-shrink-0" />
+                    <span className="text-sm sm:text-lg text-zinc-900 dark:text-zinc-100">
+                      +91 76900 00318
+                    </span>
+                  </motion.a>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {socialLinks.map((link, index) => {
                       const Icon = link.icon;
-                      const linkY = useTransform(scrollYProgress, [connectRevealStart + 0.1 + (index * 0.02), connectRevealStart + 0.15 + (index * 0.02)], [20, 0]);
-                      const linkOpacity = useTransform(scrollYProgress, [connectRevealStart + 0.1 + (index * 0.02), connectRevealStart + 0.15 + (index * 0.02)], [0, 1]);
                       return (
                         <motion.a
                           key={link.name}
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ y: linkY, opacity: linkOpacity }}
-                          className="flex items-center justify-center p-3 sm:p-4 bg-black/5 dark:bg-white/5 rounded-lg border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-black/10 dark:hover:bg-white/10 transition-all backdrop-blur-sm"
+                          initial={{ opacity: 0, y: 16 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.12 + index * 0.08 }}
+                          className="flex items-center justify-center p-3.5 sm:p-4 rounded-2xl border border-zinc-200/60 dark:border-zinc-700/60 bg-white/60 dark:bg-zinc-900/50 hover:border-purple-500/40 dark:hover:border-purple-400/30 hover:-translate-y-0.5 transition-all"
                         >
-                          <Icon className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-zinc-800/90 dark:text-white/90" />
-                          <span className="text-base sm:text-lg text-zinc-800/90 dark:text-white/90">{link.name}</span>
+                          <Icon className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-zinc-800 dark:text-zinc-100" />
+                          <span className="text-base sm:text-lg font-medium text-zinc-800 dark:text-zinc-100">
+                            {link.name}
+                          </span>
                         </motion.a>
                       );
                     })}
                   </div>
                 </div>
-              </div>
+              </Shell>
             </motion.section>
           </div>
         </div>
       </div>
-
-      <AnimatePresence>
-        {modalImage && <ImageModal imageUrl={modalImage} onClose={() => setModalImage(null)} />}
-      </AnimatePresence>
     </div>
   );
 };

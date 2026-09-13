@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image"
+import type { Timeline } from "../utils/interfaces"
 import kool from "../assets/kool.png"
 import advo from "../assets/advo-kids.png"
 import kwick from "../assets/kwick.png"
@@ -11,37 +12,72 @@ export interface Project {
   liveUrl?: string
   githubUrl?: string
   technologies: string[]
+  stars?: number
+  forks?: number
+  highlights?: string[]
 }
 
 export const featuredProjects: Project[] = [
   {
-    title: "Koolnotes.ai",
+    title: "DuoFold — Duo Animation",
     description:
-      "A full-stack learning and notes uploading platform built with Next.js, featuring upload notes feature and Kool.ai agent.",
+      "iPhone-style Duo fold/opening animation for Android. Per-pixel ray eye → glass → plane with gap-proportional disk blur + darken, RuntimeShader (AGSL), rotation-vector sensor with zero-pose calibration and runtime-resolved hinge.",
+    imageUrl: "/duo-animation.svg",
+    githubUrl: "https://github.com/Atomicx7/Duo-animation",
+    technologies: ["Kotlin", "Jetpack Compose", "Android", "AGSL Shader", "Material 3"],
+    stars: 183,
+    forks: 28,
+    highlights: [
+      "183 stars and 28 forks within days of publishing",
+      "Custom AGSL RuntimeShader: per-pixel ray eye → glass → plane with disk blur",
+      "Rotation-vector sensor tracking with zero-pose calibration and manual tilt mode",
+    ],
+  },
+  {
+    title: "KOOLNOTES",
+    description:
+      "AI-powered note-sharing web app with intelligent search, automatic summarization, keyword extraction, and conversational Q&A over stored notes. Scalable REST APIs with JWT auth optimized for multi-user workloads.",
     imageUrl: kool,
     liveUrl: "https://koolnotes.vercel.app",
     githubUrl: "#",
-    technologies: ["Next.js", "TypeScript", "Stripe", "Prisma"],
+    technologies: ["Next.js", "Node.js", "TypeScript", "MongoDB"],
+    highlights: [
+      "AI summarization, keyword extraction, and Q&A over stored notes",
+      "JWT-authenticated REST APIs built for multi-user workloads",
+      "Intelligent search that boosts content retention and discoverability",
+    ],
   },
   {
-    title: "Kwick",
-    description: "Transform text prompts into stunning images using AI. Built with React and OpenAI's API.",
+    title: "KWICK",
+    description:
+      "Service-marketplace app for iOS and Android connecting users with providers via real-time booking status, provider matching, Google Maps live tracking, navigation, and push notifications.",
     imageUrl: kwick,
     liveUrl: "#",
     githubUrl: "#",
-    technologies: ["React", "OpenAI", "TailwindCSS", "Node.js"],
+    technologies: ["React Native", "Expo", "Node.js", "MongoDB"],
+    highlights: [
+      "Real-time booking status with provider-matching logic",
+      "Google Maps live tracking, turn-by-turn navigation, distance-based matching",
+      "Push notifications and modular booking-lifecycle backend services",
+    ],
   },
   {
-    title: "Advo-Kids",
-    description: "The modern way to learn about your rights as a child. A platform for children to understand their rights through interactive content.",
+    title: "ADVO-KIDS",
+    description:
+      "Gamified legal-education platform for children with interactive quizzes and progress tracking; role-based backend with secure REST APIs, shipped as part of a multi-member team.",
     imageUrl: advo,
     liveUrl: "https://advo-kids.inder.pro",
     githubUrl: "#",
-    technologies: ["Next.js", "Framer Motion", "TailwindCSS", "TypeScript"],
+    technologies: ["React", "Next.js", "Node.js", "MongoDB"],
+    highlights: [
+      "Interactive quizzes and progress tracking for young learners",
+      "Role-based backend with secure REST APIs",
+      "Shipped collaboratively as part of a multi-member team",
+    ],
   },
 ]
 
-export const allProjects: Project[] = [
+export const otherProjects: Project[] = [
   {
     title: "Pixel Walls",
     description: "My personal wallpaper website built with React.js, TypeScript, and Tailwind CSS.",
@@ -58,6 +94,44 @@ export const allProjects: Project[] = [
     githubUrl: "#",
     liveUrl: "#",
   },
-  
-  ...featuredProjects.slice(2),
+]
+
+export const allProjects: Project[] = [...featuredProjects, ...otherProjects]
+
+export const timeline: Timeline[] = [
+  {
+    _id: "0",
+    jobTitle: "Software Engineering Intern",
+    company_name: "BigBasket (A Tata Enterprise)",
+    jobLocation: "Bengaluru, India",
+    startDate: "2026-01-01",
+    endDate: "2026-07-31",
+    summary: "BB Help – AI-Powered Internal IT Support Assistant. Production RAG backend service (FastAPI, Python) serving 1,500+ internal stakeholders.",
+    bulletPoints: [
+      "Translated business requirements into REST APIs against defined specs in an agile team",
+      "Built live automation from 70,000+ helpdesk tickets with RCA mapping, cutting L1 escalations",
+      "Integrated backend workflows with Google Workspace Chat for on-call defect resolution",
+      "Authored runbooks and debugged production workflows with cross-functional teams",
+    ],
+    forEducation: false,
+    enabled: true,
+    sequence: 0,
+  },
+  {
+    _id: "1",
+    jobTitle: "Information Technology",
+    company_name: "Chandigarh Engineering College",
+    jobLocation: "SAS Nagar, India",
+    startDate: "2022-07-01",
+    endDate: "2026-06-30",
+    summary: "B.Tech – Information Technology (CGPA: 8.96/10) with a focus on Software Engineering",
+    bulletPoints: [
+      "CGPA 8.96 / 10",
+      "Smart India Hackathon Participant – delivered a working solution under time pressure",
+      "Shipped production backend used daily by 1,500+ employees during internship",
+    ],
+    forEducation: true,
+    enabled: true,
+    sequence: 1,
+  },
 ]

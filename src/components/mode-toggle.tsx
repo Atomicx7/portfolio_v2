@@ -30,7 +30,7 @@ export function ModeToggle() {
   const Icon = themeIcons[theme as keyof typeof themeIcons] || Monitor
 
   return (
-    <Select defaultValue={theme} onValueChange={setTheme}>
+    <Select value={theme} onValueChange={setTheme}>
       <SelectTrigger className="h-9 w-10 justify-center rounded-full border-0 bg-white/35 px-0 dark:bg-zinc-900/35 sm:w-[140px] sm:justify-between sm:px-3">
         <SelectValue placeholder="Select theme">
           <span className="flex items-center gap-2">

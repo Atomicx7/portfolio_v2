@@ -1,132 +1,81 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
-import { Code2, Database, Layout, Palette, Server, Smartphone } from "lucide-react"
+import { motion } from "framer-motion"
+import { Cloud, Code2, Database, GitBranch, Server, Smartphone } from "lucide-react"
 
 const skills = [
   {
-    title: "Web Development",
-    description: "Proficient in HTML, CSS, JavaScript, React, Next.js, and more.",
-    icon: <Code2 />,
+    title: "Languages",
+    description: "Java, Python, JavaScript, TypeScript, C++, SQL.",
+    icon: <Code2 className="w-7 h-7" />,
   },
   {
-    title: "UI/UX Design",
-    description: "Experienced in designing user-friendly and visually appealing interfaces.",
-    icon: <Palette />,
+    title: "Backend & APIs",
+    description: "REST API design, Microservices, FastAPI, Node.js, Express.js.",
+    icon: <Server className="w-7 h-7" />,
   },
   {
-    title: "Backend Development",
-    description: "Skilled in Node.js, Express.js, and database management.",
-    icon: <Server />,
+    title: "Databases",
+    description: "MySQL, MongoDB, Firestore — relational + NoSQL modeling.",
+    icon: <Database className="w-7 h-7" />,
   },
   {
-    title: "Mobile Development",
-    description: "Familiar with React Native and cross-platform development.",
-    icon: <Smartphone />,
+    title: "Cloud & DevOps",
+    description: "GCP, Docker, Jenkins, Git/GitHub, Linux, Postman, CI/CD.",
+    icon: <Cloud className="w-7 h-7" />,
   },
   {
-    title: "Database Management",
-    description: "Experienced with SQL and NoSQL databases.",
-    icon: <Database />,
+    title: "Engineering Practices",
+    description: "Agile/Scrum, sprint planning, code reviews, unit & integration testing, SDLC.",
+    icon: <GitBranch className="w-7 h-7" />,
   },
   {
-    title: "UI Frameworks",
-    description: "Proficient in Tailwind CSS, Material UI, and other UI frameworks.",
-    icon: <Layout />,
+    title: "Core CS + Mobile",
+    description: "DSA, OOP, DBMS, OS, CN, System Design; React Native / Expo.",
+    icon: <Smartphone className="w-7 h-7" />,
   },
 ]
 
 export function Skills() {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  })
-
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1])
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1])
-
   return (
-    <motion.div
-      ref={ref}
-      style={{ scale, opacity }}
-      className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-white to-zinc-50/50 dark:from-zinc-900 dark:to-zinc-900/50 relative overflow-hidden"
-    >
-      <div className="relative max-w-6xl mx-auto">
-        {/* Light mode animated backgrounds */}
-        <motion.div
-          className="absolute -left-20 top-0 w-40 h-40 bg-blue-200 rounded-full blur-3xl opacity-20 dark:opacity-0"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-        />
-        <motion.div
-          className="absolute -right-20 bottom-0 w-40 h-40 bg-purple-200 rounded-full blur-3xl opacity-20 dark:opacity-0"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, -90, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-        />
-
-        {/* Dark mode animated backgrounds */}
-        <motion.div
-          className="absolute -left-20 top-0 w-40 h-40 bg-zinc-200 rounded-full blur-3xl opacity-0 dark:opacity-20"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-        />
-        <motion.div
-          className="absolute -right-20 bottom-0 w-40 h-40 bg-zinc-300 rounded-full blur-3xl opacity-0 dark:opacity-20"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, -90, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-          }}
-        />
-
-        <div className="relative backdrop-blur-xl bg-white/60 dark:bg-white/5 rounded-2xl p-8 border border-white/20 shadow-xl">
-          <h2 className="text-4xl font-bold mb-8 text-zinc-900 dark:text-white">My Skills</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {skills.map((skill, i) => (
-              <motion.div
-                key={skill.title}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: i * 0.2 }}
-                className="text-center p-6 rounded-xl bg-white/40 dark:bg-zinc-800/40 backdrop-blur-lg border border-white/20 dark:border-white/10 shadow-lg"
-              >
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-zinc-800 dark:to-zinc-700 flex items-center justify-center">
-                  {skill.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-zinc-900 dark:text-white">{skill.title}</h3>
-                <p className="text-zinc-600 dark:text-zinc-400">{skill.description}</p>
-              </motion.div>
-            ))}
-          </div>
+    <div className="relative py-32 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-4xl font-bold mb-4 text-center"
+        >
+          My Skills
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="text-lg text-muted-foreground text-center mb-16 max-w-2xl mx-auto"
+        >
+          The tools and practices I use to ship production software end to end.
+        </motion.p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {skills.map((skill, i) => (
+            <motion.div
+              key={skill.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ delay: (i % 3) * 0.1, duration: 0.5 }}
+              className="bg-white/80 dark:bg-zinc-800/80 backdrop-blur-lg rounded-2xl border border-zinc-200/50 dark:border-zinc-700/50 shadow-xl p-8 text-center flex flex-col items-center"
+            >
+              <div className="w-16 h-16 mb-4 rounded-full bg-gradient-to-br from-purple-600/15 to-pink-600/15 dark:from-purple-500/20 dark:to-pink-500/20 border border-zinc-200/60 dark:border-zinc-700/60 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
+                {skill.icon}
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-zinc-900 dark:text-white">{skill.title}</h3>
+              <p className="text-zinc-600 dark:text-zinc-400">{skill.description}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

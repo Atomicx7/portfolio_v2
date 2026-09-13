@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "next-themes"
+import { ThemeProvider } from "../components/theme-provider"
+import { SmoothScroll } from "../components/smooth-scroll"
 import type React from "react" // Added import for React
 
 const inter = Inter({ subsets: ["latin"] })
@@ -19,15 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          storageKey="portfolio-theme"
-        >
-          {children}
-        </ThemeProvider>
+        <SmoothScroll />
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   )

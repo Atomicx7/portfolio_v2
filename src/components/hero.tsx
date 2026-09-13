@@ -21,6 +21,10 @@ export function Hero() {
         style={{ y }}
         className="absolute inset-0 z-0 h-[115%] w-full"
       >
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 animate-pulse bg-[radial-gradient(rgba(218,35,244,0.16)_1px,transparent_1.5px)] bg-[size:22px_22px]"
+        />
         <FaultyTerminal
           scale={1.5}
           gridMul={[2, 1]}

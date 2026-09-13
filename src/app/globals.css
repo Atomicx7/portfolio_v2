@@ -19,6 +19,14 @@
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
   }
 
   .dark,
@@ -48,73 +56,73 @@
   .comfort,
   .theme-comfort {
     overflow-x: hidden;
-    --background: 240, 240, 240;
-    --foreground: 30, 30, 30;
-    --card: 255, 255, 255;
-    --card-foreground: 30, 30, 30;
-    --popover: 255, 255, 255;
-    --popover-foreground: 30, 30, 30;
-    --primary: 0, 122, 255;
-    --primary-foreground: 255, 255, 255;
-    --secondary: 0, 122, 255;
-    --secondary-foreground: 255, 255, 255;
-    --muted: 200, 200, 200;
-    --muted-foreground: 30, 30, 30;
-    --accent: 0, 122, 255;
-    --accent-foreground: 255, 255, 255;
-    --destructive: 255, 59, 48;
-    --destructive-foreground: 255, 255, 255;
-    --border: 200, 200, 200;
-    --input: 200, 200, 200;
-    --ring: 0, 0, 0;
+    --background: 36 33% 94%;
+    --foreground: 24 10% 12%;
+    --card: 36 30% 98%;
+    --card-foreground: 24 10% 12%;
+    --popover: 36 30% 98%;
+    --popover-foreground: 24 10% 12%;
+    --primary: 16 80% 45%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 36 25% 86%;
+    --secondary-foreground: 24 10% 18%;
+    --muted: 36 20% 88%;
+    --muted-foreground: 24 8% 38%;
+    --accent: 36 25% 86%;
+    --accent-foreground: 24 10% 15%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 30 15% 80%;
+    --input: 30 15% 80%;
+    --ring: 16 80% 45%;
   }
 
   .minimal,
   .theme-minimal {
     overflow-x: hidden;
-    --background: 255, 255, 255;
-    --foreground: 0, 0, 0;
-    --card: 245, 245, 245;
-    --card-foreground: 0, 0, 0;
-    --popover: 245, 245, 245;
-    --popover-foreground: 0, 0, 0;
-    --primary: 0, 0, 0;
-    --primary-foreground: 255, 255, 255;
-    --secondary: 128, 128, 128;
-    --secondary-foreground: 255, 255, 255;
-    --muted: 200, 200, 200;
-    --muted-foreground: 0, 0, 0;
-    --accent: 0, 0, 0;
-    --accent-foreground: 255, 255, 255;
-    --destructive: 255, 0, 0;
-    --destructive-foreground: 255, 255, 255;
-    --border: 200, 200, 200;
-    --input: 200, 200, 200;
-    --ring: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
+    --card: 0 0% 97%;
+    --card-foreground: 0 0% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
+    --primary: 0 0% 8%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 8%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 0 0% 94%;
+    --accent-foreground: 0 0% 8%;
+    --destructive: 0 84% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 0% 8%;
   }
 
   .cyberpunk,
   .theme-cyberpunk {
     overflow-x: hidden;
-    --background: 230, 89%, 10%;
-    --foreground: 60, 100%, 50%;
-    --card: 230, 89%, 12%;
-    --card-foreground: 60, 100%, 50%;
-    --popover: 230, 89%, 12%;
-    --popover-foreground: 60, 100%, 50%;
-    --primary: 320, 100%, 60%;
-    --primary-foreground: 230, 89%, 10%;
-    --secondary: 190, 100%, 50%;
-    --secondary-foreground: 230, 89%, 10%;
-    --muted: 230, 89%, 15%;
-    --muted-foreground: 60, 100%, 50%;
-    --accent: 280, 100%, 50%;
-    --accent-foreground: 230, 89%, 10%;
-    --destructive: 0, 100%, 50%;
-    --destructive-foreground: 230, 89%, 10%;
-    --border: 320, 100%, 60%;
-    --input: 320, 100%, 60%;
-    --ring: 320, 100%, 60%;
+    --background: 232 70% 8%;
+    --foreground: 0 0% 93%;
+    --card: 232 60% 12%;
+    --card-foreground: 0 0% 95%;
+    --popover: 232 60% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 315 100% 60%;
+    --primary-foreground: 232 70% 8%;
+    --secondary: 190 100% 45%;
+    --secondary-foreground: 232 70% 8%;
+    --muted: 232 50% 16%;
+    --muted-foreground: 220 20% 68%;
+    --accent: 280 100% 55%;
+    --accent-foreground: 232 70% 8%;
+    --destructive: 0 100% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 300 70% 45%;
+    --input: 300 70% 45%;
+    --ring: 320 100% 60%;
   }
 }
 
@@ -125,5 +133,34 @@
   body {
     @apply bg-background text-foreground transition-colors duration-300;
   }
+}
+
+/* Hide scrollbars everywhere while keeping scroll working */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Lenis smooth-scroll recommended styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 

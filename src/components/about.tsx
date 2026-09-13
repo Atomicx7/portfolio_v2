@@ -1,12 +1,11 @@
 "use client"
 
 import type { About as AboutType, Timeline } from "../utils/interfaces"
-import Image from "next/image"
-import { type Dispatch, type SetStateAction, useState } from "react"
-import { motion } from "framer-motion"
-import { formatDate } from "../utils"
-import { SlideIn, Transition } from "./ui"
-import avatarImg from "../assets/image.jpg";
+import { useEffect, useRef, useState } from "react"
+import { motion, useInView, useScroll, useTransform, type MotionValue } from "framer-motion"
+import { GraduationCap, Star, Ticket, Users } from "lucide-react"
+import ProfileCard from "./ProfileCard"
+import avatarImg from "../assets/avatar-new2cutout.png"
 
 interface AboutProps {
   about: AboutType
@@ -23,147 +22,206 @@ const defaultAbout: AboutType = {
   },
 }
 
-const defaultTimeline: Timeline[] = [
-  {
-    _id: "1",
-    jobTitle: "Information Technology",
-    company_name: "Chandigarh Engineering College",
-    jobLocation: "SAS Nagar, India",
-    startDate: "2022-07-01",
-    endDate: "2026-06-30",
-    summary: "Studied Information Technology with a focus on Software Engineering and Information Technology",
-    bulletPoints: [
-      "Dean's List for Academic Excellence",
-      "Filed a patent for Home cleaning and helping service",
-      "Completed multiple projects in Web Development",
-    ],
-    forEducation: true,
-    enabled: true,
-    sequence: 1,
-  },
-  // {
-  //   _id: "2",
-  //   jobTitle: "Masters in AI",
-  //   company_name: "MIT",
-  //   jobLocation: "Massachusetts, USA",
-  //   startDate: "2022-09-01",
-  //   endDate: "2024-05-30",
-  //   summary: "Specialized in Artificial Intelligence and Machine Learning",
-  //   bulletPoints: [
-  //     "Published research paper on Deep Learning",
-  //     "Teaching Assistant for Advanced Algorithm course",
-  //     "Developed novel approaches to computer vision",
-  //   ],
-  //   forEducation: true,
-  //   enabled: true,
-  //   sequence: 2,
-  // },
-]
+/* ---------- scroll-linked word reveal ---------- */
 
-export function About({ about = defaultAbout, timeline = defaultTimeline }: Partial<AboutProps>) {
-  const [activeIndex, setActiveIndex] = useState(0)
+function Word({
+  word,
+  progress,
+  range,
+}: {
+  word: string
+  progress: MotionValue<number>
+  range: [number, number]
+}) {
+  const opacity = useTransform(progress, range, [0.14, 1])
+  return (
+    <motion.span
+      style={{ opacity }}
+      whileHover={{ scale: 1.12, color: "#c084fc" }}
+      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+      className="mr-[0.26em] inline-block cursor-default"
+    >
+      {word}
+    </motion.span>
+  )
+}
 
-  const education = timeline
-    .filter((line) => line.forEducation && line.enabled === true)
-    .sort((a, b) => a.sequence - b.sequence)
+function ScrollRevealText({ text, className }: { text: string; className?: string }) {
+  const ref = useRef<HTMLParagraphElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.85", "end 0.45"],
+  })
+  const words = text.split(" ")
+  return (
+    <p ref={ref} className={className}>
+      {words.map((word, i) => (
+        <Word
+          key={`${word}-${i}`}
+          word={word}
+          progress={scrollYProgress}
+          range={[i / words.length, Math.min(1, (i + 1.5) / words.length)]}
+        />
+      ))}
+    </p>
+  )
+}
+
+/* ---------- animated counters ---------- */
+
+function CountUp({
+  to,
+  decimals = 0,
+  suffix = "",
+}: {
+  to: number
+  decimals?: number
+  suffix?: string
+}) {
+  const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-40px" })
+  const [val, setVal] = useState(0)
+
+  useEffect(() => {
+    if (!inView) return
+    let raf = 0
+    const duration = 1400
+    const start = performance.now()
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / duration)
+      setVal(to * (1 - Math.pow(1 - p, 3)))
+      if (p < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [inView, to])
 
   return (
-    <section className="grid md:grid-cols-[1.8fr_1fr] gap-x-10 py-20 px-4 md:px-8 relative" id="about">
-      <div>
-        <h3 className="md:text-5xl text-2xl font-bold overflow-hidden uppercase pb-8">
-          <SlideIn>{about.quote}</SlideIn>
+    <span ref={ref}>
+      {val.toFixed(decimals)}
+      {suffix}
+    </span>
+  )
+}
+
+const stats = [
+  { icon: Users, value: 1500, suffix: "+", decimals: 0, label: "Stakeholders served" },
+  { icon: Ticket, value: 70, suffix: "k+", decimals: 0, label: "Helpdesk tickets tamed" },
+  { icon: Star, value: 183, suffix: "", decimals: 0, label: "GitHub stars on DuoFold" },
+  { icon: GraduationCap, value: 8.96, suffix: "", decimals: 2, label: "CGPA, B.Tech IT" },
+]
+
+/* ---------- section ---------- */
+
+export function About({ about = defaultAbout }: Partial<AboutProps>) {
+  const quoteWords = about.quote.split(" ")
+
+  return (
+    <section id="about" className="relative py-32 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-4 text-center text-sm font-semibold uppercase tracking-[0.25em] text-muted-foreground"
+        >
+          About
+        </motion.p>
+
+        <h3 className="mx-auto mb-12 max-w-5xl text-center text-5xl font-bold uppercase leading-[1.05] md:text-7xl">
+          {quoteWords.map((word, i) => (
+            <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-1 align-bottom">
+              <motion.span
+                initial={{ y: "110%" }}
+                whileInView={{ y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06, duration: 0.55, ease: [0.33, 1, 0.68, 1] }}
+                className={`mr-[0.24em] inline-block ${
+                  i === quoteWords.length - 1
+                    ? "bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+                    : ""
+                }`}
+              >
+                {word}
+              </motion.span>
+            </span>
+          ))}
         </h3>
-        <Transition viewport={{ once: true }}>
-          <p className="text-xl md:text-4xl text-zinc-600 dark:text-zinc-400">{about.description}</p>
-        </Transition>
-        <div className="pt-10">
-          <div className="py-10 overflow-hidden grid w-full">
-            {education.map((edu, index) => (
-              <Transition key={edu._id}>
-                <TimelineCard index={index} activeIndex={activeIndex} setActiveIndex={setActiveIndex} timeline={edu} />
-              </Transition>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="relative">
-        <div className="sticky top-6">
-          <Transition>
-            <Image
-              src={about.avatar.url || "/placeholder.svg"}
-              width={400}
-              height={400}
-              alt={about.name}
-              className="rounded-xl max-md:aspect-square object-cover"
+
+        <div className="grid items-center gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+          <div className="min-w-0">
+            <ScrollRevealText
+              text={about.description}
+              className="max-w-3xl text-2xl font-medium leading-snug text-foreground/90 md:text-[2rem] md:leading-[1.35]"
             />
-          </Transition>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 flex items-center gap-2 text-sm text-muted-foreground"
+            >
+              <span className="inline-block size-2 animate-pulse rounded-full bg-gradient-to-r from-purple-600 to-pink-600" />
+              Scroll to read — hover the words, they bite back
+            </motion.p>
+
+            <div className="mt-10 grid max-w-3xl grid-cols-2 gap-4 lg:grid-cols-4">
+              {stats.map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ delay: i * 0.08, duration: 0.45 }}
+                  whileHover={{ y: -4 }}
+                  className="rounded-2xl border border-zinc-200/60 bg-white/70 p-5 shadow-lg backdrop-blur-lg transition-colors hover:border-purple-500/40 dark:border-zinc-700/60 dark:bg-zinc-800/70 dark:hover:border-purple-400/40"
+                >
+                  <stat.icon className="mb-3 size-5 text-purple-600 dark:text-purple-300" />
+                  <p className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl">
+                    <CountUp to={stat.value} suffix={stat.suffix} decimals={stat.decimals} />
+                  </p>
+                  <p className="mt-1.5 text-[13px] leading-snug text-zinc-500 dark:text-zinc-400">
+                    {stat.label}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="mx-auto max-w-[360px]"
+            >
+              <ProfileCard
+                name={about.name}
+                title="Software Engineer"
+                handle="atomicx7"
+                status="Open to Work"
+                contactText="Contact Me"
+                avatarUrl={about.avatar.url || avatarImg.src}
+                miniAvatarUrl={about.avatar.url || avatarImg.src}
+                iconUrl="/assets/demo/iconpattern.svg"
+                showUserInfo={true}
+                enableTilt={true}
+                enableMobileTilt={true}
+                behindGlowEnabled={true}
+                behindGlowColor="rgba(168, 85, 247, 0.55)"
+                innerGradient="linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)"
+                onContactClick={() =>
+                  document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
+                }
+              />
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-interface TimelineCardProps {
-  timeline: Timeline
-  activeIndex: number
-  setActiveIndex: Dispatch<SetStateAction<number>>
-  index: number
-}
-
-const TimelineCard = ({ timeline, activeIndex, setActiveIndex, index }: TimelineCardProps) => (
-  <div className="border-b border-zinc-200 dark:border-zinc-800 py-4">
-    <div
-      className="flex items-center justify-between gap-4 cursor-pointer select-none"
-      onClick={() => setActiveIndex(index)}
-    >
-      <span>0{index + 1}</span>
-      <span className="text-xl md:text-3xl font-bold flex-1">{timeline.jobTitle}</span>
-      <div className="relative size-6 flex items-center justify-center">
-        <span className="bg-zinc-900 dark:bg-zinc-100 w-4 md:w-6 h-0.5 absolute" />
-        <motion.span
-          initial={{ rotate: 90 }}
-          animate={{
-            rotate: activeIndex === index ? 0 : 90,
-          }}
-          className="absolute bg-zinc-900 dark:bg-zinc-100 w-4 md:w-6 h-0.5 rotate-90"
-        />
-      </div>
-    </div>
-    <motion.div
-      initial={{
-        height: activeIndex === index ? "100%" : 0,
-      }}
-      animate={{
-        height: activeIndex === index ? "100%" : 0,
-      }}
-      className="overflow-hidden"
-    >
-      <p className="text-zinc-600 dark:text-zinc-400 py-4 max-md:text-sm">{timeline.summary}</p>
-      <div className="flex justify-between items-center pb-3 text-zinc-700 dark:text-zinc-300">
-        <div className="max-md:text-sm">
-          <span>{timeline.company_name}</span>
-          <span className="ml-2">{timeline.jobLocation}</span>
-        </div>
-        <div className="max-md:text-xs">
-          <span className="italic">
-            {formatDate(timeline.startDate).month + ", " + formatDate(timeline.startDate).year}
-          </span>
-          {" - "}
-          <span className="italic">
-            {formatDate(timeline.endDate).month + ", " + formatDate(timeline.endDate).year}
-          </span>
-        </div>
-      </div>
-      <ul className="list-disc list-inside">
-        {timeline.bulletPoints.map((point, index) => (
-          <li key={index} className="text-zinc-700 dark:text-zinc-300 max-md:text-sm">
-            {point}
-          </li>
-        ))}
-      </ul>
-    </motion.div>
-  </div>
-)
-
 export default About
-

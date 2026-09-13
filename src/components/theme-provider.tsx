@@ -10,7 +10,8 @@ const themes = {
   },
   dark: {
     name: "Dark",
-    className: "theme-dark",
+    // Must stay "dark" (not "theme-dark") so Tailwind's dark: variants keep working.
+    className: "dark",
   },
   comfort: {
     name: "Comfort",
@@ -34,8 +35,19 @@ export function ThemeProvider({
 }: {
   children: React.ReactNode
 }) {
+  // next-themes applies the theme NAME as the <html> class by default.
+  // The value map translates names to the actual CSS classes defined in globals.css.
+  const value = Object.fromEntries(Object.entries(themes).map(([key, theme]) => [key, theme.className]))
   return (
-    <NextThemesProvider {...props} attribute="class" defaultTheme="dark" enableSystem themes={Object.keys(themes)}>
+    <NextThemesProvider
+      {...props}
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      storageKey="portfolio-theme"
+      themes={Object.keys(themes)}
+      value={value}
+    >
       {children}
     </NextThemesProvider>
   )
