@@ -31,12 +31,12 @@ function JourneyEntry({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5 }}
-      className="relative pl-12 pb-6 last:pb-0"
+      className="relative pl-10 pb-5 last:pb-0 sm:pl-12 sm:pb-6"
     >
       {!last && (
-        <span aria-hidden className="absolute left-[19px] top-10 bottom-0 w-px bg-zinc-200 dark:bg-zinc-800" />
+        <span aria-hidden className="absolute left-[15px] top-9 bottom-0 w-px bg-zinc-200 dark:bg-zinc-800 sm:left-[19px] sm:top-10" />
       )}
-      <span className="absolute left-0 top-1 flex size-10 items-center justify-center rounded-full border border-zinc-200/70 bg-white shadow-sm dark:border-zinc-700/70 dark:bg-zinc-800">
+      <span className="absolute left-0 top-1 flex size-8 items-center justify-center rounded-full border border-zinc-200/70 bg-white shadow-sm dark:border-zinc-700/70 dark:bg-zinc-800 sm:size-10">
         <Icon className="size-4 text-purple-600 dark:text-purple-300" />
       </span>
 
@@ -45,13 +45,13 @@ function JourneyEntry({
           type="button"
           onClick={onToggle}
           aria-expanded={expanded}
-          className="flex w-full items-center gap-4 p-5 text-left sm:p-6"
+          className="flex w-full items-center gap-3 p-4 text-left sm:gap-4 sm:p-6"
         >
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-lg font-bold text-zinc-900 dark:text-zinc-100 sm:text-xl">
+            <span className="block text-lg font-bold leading-snug text-zinc-900 dark:text-zinc-100 sm:truncate sm:text-xl">
               {entry.jobTitle}
             </span>
-            <span className="mt-1 block truncate text-sm text-zinc-500 dark:text-zinc-400">
+            <span className="mt-1 block text-sm text-zinc-500 dark:text-zinc-400 sm:truncate">
               {entry.company_name}
             </span>
             <span className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
@@ -123,7 +123,7 @@ export function Journey({ timeline = defaultTimeline }: { timeline?: Timeline[] 
   const toggle = (id: string) => setExpandedId((prev) => (prev === id ? null : id))
 
   return (
-    <div className="relative py-32 overflow-x-hidden">
+    <div className="relative py-20 sm:py-32 overflow-x-hidden">
       <div className="max-w-3xl mx-auto px-6">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -137,7 +137,7 @@ export function Journey({ timeline = defaultTimeline }: { timeline?: Timeline[] 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl font-bold mb-4 text-center"
+          className="text-3xl sm:text-4xl font-bold mb-4 text-center"
         >
           Experience & Education
         </motion.h2>
@@ -146,7 +146,7 @@ export function Journey({ timeline = defaultTimeline }: { timeline?: Timeline[] 
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-lg text-muted-foreground text-center mb-14 max-w-2xl mx-auto"
+          className="text-base sm:text-lg text-muted-foreground text-center mb-10 sm:mb-14 max-w-2xl mx-auto"
         >
           Where I&apos;ve worked and what I&apos;ve studied.
         </motion.p>

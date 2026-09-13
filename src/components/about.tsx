@@ -115,6 +115,15 @@ const stats = [
 
 export function About({ about = defaultAbout }: Partial<AboutProps>) {
   const quoteWords = about.quote.split(" ")
+  // Tilt + hover loops are desktop-only: they jank low-end phone GPUs.
+  const [finePointer, setFinePointer] = useState(true)
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)")
+    setFinePointer(mq.matches)
+    const onChange = (e: MediaQueryListEvent) => setFinePointer(e.matches)
+    mq.addEventListener("change", onChange)
+    return () => mq.removeEventListener("change", onChange)
+  }, [])
 
   return (
     <section id="about" className="relative py-32 overflow-x-hidden">
@@ -128,7 +137,7 @@ export function About({ about = defaultAbout }: Partial<AboutProps>) {
           About
         </motion.p>
 
-        <h3 className="mx-auto mb-12 max-w-5xl text-center text-5xl font-bold uppercase leading-[1.05] md:text-7xl">
+        <h3 className="mx-auto mb-10 sm:mb-12 max-w-5xl text-center text-4xl font-bold uppercase leading-[1.05] sm:text-5xl md:text-7xl">
           {quoteWords.map((word, i) => (
             <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-1 align-bottom">
               <motion.span
@@ -152,7 +161,7 @@ export function About({ about = defaultAbout }: Partial<AboutProps>) {
           <div className="min-w-0">
             <ScrollRevealText
               text={about.description}
-              className="max-w-3xl text-2xl font-medium leading-snug text-foreground/90 md:text-[2rem] md:leading-[1.35]"
+              className="max-w-3xl text-xl font-medium leading-snug text-foreground/90 sm:text-2xl md:text-[2rem] md:leading-[1.35]"
             />
 
             <motion.p
@@ -207,11 +216,14 @@ export function About({ about = defaultAbout }: Partial<AboutProps>) {
                 miniAvatarUrl={about.avatar.url || avatarImg.src}
                 iconUrl="/assets/demo/iconpattern.svg"
                 showUserInfo={true}
-                enableTilt={true}
-                enableMobileTilt={true}
-                behindGlowEnabled={true}
+                enableTilt={finePointer}
+                enableMobileTilt={false}
+                behindGlowEnabled={finePointer}
                 behindGlowColor="rgba(168, 85, 247, 0.55)"
                 innerGradient="linear-gradient(145deg,#60496e8c 0%,#71C4FF44 100%)"
+                // Below sm the card switches from fixed-height to width-driven
+                // so it stays centered instead of overflowing its column.
+                className="max-sm:[&_section]:!h-auto max-sm:[&_section]:!max-h-none max-sm:[&_section]:!w-full"
                 onContactClick={() =>
                   document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
                 }

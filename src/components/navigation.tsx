@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
+import { Menu, X } from "lucide-react"
 import { Button } from "../components/ui/button"
 import GlassSurface from "./GlassSurface"
 import { ModeToggle } from "./mode-toggle"
@@ -16,6 +17,7 @@ const navigationItems = [
 
 export function Navigation() {
   const [hidden, setHidden] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   useEffect(() => {
     const heroSection = document.getElementById("hero")
     if (!heroSection) return
@@ -30,7 +32,11 @@ export function Navigation() {
   }, [])
 
   const scrollToSection = (target: string) => {
-    document.getElementById(target)?.scrollIntoView({ behavior: "smooth" })
+    setMenuOpen(false)
+    // Let the menu close first so the pill doesn't cover the target.
+    requestAnimationFrame(() => {
+      document.getElementById(target)?.scrollIntoView({ behavior: "smooth" })
+    })
   }
 
   return (
@@ -86,9 +92,50 @@ export function Navigation() {
             ))}
           </nav>
 
-          <ModeToggle />
+          <div className="flex items-center gap-1">
+            <ModeToggle />
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-expanded={menuOpen}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="flex size-9 items-center justify-center rounded-full text-zinc-800 transition-colors hover:bg-white/35 dark:text-zinc-100 dark:hover:bg-white/10 md:hidden"
+            >
+              {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
+          </div>
         </div>
       </GlassSurface>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            aria-label="Mobile navigation"
+            className="mt-2 overflow-hidden rounded-3xl border border-zinc-200/60 bg-white/85 p-2 shadow-xl backdrop-blur-xl dark:border-zinc-700/60 dark:bg-zinc-900/85 md:hidden"
+          >
+            {navigationItems.map(({ label, target }, i) => (
+              <motion.button
+                key={target}
+                type="button"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.04 * i }}
+                onClick={() => scrollToSection(target)}
+                className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-[15px] font-semibold text-zinc-800 transition-colors hover:bg-zinc-100 active:bg-zinc-200 dark:text-zinc-100 dark:hover:bg-zinc-800 dark:active:bg-zinc-700"
+              >
+                <span className="text-xs font-black text-zinc-300 dark:text-zinc-600">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {label}
+              </motion.button>
+            ))}
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </motion.header>
   )
 }

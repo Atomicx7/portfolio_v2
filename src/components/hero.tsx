@@ -1,11 +1,21 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import FaultyTerminal from "./FaultyTerminal"
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
+  // Fullscreen WebGL shader is a battery/GPU hog on phones — serve the
+  // lightweight CSS dot-matrix fallback instead.
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)")
+    setIsMobile(mq.matches)
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mq.addEventListener("change", onChange)
+    return () => mq.removeEventListener("change", onChange)
+  }, [])
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -25,26 +35,28 @@ export function Hero() {
           aria-hidden="true"
           className="absolute inset-0 animate-pulse bg-[radial-gradient(rgba(218,35,244,0.16)_1px,transparent_1.5px)] bg-[size:22px_22px]"
         />
-        <FaultyTerminal
-          scale={1.5}
-          gridMul={[2, 1]}
-          digitSize={1.2}
-          timeScale={1}
-          pause={false}
-          scanlineIntensity={1}
-          glitchAmount={1}
-          flickerAmount={1}
-          noiseAmp={1}
-          chromaticAberration={0}
-          dither={0}
-          curvature={0.2}
-          tint="#da23f4"
-          mouseReact={true}
-          mouseStrength={0.5}
-          pageLoadAnimation={true}
-          brightness={1}
-          dpr={1}
-        />
+        {!isMobile && (
+          <FaultyTerminal
+            scale={1.5}
+            gridMul={[2, 1]}
+            digitSize={1.2}
+            timeScale={1}
+            pause={false}
+            scanlineIntensity={1}
+            glitchAmount={1}
+            flickerAmount={1}
+            noiseAmp={1}
+            chromaticAberration={0}
+            dither={0}
+            curvature={0.2}
+            tint="#da23f4"
+            mouseReact={true}
+            mouseStrength={0.5}
+            pageLoadAnimation={true}
+            brightness={1}
+            dpr={1}
+          />
+        )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-zinc-950/35 via-transparent to-zinc-950/90" />
       </motion.div>
 
@@ -56,7 +68,7 @@ export function Hero() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-6xl font-bold tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.45)] md:text-8xl"
+          className="text-5xl font-bold tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.45)] sm:text-6xl md:text-8xl"
         >
           <span className="inline-block cursor-default transition-all duration-200 hover:scale-[1.02] hover:font-black hover:tracking-tight">
             Hi, I&apos;m

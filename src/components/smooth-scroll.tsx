@@ -5,22 +5,17 @@ import Lenis from "lenis"
 
 export function SmoothScroll() {
   useEffect(() => {
+    const coarse = window.matchMedia("(pointer: coarse)").matches
     const lenis = new Lenis({
+      autoRaf: true,
       lerp: 0.1,
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.5,
+      // Touch scrolling stays native on phones — smoother and cheaper.
+      syncTouch: false,
+      touchMultiplier: coarse ? 1 : 1.5,
     })
 
-    let rafId = 0
-    const raf = (time: number) => {
-      lenis.raf(time)
-      rafId = requestAnimationFrame(raf)
-    }
-    rafId = requestAnimationFrame(raf)
-
     return () => {
-      cancelAnimationFrame(rafId)
       lenis.destroy()
     }
   }, [])

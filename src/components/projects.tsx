@@ -83,12 +83,11 @@ export function ProjectCard({
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 28, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -3 }}
-      className="group relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-zinc-200/60 bg-white/70 p-5 backdrop-blur-lg transition-shadow duration-300 hover:shadow-2xl hover:shadow-purple-500/10 dark:border-zinc-800 dark:bg-zinc-900/60 sm:flex-row sm:gap-7 sm:p-7"
+      transition={{ duration: 0.45 }}
+      className="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-zinc-200/60 bg-white/70 p-4 backdrop-blur-lg transition-shadow duration-300 hover:shadow-2xl hover:shadow-purple-500/10 dark:border-zinc-800 dark:bg-zinc-900/60 sm:flex-row sm:gap-7 sm:rounded-3xl sm:p-7"
     >
       {/* hover sheen */}
       <span
@@ -96,7 +95,7 @@ export function ProjectCard({
         className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-all duration-700 group-hover:left-[130%] group-hover:opacity-100 dark:via-white/10"
       />
 
-      <div className="relative aspect-[16/9] shrink-0 overflow-hidden rounded-2xl sm:aspect-auto sm:h-44 sm:w-60 lg:h-48 lg:w-72">
+      <div className="relative aspect-[16/10] shrink-0 overflow-hidden rounded-2xl sm:aspect-auto sm:h-44 sm:w-60 lg:h-48 lg:w-72">
         <Image
           src={project.imageUrl}
           alt={project.title}
@@ -140,13 +139,13 @@ export function ProjectCard({
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-flex w-fit items-center gap-2 text-2xl font-extrabold tracking-tight text-zinc-900 transition-colors group-hover:text-purple-600 dark:text-zinc-50 dark:group-hover:text-purple-300 sm:text-3xl"
+            className="mt-2 inline-flex w-fit items-center gap-2 text-xl font-extrabold tracking-tight text-zinc-900 transition-colors group-hover:text-purple-600 dark:text-zinc-50 dark:group-hover:text-purple-300 sm:text-2xl lg:text-3xl"
           >
             {project.title}
-            <ArrowUpRight className="size-6 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            <ArrowUpRight className="size-5 sm:size-6 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
           </Link>
         ) : (
-          <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
+          <h3 className="mt-2 text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-2xl lg:text-3xl">
             {project.title}
           </h3>
         )}
@@ -245,7 +244,7 @@ export function ProjectList({
 
 export function Projects() {
   return (
-    <div className="relative py-32 overflow-hidden">
+    <div className="relative py-20 sm:py-32 overflow-hidden">
       {/* giant backdrop word */}
       <span
         aria-hidden
@@ -266,7 +265,7 @@ export function Projects() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-5xl font-extrabold tracking-tight mb-4 text-center md:text-6xl"
+          className="text-4xl font-extrabold tracking-tight mb-4 text-center sm:text-5xl md:text-6xl"
         >
           Projects
         </motion.h2>
@@ -275,7 +274,7 @@ export function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-xl text-muted-foreground text-center mb-14 max-w-2xl mx-auto"
+          className="text-base sm:text-xl text-muted-foreground text-center mb-10 sm:mb-14 max-w-2xl mx-auto"
         >
           Shipped products, open source, and experiments — click a row to dig in.
         </motion.p>

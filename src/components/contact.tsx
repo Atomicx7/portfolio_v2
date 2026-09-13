@@ -46,7 +46,7 @@ const socialLinks = [
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="bg-white/80 dark:bg-zinc-800/80 border border-zinc-200/50 dark:border-zinc-700/50 rounded-3xl p-5 sm:p-8 backdrop-blur-lg shadow-xl h-full flex flex-col justify-center overflow-hidden">
+    <div className="bg-white/80 dark:bg-zinc-800/80 border border-zinc-200/50 dark:border-zinc-700/50 rounded-3xl p-5 sm:p-8 backdrop-blur-lg shadow-xl h-full flex flex-col justify-center overflow-y-auto">
       {children}
     </div>
   );
