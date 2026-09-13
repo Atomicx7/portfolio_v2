@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Cloud, Code2, Database, GitBranch, Server, Smartphone } from "lucide-react"
+import { SectionMarquee } from "./section-marquee"
 
 const skills = [
   {
@@ -40,23 +41,12 @@ export function Skills() {
   return (
     <div className="relative py-20 sm:py-32 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl sm:text-4xl font-bold mb-4 text-center"
-        >
-          My Skills
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-base sm:text-lg text-muted-foreground text-center mb-10 sm:mb-16 max-w-2xl mx-auto"
-        >
-          The tools and practices I use to ship production software end to end.
-        </motion.p>
+        <SectionMarquee
+          eyebrow="Skills"
+          title="My Skills"
+          sub="The tools and practices I use to ship production software end to end."
+          texts={["Skills ✦"]}
+        />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {skills.map((skill, i) => (
             <motion.div

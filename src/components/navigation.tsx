@@ -18,6 +18,16 @@ const navigationItems = [
 export function Navigation() {
   const [hidden, setHidden] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  // The SVG liquid-glass filter re-renders on every scroll frame — fine on
+  // desktop GPUs, a stutter source on phones. Serve a plain frosted pill there.
+  const [liquidGlass, setLiquidGlass] = useState(true)
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse), (max-width: 768px)")
+    setLiquidGlass(!mq.matches)
+    const onChange = (e: MediaQueryListEvent) => setLiquidGlass(!e.matches)
+    mq.addEventListener("change", onChange)
+    return () => mq.removeEventListener("change", onChange)
+  }, [])
   useEffect(() => {
     const heroSection = document.getElementById("hero")
     if (!heroSection) return
@@ -39,6 +49,47 @@ export function Navigation() {
     })
   }
 
+  const navInner = (
+    <div className="flex w-full min-w-0 items-center justify-between gap-1 px-3 py-0.5 sm:gap-2 sm:px-4">
+      <button
+        type="button"
+        onClick={() => scrollToSection("hero")}
+        className="shrink-0 text-base font-bold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+        aria-label="Return to the top of the portfolio"
+      >
+        <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          AtomicX
+        </span>
+      </button>
+
+      <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary navigation">
+        {navigationItems.map(({ label, target }) => (
+          <Button
+            key={target}
+            variant="ghost"
+            onClick={() => scrollToSection(target)}
+            className="h-8 rounded-full px-3 text-[13px] text-zinc-800 transition-colors hover:bg-white/35 hover:text-zinc-950 dark:text-zinc-100 dark:hover:bg-white/10 dark:hover:text-white"
+          >
+            {label}
+          </Button>
+        ))}
+      </nav>
+
+      <div className="flex items-center gap-1">
+        <ModeToggle />
+        <button
+          type="button"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-expanded={menuOpen}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className="flex size-9 items-center justify-center rounded-full text-zinc-800 transition-colors hover:bg-white/35 dark:text-zinc-100 dark:hover:bg-white/10 md:hidden"
+        >
+          {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
+      </div>
+    </div>
+  )
+
   return (
     <motion.header
       variants={{
@@ -49,63 +100,32 @@ export function Navigation() {
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className="fixed left-0 right-0 top-3 z-50 mx-auto w-[92%] max-w-3xl"
     >
-      <GlassSurface
-        width="100%"
-        height={52}
-        borderRadius={999}
-        borderWidth={0.08}
-        brightness={58}
-        opacity={0.88}
-        blur={24}
-        displace={4}
-        backgroundOpacity={0.38}
-        saturation={1.6}
-        distortionScale={-110}
-        redOffset={2}
-        greenOffset={8}
-        blueOffset={14}
-        mixBlendMode="screen"
-        className="w-full border border-zinc-200/60 dark:border-zinc-700/60"
-      >
-        <div className="flex w-full min-w-0 items-center justify-between gap-1 px-3 py-0.5 sm:gap-2 sm:px-4">
-          <button
-            type="button"
-            onClick={() => scrollToSection("hero")}
-            className="shrink-0 text-base font-bold tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-            aria-label="Return to the top of the portfolio"
-          >
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              AtomicX
-            </span>
-          </button>
-
-          <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary navigation">
-            {navigationItems.map(({ label, target }) => (
-              <Button
-                key={target}
-                variant="ghost"
-                onClick={() => scrollToSection(target)}
-                className="h-8 rounded-full px-3 text-[13px] text-zinc-800 transition-colors hover:bg-white/35 hover:text-zinc-950 dark:text-zinc-100 dark:hover:bg-white/10 dark:hover:text-white"
-              >
-                {label}
-              </Button>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-1">
-            <ModeToggle />
-            <button
-              type="button"
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              className="flex size-9 items-center justify-center rounded-full text-zinc-800 transition-colors hover:bg-white/35 dark:text-zinc-100 dark:hover:bg-white/10 md:hidden"
-            >
-              {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-            </button>
-          </div>
+      {liquidGlass ? (
+        <GlassSurface
+          width="100%"
+          height={52}
+          borderRadius={999}
+          borderWidth={0.08}
+          brightness={58}
+          opacity={0.88}
+          blur={24}
+          displace={4}
+          backgroundOpacity={0.38}
+          saturation={1.6}
+          distortionScale={-110}
+          redOffset={2}
+          greenOffset={8}
+          blueOffset={14}
+          mixBlendMode="screen"
+          className="w-full border border-zinc-200/60 dark:border-zinc-700/60"
+        >
+          {navInner}
+        </GlassSurface>
+      ) : (
+        <div className="flex h-[52px] w-full items-center rounded-full border border-zinc-200/60 bg-white/75 shadow-lg backdrop-blur-xl dark:border-zinc-700/60 dark:bg-zinc-900/75">
+          {navInner}
         </div>
-      </GlassSurface>
+      )}
 
       <AnimatePresence>
         {menuOpen && (

@@ -108,7 +108,7 @@ export const Contact: React.FC = () => {
                   </div>
                   <div className="md:w-2/3 w-full space-y-4 text-center md:text-left">
                     <p className="text-sm md:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed">
-                      Software Engineering Intern @ BigBasket · B.Tech IT &rsquo;26 · CGPA 8.96.
+                      Everything in one place — my experience, projects, skills and education.
                       Preview the full PDF or download it below.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 pt-1">

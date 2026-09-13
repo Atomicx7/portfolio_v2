@@ -3,7 +3,7 @@
 import type { About as AboutType, Timeline } from "../utils/interfaces"
 import { useEffect, useRef, useState } from "react"
 import { motion, useInView, useScroll, useTransform, type MotionValue } from "framer-motion"
-import { GraduationCap, Star, Ticket, Users } from "lucide-react"
+import { Download, GitFork, GraduationCap, Star } from "lucide-react"
 import ProfileCard from "./ProfileCard"
 import avatarImg from "../assets/avatar-new2cutout.png"
 
@@ -105,10 +105,10 @@ function CountUp({
 }
 
 const stats = [
-  { icon: Users, value: 1500, suffix: "+", decimals: 0, label: "Stakeholders served" },
-  { icon: Ticket, value: 70, suffix: "k+", decimals: 0, label: "Helpdesk tickets tamed" },
-  { icon: Star, value: 183, suffix: "", decimals: 0, label: "GitHub stars on DuoFold" },
-  { icon: GraduationCap, value: 8.96, suffix: "", decimals: 2, label: "CGPA, B.Tech IT" },
+  { icon: Download, value: 5.6, suffix: "k+", decimals: 1, label: "DuoFold v1 downloads" },
+  { icon: Star, value: 202, suffix: "", decimals: 0, label: "GitHub stars on DuoFold" },
+  { icon: GraduationCap, value: 9, suffix: "/10", decimals: 0, label: "CGPA, B.Tech IT" },
+  { icon: GitFork, value: 31, suffix: "", decimals: 0, label: "Forks on DuoFold" },
 ]
 
 /* ---------- section ---------- */

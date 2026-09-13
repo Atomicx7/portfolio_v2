@@ -7,43 +7,12 @@ import { Button } from "./ui/button"
 import Image from "next/image"
 import Link from "next/link"
 import { featuredProjects, otherProjects, Project } from "../lib/data"
+import { SectionMarquee } from "./section-marquee"
 
 function primaryLink(project: Project): string | undefined {
   if (project.liveUrl && project.liveUrl !== "#") return project.liveUrl
   if (project.githubUrl && project.githubUrl !== "#") return project.githubUrl
   return undefined
-}
-
-function IconLinks({ project }: { project: Project }) {
-  const showGithub = project.githubUrl && project.githubUrl !== "#"
-  const showLive = project.liveUrl && project.liveUrl !== "#" && project.liveUrl !== project.githubUrl
-  if (!showGithub && !showLive) return null
-  return (
-    <div className="flex items-center gap-1">
-      {showGithub && (
-        <Link
-          href={project.githubUrl!}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`View ${project.title} code on GitHub`}
-          className="flex size-9 items-center justify-center rounded-full text-zinc-500 transition-all hover:scale-110 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white"
-        >
-          <Github className="size-4" />
-        </Link>
-      )}
-      {showLive && (
-        <Link
-          href={project.liveUrl!}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Open ${project.title} live demo`}
-          className="flex size-9 items-center justify-center rounded-full text-zinc-500 transition-all hover:scale-110 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white"
-        >
-          <ArrowUpRight className="size-4" />
-        </Link>
-      )}
-    </div>
-  )
 }
 
 function Stats({ project }: { project: Project }) {
@@ -115,9 +84,8 @@ export function ProjectCard({
               Featured
             </span>
           )}
-          <span className="ml-auto flex items-center gap-1">
+          <span className="ml-auto flex items-center gap-2">
             <Stats project={project} />
-            <IconLinks project={project} />
             {hasDetails && (
               <button
                 type="button"
@@ -243,6 +211,7 @@ export function ProjectList({
 }
 
 export function Projects() {
+  const [showMore, setShowMore] = useState(false)
   return (
     <div className="relative py-20 sm:py-32 overflow-hidden">
       {/* giant backdrop word */}
@@ -253,43 +222,47 @@ export function Projects() {
         WORK
       </span>
       <div className="relative max-w-6xl mx-auto px-6">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-4 text-center text-sm font-semibold uppercase tracking-[0.25em] text-muted-foreground"
-        >
-          Selected Work
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-4xl font-extrabold tracking-tight mb-4 text-center sm:text-5xl md:text-6xl"
-        >
-          Projects
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-base sm:text-xl text-muted-foreground text-center mb-10 sm:mb-14 max-w-2xl mx-auto"
-        >
-          Shipped products, open source, and experiments — click a row to dig in.
-        </motion.p>
+        <SectionMarquee
+          eyebrow="Selected Work"
+          title="Projects"
+          sub="Shipped products, open source, and experiments — click a row to dig in."
+          texts={["Projects ✦"]}
+        />
 
         <ProjectList projects={featuredProjects} defaultOpen={0} />
 
-        <motion.h3
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-6 mt-14 text-sm font-semibold uppercase tracking-widest text-muted-foreground"
-        >
-          More Projects
-        </motion.h3>
-        <ProjectList projects={otherProjects} offset={featuredProjects.length} defaultOpen={null} />
+        <div className="mt-10 text-center sm:mt-12">
+          <Button variant="outline" onClick={() => setShowMore((v) => !v)} className="rounded-full px-6">
+            {showMore ? "Hide extra projects" : `Show more projects (${otherProjects.length})`}
+            <motion.span
+              animate={{ rotate: showMore ? 180 : 0 }}
+              transition={{ duration: 0.25 }}
+              className="ml-2 inline-flex"
+            >
+              <ChevronDown className="size-4" />
+            </motion.span>
+          </Button>
+        </div>
+        <AnimatePresence initial={false}>
+          {showMore && (
+            <motion.div
+              key="more-projects"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="pt-5">
+                <ProjectList
+                  projects={otherProjects}
+                  offset={featuredProjects.length}
+                  defaultOpen={null}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )

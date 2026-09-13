@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { Briefcase, ChevronDown, GraduationCap, MapPin } from "lucide-react"
 import { formatDate } from "../utils"
 import { timeline as defaultTimeline } from "../lib/data"
+import { SectionMarquee } from "./section-marquee"
 
 function dateRange(startDate: string, endDate: string) {
   const start = formatDate(startDate)
@@ -125,31 +126,12 @@ export function Journey({ timeline = defaultTimeline }: { timeline?: Timeline[] 
   return (
     <div className="relative py-20 sm:py-32 overflow-x-hidden">
       <div className="max-w-3xl mx-auto px-6">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-4 text-center text-sm font-semibold uppercase tracking-[0.25em] text-muted-foreground"
-        >
-          Journey
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl sm:text-4xl font-bold mb-4 text-center"
-        >
-          Experience & Education
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-base sm:text-lg text-muted-foreground text-center mb-10 sm:mb-14 max-w-2xl mx-auto"
-        >
-          Where I&apos;ve worked and what I&apos;ve studied.
-        </motion.p>
+        <SectionMarquee
+          eyebrow="Journey"
+          title="Experience & Education"
+          sub="Where I've worked and what I've studied."
+          texts={["Experience ✦", "Education ✦"]}
+        />
 
         {experience.length > 0 && (
           <div className="mb-12">

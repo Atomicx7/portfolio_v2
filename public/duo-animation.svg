@@ -41,8 +41,8 @@
   <!-- stats pills -->
   <g font-family="Arial, sans-serif" font-size="22" font-weight="bold">
     <rect x="70" y="560" width="170" height="48" rx="24" fill="#facc15"/>
-    <text x="155" y="591" text-anchor="middle" fill="#111">★ 183 stars</text>
+    <text x="155" y="591" text-anchor="middle" fill="#111">★ 202 stars</text>
     <rect x="255" y="560" width="150" height="48" rx="24" fill="#0ea5e9"/>
-    <text x="330" y="591" text-anchor="middle" fill="#fff">⑂ 28 forks</text>
+    <text x="330" y="591" text-anchor="middle" fill="#fff">⑂ 31 forks</text>
   </g>
 </svg>

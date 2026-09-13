@@ -25,12 +25,12 @@ export const featuredProjects: Project[] = [
     imageUrl: "/duo-animation.svg",
     githubUrl: "https://github.com/Atomicx7/Duo-animation",
     technologies: ["Kotlin", "Jetpack Compose", "Android", "AGSL Shader", "Material 3"],
-    stars: 183,
-    forks: 28,
+    stars: 202,
+    forks: 31,
     highlights: [
-      "183 stars and 28 forks within days of publishing",
       "Custom AGSL RuntimeShader: per-pixel ray eye → glass → plane with disk blur",
       "Rotation-vector sensor tracking with zero-pose calibration and manual tilt mode",
+      "Gap-proportional blur + darken tuned live via FoldParameters uniforms",
     ],
   },
   {
@@ -124,9 +124,9 @@ export const timeline: Timeline[] = [
     jobLocation: "SAS Nagar, India",
     startDate: "2022-07-01",
     endDate: "2026-06-30",
-    summary: "B.Tech – Information Technology (CGPA: 8.96/10) with a focus on Software Engineering",
+    summary: "B.Tech – Information Technology (CGPA: 9/10) with a focus on Software Engineering",
     bulletPoints: [
-      "CGPA 8.96 / 10",
+      "CGPA 9 / 10",
       "Smart India Hackathon Participant – delivered a working solution under time pressure",
       "Shipped production backend used daily by 1,500+ employees during internship",
     ],
