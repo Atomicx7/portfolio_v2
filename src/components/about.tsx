@@ -172,7 +172,7 @@ export function About({ about = defaultAbout }: Partial<AboutProps>) {
               className="mt-6 flex items-center gap-2 text-sm text-muted-foreground"
             >
               <span className="inline-block size-2 animate-pulse rounded-full bg-gradient-to-r from-purple-600 to-pink-600" />
-              Scroll to read — hover the words, they bite back
+              Scroll to read
             </motion.p>
 
             <div className="mt-10 grid max-w-3xl grid-cols-2 gap-4 lg:grid-cols-4">
