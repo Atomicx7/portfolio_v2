@@ -57,6 +57,8 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
   const controllerY = useTransform(softY, (value) => value * -20)
   const carX = useTransform(softX, (value) => value * 15)
   const carY = useTransform(softY, (value) => value * -12)
+  const cameraX = useTransform(softX, (value) => value * -18)
+  const cameraY = useTransform(softY, (value) => value * 14)
 
   const moveStage = (event: React.PointerEvent<HTMLElement>) => {
     if (reduceMotion) return
@@ -101,7 +103,8 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
         </div>
         <AboutSticker className="about-photo-sticker-headphones" src="/media/hero-headphones.webp" label="ON LOOP" note="Sound on." cursor="Music" x={headphonesX} y={headphonesY} />
         <AboutSticker className="about-photo-sticker-controller" src="/media/hero-controller.webp" label="SIDE QUEST" note="Just one more round." cursor="Games" x={controllerX} y={controllerY} />
-        <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" label="GOOD ROADS" note="Always looking for the long way home." cursor="Cars" x={carX} y={carY} />
+        <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" label="CAR LOVER" note="The long route wins." cursor="Cars" x={carX} y={carY} />
+        <AboutSticker className="about-photo-sticker-camera" src="/media/about-dslr.webp" label="VIEWFINDER" note="Looking for the shot." cursor="Camera" x={cameraX} y={cameraY} />
         <div className="profile-card-wrap relative z-10 mx-auto w-full max-w-sm">
           <ProfileCard
             name="Yashdeep Singh"
