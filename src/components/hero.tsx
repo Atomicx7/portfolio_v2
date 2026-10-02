@@ -1,33 +1,32 @@
 "use client"
 
 import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion"
-import { ArrowDownRight, ArrowUpRight, Gamepad2, Headphones, Laptop, Smartphone } from "lucide-react"
+import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 import { useRef } from "react"
 
-function HeroSticker({
+function HeroObject({
   className,
-  icon: Icon,
-  kind,
+  src,
   x,
   y,
   rotate,
 }: {
   className: string
-  icon: typeof Laptop
-  kind: "laptop" | "controller" | "headphones" | "phone"
+  src: string
   x: MotionValue<number>
   y: MotionValue<number>
   rotate: number
 }) {
   return (
-    <motion.div aria-hidden className={`hero-sticker ${className}`} style={{ x, y, rotate }}>
-      <span className="sticker-art">
-        <Icon strokeWidth={1.55} />
-        {kind === "laptop" && <b>{"</>"}</b>}
-        {kind === "controller" && <i className="sticker-led" />}
-        {kind === "phone" && <i className="sticker-spark">✦</i>}
-      </span>
-    </motion.div>
+    <motion.img
+      aria-hidden
+      alt=""
+      src={src}
+      loading="eager"
+      decoding="async"
+      className={`hero-object ${className}`}
+      style={{ x, y, rotate }}
+    />
   )
 }
 
@@ -43,14 +42,12 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.72], [1, shouldReduceMotion ? 1 : 0])
   const rotateX = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -10])
 
-  const laptopX = useTransform(softX, (value) => value * 24)
-  const laptopY = useTransform(softY, (value) => value * 18)
-  const controllerX = useTransform(softX, (value) => value * -18)
-  const controllerY = useTransform(softY, (value) => value * -26)
-  const headphonesX = useTransform(softX, (value) => value * 14)
-  const headphonesY = useTransform(softY, (value) => value * -16)
-  const phoneX = useTransform(softX, (value) => value * -10)
-  const phoneY = useTransform(softY, (value) => value * 15)
+  const laptopX = useTransform(softX, (value) => value * 30)
+  const laptopY = useTransform(softY, (value) => value * 22)
+  const controllerX = useTransform(softX, (value) => value * -22)
+  const controllerY = useTransform(softY, (value) => value * -28)
+  const headphonesX = useTransform(softX, (value) => value * 17)
+  const headphonesY = useTransform(softY, (value) => value * -20)
 
   const moveObjects = (event: React.PointerEvent<HTMLElement>) => {
     if (shouldReduceMotion) return
@@ -63,10 +60,9 @@ export function Hero() {
     <section ref={ref} onPointerMove={moveObjects} id="hero" className="relative min-h-[100svh] overflow-hidden bg-bg pt-24" aria-labelledby="hero-title">
       <div className="hero-wash" aria-hidden />
       <div className="hero-playground" aria-hidden>
-        <HeroSticker className="hero-sticker-laptop" icon={Laptop} kind="laptop" x={laptopX} y={laptopY} rotate={-7} />
-        <HeroSticker className="hero-sticker-controller" icon={Gamepad2} kind="controller" x={controllerX} y={controllerY} rotate={8} />
-        <HeroSticker className="hero-sticker-headphones" icon={Headphones} kind="headphones" x={headphonesX} y={headphonesY} rotate={-10} />
-        <HeroSticker className="hero-sticker-phone" icon={Smartphone} kind="phone" x={phoneX} y={phoneY} rotate={11} />
+        <HeroObject className="hero-object-laptop" src="/media/hero-laptop.webp" x={laptopX} y={laptopY} rotate={-6} />
+        <HeroObject className="hero-object-headphones" src="/media/hero-headphones.webp" x={headphonesX} y={headphonesY} rotate={-10} />
+        <HeroObject className="hero-object-controller" src="/media/hero-controller.webp" x={controllerX} y={controllerY} rotate={8} />
       </div>
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-6xl flex-col justify-between px-5 pb-7 pt-[15vh] sm:px-8 sm:pb-9">
         <motion.div style={{ opacity }}>
