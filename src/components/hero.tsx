@@ -89,7 +89,7 @@ export function Hero() {
         <HeroObject className="hero-object-phone" src="/media/hero-phone.webp" x={phoneX} y={phoneY} rotate={5} label="Mobile photographer" eyebrow="FRAME BY FRAME" detail="Mobile photography and edits, collected on my Instagram." cursor="Photos" href="https://www.instagram.com/amazecliks/" />
         <HeroObject className="hero-object-coffee" src="/media/hero-coffee.webp" x={coffeeX} y={coffeeY} rotate={-7} label="Coffee and code" eyebrow="DEBUG FUEL" detail="A good cup, a fresh issue, and one more pass before calling it done." cursor="Coffee" />
       </div>
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-6xl flex-col justify-between px-5 pb-7 pt-[15vh] sm:px-8 sm:pb-9">
+      <div className="page-shell relative z-10 flex min-h-[calc(100svh-6rem)] flex-col justify-between pb-7 pt-[10vh] sm:pb-9">
         <motion.div style={{ opacity }}>
           <div className="flex flex-wrap items-center gap-3">
             <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18, duration: 0.5 }} className="eyebrow">
@@ -97,10 +97,10 @@ export function Hero() {
             </motion.p>
             <motion.span initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 0.4 }} className="open-chip"><i /> Open to work</motion.span>
           </div>
-          <motion.div style={shouldReduceMotion ? undefined : { y, rotateX, transformOrigin: "50% 100%" }} className="mt-[7vh] hero-fold">
+          <motion.div style={shouldReduceMotion ? undefined : { y, rotateX, transformOrigin: "50% 100%" }} className="mt-[4.5vh] hero-fold">
             <h1 id="hero-title" className="hero-title hero-title-clean">I build things<br />that <span className="hero-underlined">hold up</span>.</h1>
           </motion.div>
-          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.36, duration: 0.55 }} className="mt-8 max-w-lg text-lg leading-8 text-muted sm:text-xl">
+          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.36, duration: 0.55 }} className="mt-8 max-w-xl text-lg leading-8 text-muted sm:text-xl">
             Backend systems for real work. Android interactions for the fun of getting the details right.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.48, duration: 0.55 }} className="mt-8 flex flex-wrap gap-3">
