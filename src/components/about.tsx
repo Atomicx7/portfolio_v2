@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import portrait from "../assets/avatar-new2cutout.webp"
 import { fadeUp } from "../lib/motion"
@@ -9,15 +9,13 @@ import ProfileCard from "./ProfileCard"
 
 const copy = "At BigBasket, I helped build a support tool used by 1,500+ people. On the side, I made DuoFold, an Android animation experiment that picked up 200+ GitHub stars. I care about the unglamorous reliability work as much as the satisfying final detail."
 
-function AboutSticker({ className, src, label, note, cursor }: { className: string; src: string; label: string; note: string; cursor: string }) {
+function AboutSticker({ className, src, label, note, cursor, x, y }: { className: string; src: string; label: string; note: string; cursor: string; x: MotionValue<number>; y: MotionValue<number> }) {
   return (
     <motion.button
       type="button"
-      initial={{ opacity: 0, scale: 0.82 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      whileHover={{ y: -9, rotate: className.includes("controller") ? 6 : -4 }}
-      whileFocus={{ y: -9, rotate: className.includes("controller") ? 6 : -4 }}
-      viewport={{ once: false, amount: 0.25 }}
+      style={{ x, y }}
+      whileHover={{ y: -9, rotate: className.includes("controller") ? 6 : -4, scale: 1.04 }}
+      whileFocus={{ y: -9, rotate: className.includes("controller") ? 6 : -4, scale: 1.04 }}
       transition={{ type: "spring", stiffness: 260, damping: 19 }}
       data-cursor={cursor}
       aria-label={`${label}. ${note}`}
@@ -47,6 +45,26 @@ function RevealParagraph() {
 
 export function About({ stats }: { stats: { stars: number; downloads: number } }) {
   const [finePointer, setFinePointer] = useState(false)
+  const stageRef = useRef<HTMLElement>(null)
+  const reduceMotion = useReducedMotion()
+  const pointerX = useMotionValue(0)
+  const pointerY = useMotionValue(0)
+  const softX = useSpring(pointerX, { stiffness: 52, damping: 16, mass: 0.45 })
+  const softY = useSpring(pointerY, { stiffness: 52, damping: 16, mass: 0.45 })
+  const headphonesX = useTransform(softX, (value) => value * 24)
+  const headphonesY = useTransform(softY, (value) => value * 16)
+  const controllerX = useTransform(softX, (value) => value * -22)
+  const controllerY = useTransform(softY, (value) => value * -20)
+  const carX = useTransform(softX, (value) => value * 15)
+  const carY = useTransform(softY, (value) => value * -12)
+
+  const moveStage = (event: React.PointerEvent<HTMLElement>) => {
+    if (reduceMotion) return
+    const rect = event.currentTarget.getBoundingClientRect()
+    pointerX.set((event.clientX - rect.left) / rect.width - 0.5)
+    pointerY.set((event.clientY - rect.top) / rect.height - 0.5)
+  }
+
   useEffect(() => {
     const query = window.matchMedia("(pointer: fine)")
     const update = () => setFinePointer(query.matches)
@@ -75,15 +93,15 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
           ))}
         </motion.dl>
       </div>
-      <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.7 }} className="about-photo-stage page-shell" aria-labelledby="off-clock-title">
+      <motion.section ref={stageRef} onPointerMove={moveStage} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.7 }} className="about-photo-stage page-shell" aria-labelledby="off-clock-title">
         <div className="about-stage-copy">
           <p className="eyebrow"><span className="text-accent">// 01.5</span> Off the clock</p>
-          <h3 id="off-clock-title">There is more<br />than the merge.</h3>
+          <h3 id="off-clock-title">More than<br />the merge.</h3>
           <p>Hover around.</p>
         </div>
-        <AboutSticker className="about-photo-sticker-headphones" src="/media/hero-headphones.webp" label="ON LOOP" note="Sound on." cursor="Music" />
-        <AboutSticker className="about-photo-sticker-controller" src="/media/hero-controller.webp" label="SIDE QUEST" note="Just one more round." cursor="Games" />
-        <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" label="GOOD ROADS" note="Always looking for the long way home." cursor="Cars" />
+        <AboutSticker className="about-photo-sticker-headphones" src="/media/hero-headphones.webp" label="ON LOOP" note="Sound on." cursor="Music" x={headphonesX} y={headphonesY} />
+        <AboutSticker className="about-photo-sticker-controller" src="/media/hero-controller.webp" label="SIDE QUEST" note="Just one more round." cursor="Games" x={controllerX} y={controllerY} />
+        <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" label="GOOD ROADS" note="Always looking for the long way home." cursor="Cars" x={carX} y={carY} />
         <div className="profile-card-wrap relative z-10 mx-auto w-full max-w-sm">
           <ProfileCard
             name="Yashdeep Singh"
