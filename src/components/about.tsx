@@ -11,16 +11,9 @@ const copy = "At BigBasket, I helped build a support tool used by 1,500+ people.
 
 function AboutSticker({ className, src }: { className: string; src: string }) {
   return (
-    <motion.div
-      aria-hidden
-      initial={{ opacity: 0, scale: 0.82 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: false, amount: 0.35 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`about-photo-sticker ${className}`}
-    >
+    <div aria-hidden className={`about-photo-sticker ${className}`}>
       <img src={src} alt="" loading="lazy" decoding="async" />
-    </motion.div>
+    </div>
   )
 }
 
