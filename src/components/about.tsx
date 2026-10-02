@@ -9,6 +9,27 @@ import ProfileCard from "./ProfileCard"
 
 const copy = "At BigBasket, I helped build a support tool used by 1,500+ people. On the side, I made DuoFold, an Android animation experiment that picked up 200+ GitHub stars. I care about the unglamorous reliability work as much as the satisfying final detail."
 
+function AboutObject({ className, src, eyebrow, detail, cursor }: { className: string; src: string; eyebrow: string; detail: string; cursor: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.84 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: false, amount: 0.4 }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      tabIndex={0}
+      data-cursor={cursor}
+      aria-label={`${eyebrow}. ${detail}`}
+      className={`about-object ${className}`}
+    >
+      <img src={src} alt="" aria-hidden loading="lazy" decoding="async" />
+      <span className="about-object-note">
+        <span>{eyebrow}</span>
+        {detail}
+      </span>
+    </motion.div>
+  )
+}
+
 function RevealParagraph() {
   const ref = useRef<HTMLParagraphElement>(null)
   const reduce = useReducedMotion()
@@ -57,6 +78,8 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
           </motion.dl>
         </div>
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }} transition={{ duration: 0.7 }} className="profile-card-wrap relative mx-auto w-full max-w-sm self-stretch">
+          <AboutObject className="about-object-headphones" src="/media/hero-headphones.webp" eyebrow="ON REPEAT" detail="English, Hindi, Japanese, instrumentals — if it has a mood, it is in rotation." cursor="Music" />
+          <AboutObject className="about-object-controller" src="/media/hero-controller.webp" eyebrow="OFF DUTY" detail="Genshin Impact, BeamNG.drive, and Ghost of Tsushima." cursor="Games" />
           <ProfileCard
             name="Yashdeep Singh"
             title="Software Engineer"

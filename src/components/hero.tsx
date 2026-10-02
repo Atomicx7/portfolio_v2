@@ -69,12 +69,10 @@ export function Hero() {
 
   const laptopX = useTransform(softX, (value) => value * 30)
   const laptopY = useTransform(softY, (value) => value * 22)
-  const controllerX = useTransform(softX, (value) => value * -22)
-  const controllerY = useTransform(softY, (value) => value * -28)
-  const headphonesX = useTransform(softX, (value) => value * 17)
-  const headphonesY = useTransform(softY, (value) => value * -20)
   const phoneX = useTransform(softX, (value) => value * -14)
   const phoneY = useTransform(softY, (value) => value * 20)
+  const coffeeX = useTransform(softX, (value) => value * 20)
+  const coffeeY = useTransform(softY, (value) => value * -16)
 
   const moveObjects = (event: React.PointerEvent<HTMLElement>) => {
     if (shouldReduceMotion) return
@@ -88,9 +86,8 @@ export function Hero() {
       <div className="hero-wash" aria-hidden />
       <div className="hero-playground">
         <HeroObject className="hero-object-laptop" src="/media/hero-laptop.webp" x={laptopX} y={laptopY} rotate={-6} label="Developer at work" eyebrow="DEV MODE" detail="Backend systems, Android experiments, and the inevitable late-night debug session." cursor="Dev" />
-        <HeroObject className="hero-object-headphones" src="/media/hero-headphones.webp" x={headphonesX} y={headphonesY} rotate={-10} label="Music listener" eyebrow="ON REPEAT" detail="English, Hindi, Japanese, instrumentals — if it carries a mood, it is probably in rotation." cursor="Music" />
-        <HeroObject className="hero-object-controller" src="/media/hero-controller.webp" x={controllerX} y={controllerY} rotate={8} label="Gamer" eyebrow="OFF DUTY" detail="Genshin Impact, BeamNG.drive, and Ghost of Tsushima. Plenty of hours logged." cursor="Games" />
         <HeroObject className="hero-object-phone" src="/media/hero-phone.webp" x={phoneX} y={phoneY} rotate={5} label="Mobile photographer" eyebrow="FRAME BY FRAME" detail="Mobile photography and edits, collected on my Instagram." cursor="Photos" href="https://www.instagram.com/amazecliks/" />
+        <HeroObject className="hero-object-coffee" src="/media/hero-coffee.webp" x={coffeeX} y={coffeeY} rotate={-7} label="Coffee and code" eyebrow="DEBUG FUEL" detail="A good cup, a fresh issue, and one more pass before calling it done." cursor="Coffee" />
       </div>
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-6xl flex-col justify-between px-5 pb-7 pt-[15vh] sm:px-8 sm:pb-9">
         <motion.div style={{ opacity }}>
