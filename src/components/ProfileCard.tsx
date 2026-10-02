@@ -391,7 +391,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     filter: "brightness(0.66) contrast(1.33) saturate(0.33) opacity(0.5)",
     animation: "pc-holo-bg 18s linear infinite",
     animationPlayState: "running",
-    mixBlendMode: "color-dodge",
+    mixBlendMode: "normal",
+    opacity: 0,
     transform: "translate3d(0, 0, 1px)",
     overflow: "hidden",
     zIndex: 3,
@@ -438,8 +439,9 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       hsl(248, 25%, 80%) 12%,
       hsla(207, 40%, 30%, 0.8) 90%
     )`,
-    mixBlendMode: "overlay",
-    filter: "brightness(0.6) contrast(1.08)",
+    mixBlendMode: "normal",
+    opacity: 0,
+    filter: "none",
     zIndex: 4,
     gridArea: "1 / -1",
     borderRadius: cardRadius,
@@ -470,12 +472,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             maxHeight: "540px",
             aspectRatio: "0.718",
             borderRadius: cardRadius,
-            backgroundBlendMode: "color-dodge, normal, normal, normal",
+            backgroundBlendMode: "normal",
             boxShadow:
               "rgba(0, 0, 0, 0.8) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px",
             transition: "transform 1s ease",
             transform: "translateZ(0) rotateX(0deg) rotateY(0deg)",
-            background: "rgba(0, 0, 0, 0.9)",
+            background: "#151712",
             backfaceVisibility: "hidden",
           }}
           onMouseEnter={(e) => {
@@ -496,7 +498,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             className="absolute inset-0"
             style={{
               backgroundImage: "var(--inner-gradient)",
-              backgroundColor: "rgba(0, 0, 0, 0.9)",
+              backgroundColor: "#151712",
               borderRadius: cardRadius,
               display: "grid",
               gridArea: "1 / -1",
@@ -532,7 +534,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   transform:
                     "translateX(calc(-50% + (var(--pointer-from-left) - 0.5) * 6px)) translateZ(0) scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02)) scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01))",
                   borderRadius: cardRadius,
-                  filter: "brightness(0.72) contrast(1.04) saturate(0.78)",
+                  filter: "brightness(0.9) contrast(1.02) saturate(0.92)",
                   backfaceVisibility: "hidden",
                 }}
                 onError={(e) => {
@@ -604,7 +606,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               style={{
                 transform:
                   "translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 0.1px)",
-                mixBlendMode: "luminosity",
+                mixBlendMode: "normal",
                 gridArea: "1 / -1",
                 borderRadius: cardRadius,
                 pointerEvents: "none",
@@ -615,7 +617,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   className="font-semibold m-0"
                   style={{
                     fontSize: "min(5svh, 3em)",
-                    backgroundImage: "linear-gradient(to bottom, #fff, #c9ed55)",
+                    backgroundImage: "linear-gradient(to bottom, #ffffff, #eef0e7)",
                     backgroundSize: "1em 1.5em",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -631,7 +633,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                     top: "-12px",
                     fontSize: "16px",
                     margin: "0 auto",
-                    backgroundImage: "linear-gradient(to bottom, #fff, #a8c93b)",
+                    backgroundImage: "linear-gradient(to bottom, #ffffff, #d7dacd)",
                     backgroundSize: "1em 1.5em",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
