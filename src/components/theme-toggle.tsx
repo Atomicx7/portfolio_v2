@@ -1,51 +1,33 @@
 "use client"
 
-import * as React from "react"
-import { Moon, Sun, Laptop } from "lucide-react"
-import { useTheme } from "next-themes"
+import { Moon, Sun } from "lucide-react"
+import { useEffect, useState } from "react"
 
-import { Button } from "../components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../components/ui/dropdown-menu"
+const storageKey = "portfolio-color-scheme"
 
 export function ThemeToggle() {
-  const [mounted, setMounted] = React.useState(false)
-  const { theme, setTheme } = useTheme()
+  const [isDark, setIsDark] = useState(false)
 
-  React.useEffect(() => {
-    setMounted(true)
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains("dark"))
   }, [])
 
-  if (!mounted) return null
+  const toggle = () => {
+    const next = !isDark
+    const apply = () => {
+      document.documentElement.classList.toggle("dark", next)
+      window.localStorage.setItem(storageKey, next ? "dark" : "light")
+      setIsDark(next)
+    }
+    const documentWithTransition = document as Document & { startViewTransition?: (callback: () => void) => void }
+    if (documentWithTransition.startViewTransition) documentWithTransition.startViewTransition(apply)
+    else apply()
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          {theme === "light" ? (
-            <Sun className="h-[1.2rem] w-[1.2rem]" />
-          ) : theme === "dark" ? (
-            <Moon className="h-[1.2rem] w-[1.2rem]" />
-          ) : (
-            <Laptop className="h-[1.2rem] w-[1.2rem]" />
-          )}
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")} className="flex items-center gap-2 cursor-pointer">
-          <Sun className="h-4 w-4" />
-          <span>Light</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")} className="flex items-center gap-2 cursor-pointer">
-          <Moon className="h-4 w-4" />
-          <span>Dark</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")} className="flex items-center gap-2 cursor-pointer">
-          <Laptop className="h-4 w-4" />
-          <span>System</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <button type="button" onClick={toggle} className="theme-toggle" aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"} title={isDark ? "Light mode" : "Dark mode"}>
+      <Sun className={`size-3.5 transition-all duration-300 ${isDark ? "scale-75 opacity-45" : "scale-100 opacity-100"}`} />
+      <Moon className={`size-3.5 transition-all duration-300 ${isDark ? "scale-100 opacity-100" : "scale-75 opacity-45"}`} />
+    </button>
   )
 }
-

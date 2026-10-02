@@ -1,90 +1,118 @@
 "use client"
 
-import { motion, useScroll, useTransform } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
-import FaultyTerminal from "./FaultyTerminal"
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion"
+import { ArrowDownRight, ArrowUpRight } from "lucide-react"
+import { useRef } from "react"
 
-export function Hero() {
-  const ref = useRef<HTMLDivElement>(null)
-  // Fullscreen WebGL shader is a battery/GPU hog on phones — serve the
-  // lightweight CSS dot-matrix fallback instead.
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)")
-    setIsMobile(mq.matches)
-    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches)
-    mq.addEventListener("change", onChange)
-    return () => mq.removeEventListener("change", onChange)
-  }, [])
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  })
+type HeroObjectProps = {
+  className: string
+  src: string
+  x: MotionValue<number>
+  y: MotionValue<number>
+  rotate: number
+  label: string
+  eyebrow: string
+  detail: string
+  cursor: string
+  href?: string
+}
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
+function HeroObject({ className, src, x, y, rotate, label, eyebrow, detail, cursor, href }: HeroObjectProps) {
+  const objectContent = (
+    <>
+      <img aria-hidden alt="" src={src} loading="eager" decoding="async" />
+      <span className="hero-object-note" role="tooltip">
+        <span className="hero-object-note-kicker">{eyebrow}</span>
+        <span className="hero-object-note-copy">{detail}</span>
+        {href && <span className="hero-object-note-link">@amazecliks ↗</span>}
+      </span>
+    </>
+  )
+
+  const objectStyle = { x, y, rotate }
+  const objectClassName = `hero-object ${className}`
+
+  if (href) {
+    return (
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`${label}. ${detail}. Opens Instagram in a new tab.`}
+        data-cursor={cursor}
+        className={objectClassName}
+        style={objectStyle}
+      >
+        {objectContent}
+      </motion.a>
+    )
+  }
 
   return (
-    <div ref={ref} className="relative h-screen overflow-hidden bg-zinc-950" id="hero">
-      <motion.div
-        aria-hidden="true"
-        style={{ y }}
-        className="absolute inset-0 z-0 h-[115%] w-full"
-      >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 animate-pulse bg-[radial-gradient(rgba(218,35,244,0.16)_1px,transparent_1.5px)] bg-[size:22px_22px]"
-        />
-        {!isMobile && (
-          <FaultyTerminal
-            scale={1.5}
-            gridMul={[2, 1]}
-            digitSize={1.2}
-            timeScale={1}
-            pause={false}
-            scanlineIntensity={1}
-            glitchAmount={1}
-            flickerAmount={1}
-            noiseAmp={1}
-            chromaticAberration={0}
-            dither={0}
-            curvature={0.2}
-            tint="#da23f4"
-            mouseReact={true}
-            mouseStrength={0.5}
-            pageLoadAnimation={true}
-            brightness={1}
-            dpr={1}
-          />
-        )}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-zinc-950/35 via-transparent to-zinc-950/90" />
-      </motion.div>
+    <motion.div tabIndex={0} aria-label={`${label}. ${detail}`} data-cursor={cursor} className={objectClassName} style={objectStyle}>
+      {objectContent}
+    </motion.div>
+  )
+}
 
-      <motion.div
-        style={{ opacity }}
-        className="pointer-events-none relative z-10 flex h-full flex-col items-center justify-center px-4 text-center text-white"
-      >
-        <motion.h1
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-5xl font-bold tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.45)] sm:text-6xl md:text-8xl"
-        >
-          <span className="inline-block cursor-default transition-all duration-200 hover:scale-[1.02] hover:font-black hover:tracking-tight">
-            Hi, I&apos;m
-          </span>
-          <br />
-          <span className="italic">Yashdeep Singh</span>
-        </motion.h1>
-        <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="mt-6 max-w-2xl text-xl text-zinc-100 drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]"
-        >
-          Full Stack Developer &amp; UI/UX Designer
-        </motion.p>
-      </motion.div>
-    </div>
+export function Hero() {
+  const ref = useRef<HTMLElement>(null)
+  const shouldReduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
+  const pointerX = useMotionValue(0)
+  const pointerY = useMotionValue(0)
+  const softX = useSpring(pointerX, { stiffness: 55, damping: 16, mass: 0.4 })
+  const softY = useSpring(pointerY, { stiffness: 55, damping: 16, mass: 0.4 })
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", shouldReduceMotion ? "0%" : "15%"])
+  const opacity = useTransform(scrollYProgress, [0, 0.72], [1, shouldReduceMotion ? 1 : 0])
+  const rotateX = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : -10])
+
+  const laptopX = useTransform(softX, (value) => value * 30)
+  const laptopY = useTransform(softY, (value) => value * 22)
+  const phoneX = useTransform(softX, (value) => value * -14)
+  const phoneY = useTransform(softY, (value) => value * 20)
+  const coffeeX = useTransform(softX, (value) => value * 20)
+  const coffeeY = useTransform(softY, (value) => value * -16)
+
+  const moveObjects = (event: React.PointerEvent<HTMLElement>) => {
+    if (shouldReduceMotion) return
+    const rect = event.currentTarget.getBoundingClientRect()
+    pointerX.set((event.clientX - rect.left) / rect.width - 0.5)
+    pointerY.set((event.clientY - rect.top) / rect.height - 0.5)
+  }
+
+  return (
+    <section ref={ref} onPointerMove={moveObjects} id="hero" className="relative min-h-[100svh] overflow-hidden bg-bg pt-24" aria-labelledby="hero-title">
+      <div className="hero-wash" aria-hidden />
+      <div className="hero-playground">
+        <HeroObject className="hero-object-laptop" src="/media/hero-laptop.webp" x={laptopX} y={laptopY} rotate={-6} label="Developer at work" eyebrow="DEV MODE" detail="Backend systems, Android experiments, and the inevitable late-night debug session." cursor="Dev" />
+        <HeroObject className="hero-object-phone" src="/media/hero-phone.webp" x={phoneX} y={phoneY} rotate={5} label="Mobile photographer" eyebrow="FRAME BY FRAME" detail="Mobile photography and edits, collected on my Instagram." cursor="Photos" href="https://www.instagram.com/amazecliks/" />
+        <HeroObject className="hero-object-coffee" src="/media/hero-coffee.webp" x={coffeeX} y={coffeeY} rotate={-7} label="Coffee and code" eyebrow="DEBUG FUEL" detail="A good cup, a fresh issue, and one more pass before calling it done." cursor="Coffee" />
+      </div>
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-6xl flex-col justify-between px-5 pb-7 pt-[15vh] sm:px-8 sm:pb-9">
+        <motion.div style={{ opacity }}>
+          <div className="flex flex-wrap items-center gap-3">
+            <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18, duration: 0.5 }} className="eyebrow">
+              <span className="text-accent">// 00</span> — SOFTWARE ENGINEER / YASHDEEP SINGH
+            </motion.p>
+            <motion.span initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 0.4 }} className="open-chip"><i /> Open to work</motion.span>
+          </div>
+          <motion.div style={shouldReduceMotion ? undefined : { y, rotateX, transformOrigin: "50% 100%" }} className="mt-[7vh] hero-fold">
+            <h1 id="hero-title" className="hero-title hero-title-clean">I build things<br />that <span className="hero-underlined">hold up</span>.</h1>
+          </motion.div>
+          <motion.p initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.36, duration: 0.55 }} className="mt-8 max-w-lg text-lg leading-8 text-muted sm:text-xl">
+            Backend systems for real work. Android interactions for the fun of getting the details right.
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.48, duration: 0.55 }} className="mt-8 flex flex-wrap gap-3">
+            <a href="#work" className="button" data-cursor="Work">See selected work <ArrowDownRight className="size-4" /></a>
+            <a href="#contact" className="button button-quiet" data-cursor="Hello">Get in touch <ArrowUpRight className="size-4" /></a>
+          </motion.div>
+        </motion.div>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} className="grid gap-3 border-t border-line pt-4 text-sm text-muted sm:grid-cols-[1fr_auto] sm:items-end">
+          <p>1,500+ internal users · 70k+ tickets · <span className="text-fg">200+ GitHub stars</span></p>
+          <a href="#about" data-cursor="Scroll" className="group inline-flex w-fit items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-fg"><span className="grid size-7 place-items-center border border-line transition-transform group-hover:translate-y-1">↓</span> Keep scrolling</a>
+        </motion.div>
+      </div>
+    </section>
   )
 }

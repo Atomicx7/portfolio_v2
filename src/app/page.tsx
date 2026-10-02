@@ -1,47 +1,47 @@
-'use client';
-
-import "../app/globals.css";
-import { Navigation } from "../components/navigation"
-import { Hero } from "../components/hero"
 import { About } from "../components/about"
+import { Contact } from "../components/contact"
+import { Footer } from "../components/footer"
+import { Hero } from "../components/hero"
+import { Journey } from "../components/journey"
+import { Lab } from "../components/lab"
+import { Navigation } from "../components/navigation"
 import { Projects } from "../components/projects"
 import { Skills } from "../components/features"
-import { Journey } from "../components/journey"
-import { Contact } from "../components/contact"
-import { MouseMoveEffect } from "../components/mouse-move-effect"
-import { useState } from "react";
+import { Cursor } from "../components/fx/cursor"
+import { IntroReveal } from "../components/fx/intro-reveal"
+import { site } from "../content/site"
+import { repoStats } from "../lib/github"
 
-export default function Page() {
-  const [theme, setTheme] = useState("default");
+export const revalidate = 3600
 
-  const toggleTheme = () => {
-    const themes = ["default", "cyberpunk", "minimal", "comfort"];
-   
-   
-  };
-
+export default async function HomePage() {
+  const duoStats = await repoStats("Atomicx7", "Duo-animation")
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: site.name,
+    jobTitle: site.title,
+    url: "https://atomicx7.dev",
+    sameAs: [site.github, site.linkedin],
+  }
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <MouseMoveEffect />
+    <main className="min-h-screen overflow-x-clip bg-bg text-fg">
+      <IntroReveal />
+      <Cursor />
+      <a href="#main-content" className="skip-link">Skip to content</a>
       <Navigation />
-      <Hero />
-      <section id="about">
-        <About />
-      </section>
-      <section id="projects">
-        <Projects />
-      </section>
-      <section id="skills">
+      <div id="main-content">
+        <Hero />
+        <About stats={duoStats} />
+        <Projects duoStats={duoStats} />
         <Skills />
-      </section>
-      <section id="experience">
         <Journey />
-      </section>
-      <section id="contact">
+        <Lab />
         <Contact />
-      </section>
+      </div>
+      <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
     </main>
   )
 }
-
