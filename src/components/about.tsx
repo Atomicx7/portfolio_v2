@@ -9,11 +9,23 @@ import ProfileCard from "./ProfileCard"
 
 const copy = "At BigBasket, I helped build a support tool used by 1,500+ people. On the side, I made DuoFold, an Android animation experiment that picked up 200+ GitHub stars. I care about the unglamorous reliability work as much as the satisfying final detail."
 
-function AboutSticker({ className, src }: { className: string; src: string }) {
+function AboutSticker({ className, src, label, note, cursor }: { className: string; src: string; label: string; note: string; cursor: string }) {
   return (
-    <div aria-hidden className={`about-photo-sticker ${className}`}>
+    <motion.button
+      type="button"
+      initial={{ opacity: 0, scale: 0.82 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      whileHover={{ y: -9, rotate: className.includes("controller") ? 6 : -4 }}
+      whileFocus={{ y: -9, rotate: className.includes("controller") ? 6 : -4 }}
+      viewport={{ once: false, amount: 0.25 }}
+      transition={{ type: "spring", stiffness: 260, damping: 19 }}
+      data-cursor={cursor}
+      aria-label={`${label}. ${note}`}
+      className={`about-photo-sticker ${className}`}
+    >
       <img src={src} alt="" loading="lazy" decoding="async" />
-    </div>
+      <span className="about-sticker-note"><b>{label}</b>{note}</span>
+    </motion.button>
   )
 }
 
@@ -63,10 +75,15 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
           ))}
         </motion.dl>
       </div>
-      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.7 }} className="about-photo-stage page-shell">
-        <AboutSticker className="about-photo-sticker-headphones" src="/media/hero-headphones.webp" />
-        <AboutSticker className="about-photo-sticker-controller" src="/media/hero-controller.webp" />
-        <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" />
+      <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.7 }} className="about-photo-stage page-shell" aria-labelledby="off-clock-title">
+        <div className="about-stage-copy">
+          <p className="eyebrow"><span className="text-accent">// 01.5</span> Off the clock</p>
+          <h3 id="off-clock-title">There is more<br />than the merge.</h3>
+          <p>Hover around.</p>
+        </div>
+        <AboutSticker className="about-photo-sticker-headphones" src="/media/hero-headphones.webp" label="ON LOOP" note="Sound on." cursor="Music" />
+        <AboutSticker className="about-photo-sticker-controller" src="/media/hero-controller.webp" label="SIDE QUEST" note="Just one more round." cursor="Games" />
+        <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" label="GOOD ROADS" note="Always looking for the long way home." cursor="Cars" />
         <div className="profile-card-wrap relative z-10 mx-auto w-full max-w-sm">
           <ProfileCard
             name="Yashdeep Singh"
@@ -86,7 +103,7 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
           />
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Move your cursor over the card</p>
         </div>
-      </motion.div>
+      </motion.section>
     </section>
   )
 }
