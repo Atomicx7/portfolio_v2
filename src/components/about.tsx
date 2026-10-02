@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
-import portrait from "../assets/avatar-new2cutout.png"
+import portrait from "../assets/avatar-new2cutout.webp"
 import { fadeUp } from "../lib/motion"
 import { SectionHeading } from "./layout/section-heading"
 import ProfileCard from "./ProfileCard"
@@ -43,7 +43,7 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
             The reliable system underneath. The interaction someone remembers on top.
           </SectionHeading>
           <div className="mt-12"><RevealParagraph /></div>
-          <motion.dl initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.4 }} transition={{ staggerChildren: 0.1 }} className="mt-14 grid grid-cols-3 border-y border-line">
+          <motion.dl initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.4 }} transition={{ staggerChildren: 0.1 }} className="mt-14 grid grid-cols-3 border-y border-line">
             {[
               ["1,500+", "internal users"],
               [`${stats.stars}+`, "DuoFold stars"],
@@ -56,7 +56,7 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
             ))}
           </motion.dl>
         </div>
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="profile-card-wrap relative mx-auto w-full max-w-sm self-stretch">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }} transition={{ duration: 0.7 }} className="profile-card-wrap relative mx-auto w-full max-w-sm self-stretch">
           <ProfileCard
             name="Yashdeep Singh"
             title="Software Engineer"
@@ -65,11 +65,12 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
             contactText="Say hi"
             avatarUrl={portrait.src}
             miniAvatarUrl={portrait.src}
+            imageLoading="eager"
             enableTilt={finePointer}
             enableMobileTilt={false}
             behindGlowEnabled={finePointer}
-            behindGlowColor="rgba(218, 76, 48, 0.32)"
-            innerGradient="linear-gradient(145deg, rgba(53, 22, 16, 0.96) 0%, rgba(164, 57, 34, 0.52) 100%)"
+            behindGlowColor="rgba(190, 232, 53, 0.3)"
+            innerGradient="linear-gradient(145deg, rgba(18, 25, 13, 0.98) 0%, rgba(74, 101, 26, 0.52) 100%)"
             onContactClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
           />
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Move your cursor over the card</p>

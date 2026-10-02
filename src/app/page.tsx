@@ -7,6 +7,7 @@ import { Lab } from "../components/lab"
 import { Navigation } from "../components/navigation"
 import { Projects } from "../components/projects"
 import { Skills } from "../components/features"
+import { Cursor } from "../components/fx/cursor"
 import { IntroReveal } from "../components/fx/intro-reveal"
 import { site } from "../content/site"
 import { repoStats } from "../lib/github"
@@ -27,6 +28,7 @@ export default async function HomePage() {
   return (
     <main className="min-h-screen overflow-x-clip bg-bg text-fg">
       <IntroReveal />
+      <Cursor />
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Navigation />
       <div id="main-content">

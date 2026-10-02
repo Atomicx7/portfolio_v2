@@ -21,7 +21,7 @@ export function Skills() {
         </SectionHeading>
         <div className="mt-14 grid gap-3 md:grid-cols-2">
           {skillTiles.map((tile, index) => (
-            <motion.article key={tile.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ delay: index * 0.06 }} whileHover={reduced ? undefined : { y: -4 }} className={`skill-tile skill-${tile.size}`}>
+            <motion.article key={tile.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ delay: index * 0.06 }} whileHover={reduced ? undefined : { y: -4 }} className={`skill-tile skill-${tile.size}`}>
               <div className="flex items-start justify-between gap-5">
                 <div><p className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent">{tile.kicker}</p><h3 className="mt-4 text-2xl font-semibold tracking-tight">{tile.title}</h3></div>
                 <span className="grid size-8 shrink-0 place-items-center border border-line text-muted"><ArrowUpRight className="size-4" /></span>

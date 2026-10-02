@@ -51,6 +51,7 @@ interface ProfileCardProps {
   contactText?: string;
   showUserInfo?: boolean;
   onContactClick?: () => void;
+  imageLoading?: "lazy" | "eager";
 }
 
 interface TiltEngine {
@@ -82,6 +83,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   contactText = "Contact",
   showUserInfo = true,
   onContactClick,
+  imageLoading = "eager",
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<HTMLDivElement>(null);
@@ -437,7 +439,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       hsla(207, 40%, 30%, 0.8) 90%
     )`,
     mixBlendMode: "overlay",
-    filter: "brightness(0.8) contrast(1.2)",
+    filter: "brightness(0.6) contrast(1.08)",
     zIndex: 4,
     gridArea: "1 / -1",
     borderRadius: cardRadius,
@@ -510,7 +512,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             <div
               className="overflow-visible"
               style={{
-                mixBlendMode: "luminosity",
+                mixBlendMode: "normal",
                 transform: "translateZ(2px)",
                 gridArea: "1 / -1",
                 borderRadius: cardRadius,
@@ -522,12 +524,15 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                 className="w-full absolute left-1/2 bottom-[-1px] will-change-transform transition-transform duration-[120ms] ease-out"
                 src={avatarUrl}
                 alt={`${name || "User"} avatar`}
-                loading="lazy"
+                loading={imageLoading}
+                fetchPriority="high"
+                decoding="async"
                 style={{
                   transformOrigin: "50% 100%",
                   transform:
                     "translateX(calc(-50% + (var(--pointer-from-left) - 0.5) * 6px)) translateZ(0) scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02)) scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01))",
                   borderRadius: cardRadius,
+                  filter: "brightness(0.72) contrast(1.04) saturate(0.78)",
                   backfaceVisibility: "hidden",
                 }}
                 onError={(e) => {
@@ -535,6 +540,13 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   t.style.display = "none";
                 }}
               />
+              <div
+                aria-hidden
+                className="absolute right-5 top-5 z-[4] border border-white/20 bg-black/20 px-3 py-1.5 font-mono text-base font-semibold tracking-[-0.12em] text-white/85 backdrop-blur-md"
+                style={{ borderRadius: "10px", pointerEvents: "none" }}
+              >
+                {"</>"}
+              </div>
               {showUserInfo && (
                 <div
                   className="absolute z-[2] flex items-center justify-between backdrop-blur-[30px] border border-white/10 pointer-events-auto"
@@ -603,7 +615,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                   className="font-semibold m-0"
                   style={{
                     fontSize: "min(5svh, 3em)",
-                    backgroundImage: "linear-gradient(to bottom, #fff, #6f6fbe)",
+                    backgroundImage: "linear-gradient(to bottom, #fff, #c9ed55)",
                     backgroundSize: "1em 1.5em",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -619,7 +631,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                     top: "-12px",
                     fontSize: "16px",
                     margin: "0 auto",
-                    backgroundImage: "linear-gradient(to bottom, #fff, #4a4ac0)",
+                    backgroundImage: "linear-gradient(to bottom, #fff, #a8c93b)",
                     backgroundSize: "1em 1.5em",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",

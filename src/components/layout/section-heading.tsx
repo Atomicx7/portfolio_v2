@@ -18,7 +18,7 @@ export function SectionHeading({
     <motion.div
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.35 }}
+      viewport={{ once: false, amount: 0.35 }}
       transition={{ staggerChildren: 0.08 }}
       className={align === "center" ? "reveal-blur mx-auto max-w-3xl text-center" : "reveal-blur max-w-3xl"}
     >

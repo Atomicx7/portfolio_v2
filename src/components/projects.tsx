@@ -90,8 +90,8 @@ export function ProjectIndex({ duoStats, compact = false }: { duoStats: RepoStat
           {visibleProjects.map((project, index) => {
             const focused = focusedSlug === project.slug
             return (
-              <motion.article key={project.slug} id={`project-${project.slug}`} tabIndex={-1} initial={{ opacity: 0, y: reduceMotion ? 0 : 18, filter: reduceMotion ? "blur(0px)" : "blur(6px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={{ opacity: 0, y: reduceMotion ? 0 : -12, filter: "blur(4px)" }} transition={{ duration: 0.38 }} className={`project-row group ${focused ? "project-focused" : ""}`}>
-                <button className="absolute inset-0 z-10 cursor-pointer" onClick={() => setSelected(project)} aria-label={`Open ${project.title} case study`} />
+              <motion.article key={project.slug} id={`project-${project.slug}`} tabIndex={-1} initial={{ opacity: 0, y: reduceMotion ? 0 : 18, filter: reduceMotion ? "blur(0px)" : "blur(6px)" }} whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }} viewport={{ once: false, amount: 0.18 }} exit={{ opacity: 0, y: reduceMotion ? 0 : -12, filter: "blur(4px)" }} transition={{ duration: 0.38 }} className={`project-row group ${focused ? "project-focused" : ""}`}>
+                <button className="absolute inset-0 z-10 cursor-pointer" onClick={() => setSelected(project)} data-cursor="View" aria-label={`Open ${project.title} case study`} />
                 <div className="relative z-0 grid gap-5 py-7 md:grid-cols-[70px_minmax(0,1fr)_minmax(150px,0.45fr)_90px] md:items-center md:gap-7 md:py-9">
                   <span className="font-mono text-[11px] tracking-[0.16em] text-muted">{String(index + 1).padStart(2, "0")}</span>
                   <div><h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">{project.title}{project.slug === "duofold" && <span className="ml-2 inline-flex align-middle text-accent"><Play className="size-4 fill-current" /></span>}</h3><p className="mt-2 max-w-xl text-sm leading-6 text-muted sm:text-base">{project.outcome}</p></div>
