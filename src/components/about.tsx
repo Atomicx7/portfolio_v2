@@ -9,27 +9,6 @@ import ProfileCard from "./ProfileCard"
 
 const copy = "At BigBasket, I helped build a support tool used by 1,500+ people. On the side, I made DuoFold, an Android animation experiment that picked up 200+ GitHub stars. I care about the unglamorous reliability work as much as the satisfying final detail."
 
-function AboutObject({ className, src, eyebrow, detail, cursor }: { className: string; src: string; eyebrow: string; detail: string; cursor: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.84 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: false, amount: 0.4 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      tabIndex={0}
-      data-cursor={cursor}
-      aria-label={`${eyebrow}. ${detail}`}
-      className={`about-object ${className}`}
-    >
-      <img src={src} alt="" aria-hidden loading="lazy" decoding="async" />
-      <span className="about-object-note">
-        <span>{eyebrow}</span>
-        {detail}
-      </span>
-    </motion.div>
-  )
-}
-
 function RevealParagraph() {
   const ref = useRef<HTMLParagraphElement>(null)
   const reduce = useReducedMotion()
@@ -78,8 +57,6 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
           </motion.dl>
         </div>
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }} transition={{ duration: 0.7 }} className="profile-card-wrap relative mx-auto w-full max-w-sm self-stretch">
-          <AboutObject className="about-object-headphones" src="/media/hero-headphones.webp" eyebrow="ON REPEAT" detail="English, Hindi, Japanese, instrumentals — if it has a mood, it is in rotation." cursor="Music" />
-          <AboutObject className="about-object-controller" src="/media/hero-controller.webp" eyebrow="OFF DUTY" detail="Genshin Impact, BeamNG.drive, and Ghost of Tsushima." cursor="Games" />
           <ProfileCard
             name="Yashdeep Singh"
             title="Software Engineer"
@@ -99,6 +76,34 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Move your cursor over the card</p>
         </motion.div>
       </div>
+      <motion.section
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+        className="about-after-hours page-shell"
+        aria-labelledby="after-hours-title"
+      >
+        <div className="about-after-hours-intro">
+          <p className="eyebrow"><span className="text-accent">// 01.5</span> — Outside the editor</p>
+          <h3 id="after-hours-title">The other tabs<br />are open too.</h3>
+          <p>Some things that keep the brain curious when I am not shipping code.</p>
+        </div>
+        <div className="about-interest-list">
+          <article className="about-interest" tabIndex={0} data-cursor="Music">
+            <div className="about-interest-art about-interest-art-headphones"><img src="/media/hero-headphones.webp" alt="" aria-hidden loading="lazy" decoding="async" /></div>
+            <div><p className="about-interest-kicker">On repeat</p><p>English, Hindi, Japanese, instrumentals — if it carries a mood, it is probably in rotation.</p></div>
+          </article>
+          <article className="about-interest" tabIndex={0} data-cursor="Games">
+            <div className="about-interest-art about-interest-art-controller"><img src="/media/hero-controller.webp" alt="" aria-hidden loading="lazy" decoding="async" /></div>
+            <div><p className="about-interest-kicker">Off duty</p><p>Genshin Impact, BeamNG.drive, and Ghost of Tsushima. Plenty of hours logged.</p></div>
+          </article>
+          <article className="about-interest" tabIndex={0} data-cursor="Cars">
+            <div className="about-interest-art about-interest-art-car"><img src="/media/about-bmw-m5.webp" alt="" aria-hidden loading="lazy" decoding="async" /></div>
+            <div><p className="about-interest-kicker">Dream garage</p><p>BMW M5 F90 LCI. I have a thing for cars with presence and performance to match.</p></div>
+          </article>
+        </div>
+      </motion.section>
     </section>
   )
 }
