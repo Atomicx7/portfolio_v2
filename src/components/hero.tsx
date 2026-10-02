@@ -4,29 +4,54 @@ import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTran
 import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 import { useRef } from "react"
 
-function HeroObject({
-  className,
-  src,
-  x,
-  y,
-  rotate,
-}: {
+type HeroObjectProps = {
   className: string
   src: string
   x: MotionValue<number>
   y: MotionValue<number>
   rotate: number
-}) {
+  label: string
+  eyebrow: string
+  detail: string
+  cursor: string
+  href?: string
+}
+
+function HeroObject({ className, src, x, y, rotate, label, eyebrow, detail, cursor, href }: HeroObjectProps) {
+  const objectContent = (
+    <>
+      <img aria-hidden alt="" src={src} loading="eager" decoding="async" />
+      <span className="hero-object-note" role="tooltip">
+        <span className="hero-object-note-kicker">{eyebrow}</span>
+        <span className="hero-object-note-copy">{detail}</span>
+        {href && <span className="hero-object-note-link">@amazecliks ↗</span>}
+      </span>
+    </>
+  )
+
+  const objectStyle = { x, y, rotate }
+  const objectClassName = `hero-object ${className}`
+
+  if (href) {
+    return (
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`${label}. ${detail}. Opens Instagram in a new tab.`}
+        data-cursor={cursor}
+        className={objectClassName}
+        style={objectStyle}
+      >
+        {objectContent}
+      </motion.a>
+    )
+  }
+
   return (
-    <motion.img
-      aria-hidden
-      alt=""
-      src={src}
-      loading="eager"
-      decoding="async"
-      className={`hero-object ${className}`}
-      style={{ x, y, rotate }}
-    />
+    <motion.div tabIndex={0} aria-label={`${label}. ${detail}`} data-cursor={cursor} className={objectClassName} style={objectStyle}>
+      {objectContent}
+    </motion.div>
   )
 }
 
@@ -61,11 +86,11 @@ export function Hero() {
   return (
     <section ref={ref} onPointerMove={moveObjects} id="hero" className="relative min-h-[100svh] overflow-hidden bg-bg pt-24" aria-labelledby="hero-title">
       <div className="hero-wash" aria-hidden />
-      <div className="hero-playground" aria-hidden>
-        <HeroObject className="hero-object-laptop" src="/media/hero-laptop.webp" x={laptopX} y={laptopY} rotate={-6} />
-        <HeroObject className="hero-object-headphones" src="/media/hero-headphones.webp" x={headphonesX} y={headphonesY} rotate={-10} />
-        <HeroObject className="hero-object-controller" src="/media/hero-controller.webp" x={controllerX} y={controllerY} rotate={8} />
-        <HeroObject className="hero-object-phone" src="/media/hero-phone.webp" x={phoneX} y={phoneY} rotate={5} />
+      <div className="hero-playground">
+        <HeroObject className="hero-object-laptop" src="/media/hero-laptop.webp" x={laptopX} y={laptopY} rotate={-6} label="Developer at work" eyebrow="DEV MODE" detail="Backend systems, Android experiments, and the inevitable late-night debug session." cursor="Dev" />
+        <HeroObject className="hero-object-headphones" src="/media/hero-headphones.webp" x={headphonesX} y={headphonesY} rotate={-10} label="Music listener" eyebrow="ON REPEAT" detail="English, Hindi, Japanese, instrumentals — if it carries a mood, it is probably in rotation." cursor="Music" />
+        <HeroObject className="hero-object-controller" src="/media/hero-controller.webp" x={controllerX} y={controllerY} rotate={8} label="Gamer" eyebrow="OFF DUTY" detail="Genshin Impact, BeamNG.drive, and Ghost of Tsushima. Plenty of hours logged." cursor="Games" />
+        <HeroObject className="hero-object-phone" src="/media/hero-phone.webp" x={phoneX} y={phoneY} rotate={5} label="Mobile photographer" eyebrow="FRAME BY FRAME" detail="Mobile photography and edits, collected on my Instagram." cursor="Photos" href="https://www.instagram.com/amazecliks/" />
       </div>
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-6xl flex-col justify-between px-5 pb-7 pt-[15vh] sm:px-8 sm:pb-9">
         <motion.div style={{ opacity }}>
