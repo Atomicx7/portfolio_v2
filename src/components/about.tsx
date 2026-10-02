@@ -68,8 +68,8 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
             enableTilt={finePointer}
             enableMobileTilt={false}
             behindGlowEnabled={finePointer}
-            behindGlowColor="rgba(25, 93, 210, 0.35)"
-            innerGradient="linear-gradient(145deg, rgba(12, 29, 64, 0.96) 0%, rgba(27, 91, 191, 0.52) 100%)"
+            behindGlowColor="rgba(218, 76, 48, 0.32)"
+            innerGradient="linear-gradient(145deg, rgba(53, 22, 16, 0.96) 0%, rgba(164, 57, 34, 0.52) 100%)"
             onContactClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
           />
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Move your cursor over the card</p>
