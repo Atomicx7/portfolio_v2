@@ -45,29 +45,29 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
 
   return (
     <section id="about" className="section-shell">
-      <div className="page-shell grid gap-16 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
-        <div>
-          <SectionHeading index="01" eyebrow="About" title="Two sides of the same build.">
-            The reliable system underneath. The interaction someone remembers on top.
-          </SectionHeading>
-          <div className="mt-12"><RevealParagraph /></div>
-          <motion.dl initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.4 }} transition={{ staggerChildren: 0.1 }} className="mt-14 grid grid-cols-3 border-y border-line">
-            {[
-              ["1,500+", "internal users"],
-              [`${stats.stars}+`, "DuoFold stars"],
-              ["9.0", "CGPA · B.Tech IT"],
-            ].map(([value, label]) => (
-              <motion.div variants={fadeUp} key={label} className="py-5 pr-3 first:border-r first:border-line sm:py-7 sm:pr-6 [&:nth-child(2)]:border-r [&:nth-child(2)]:border-line">
-                <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{label}</dt>
-                <dd className="mt-2 text-2xl font-semibold tracking-tight sm:text-4xl">{value}</dd>
-              </motion.div>
-            ))}
-          </motion.dl>
-        </div>
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }} transition={{ duration: 0.7 }} className="profile-card-wrap relative mx-auto w-full max-w-sm self-stretch">
-          <AboutSticker className="about-photo-sticker-headphones" src="/media/hero-headphones.webp" />
-          <AboutSticker className="about-photo-sticker-controller" src="/media/hero-controller.webp" />
-          <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" />
+      <div className="page-shell">
+        <SectionHeading index="01" eyebrow="About" title="Two sides of the same build.">
+          The reliable system underneath. The interaction someone remembers on top.
+        </SectionHeading>
+        <div className="mt-12"><RevealParagraph /></div>
+        <motion.dl initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.4 }} transition={{ staggerChildren: 0.1 }} className="mt-14 grid max-w-3xl grid-cols-3 border-y border-line">
+          {[
+            ["1,500+", "internal users"],
+            [`${stats.stars}+`, "DuoFold stars"],
+            ["9.0", "CGPA · B.Tech IT"],
+          ].map(([value, label]) => (
+            <motion.div variants={fadeUp} key={label} className="py-5 pr-3 first:border-r first:border-line sm:py-7 sm:pr-6 [&:nth-child(2)]:border-r [&:nth-child(2)]:border-line">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{label}</dt>
+              <dd className="mt-2 text-2xl font-semibold tracking-tight sm:text-4xl">{value}</dd>
+            </motion.div>
+          ))}
+        </motion.dl>
+      </div>
+      <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.2 }} transition={{ duration: 0.7 }} className="about-photo-stage page-shell">
+        <AboutSticker className="about-photo-sticker-headphones" src="/media/hero-headphones.webp" />
+        <AboutSticker className="about-photo-sticker-controller" src="/media/hero-controller.webp" />
+        <AboutSticker className="about-photo-sticker-car" src="/media/about-bmw-m5.webp" />
+        <div className="profile-card-wrap relative z-10 mx-auto w-full max-w-sm">
           <ProfileCard
             name="Yashdeep Singh"
             title="Software Engineer"
@@ -85,9 +85,8 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
             onContactClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
           />
           <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Move your cursor over the card</p>
-        </motion.div>
-      </div>
-
+        </div>
+      </motion.div>
     </section>
   )
 }
