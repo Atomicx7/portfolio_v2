@@ -1,6 +1,6 @@
 # Yashdeep Singh — portfolio v3
 
-A dark-first Next.js portfolio centred on **the fold**: production AI backend work on one side, GPU-shader Android experiments on the other.
+A light-first Next.js portfolio centred on **the fold**: production backend work on one side, GPU-shader Android experiments on the other. A deliberate dark mode is included.
 
 ## Stack
 

@@ -17,7 +17,7 @@ export const experience: TimelineEntry[] = [
     version: "v2026.01 — v2026.07",
     title: "Software Engineering Intern",
     organization: "BigBasket · A Tata Enterprise",
-    location: "Bengaluru, India",
+    location: "India",
     dates: "Jan 2026 — Jul 2026",
     summary: "BB Help — AI-powered internal IT support assistant.",
     bullets: [
@@ -34,7 +34,7 @@ export const experience: TimelineEntry[] = [
     organization: "Chandigarh Engineering College",
     location: "SAS Nagar, India",
     dates: "Jul 2022 — Jun 2026",
-    summary: "Software engineering focus · CGPA 8.96 / 10.",
+    summary: "Software engineering focus · CGPA 9.0 / 10.",
     bullets: [
       "Smart India Hackathon participant — delivered a working solution under time pressure.",
       "Built a strong base in systems, databases, networks, and practical software delivery.",

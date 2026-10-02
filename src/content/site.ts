@@ -3,7 +3,6 @@ export const site = {
   handle: "atomicx7",
   title: "Software Engineer",
   description: "Software Engineer building production AI backends and GPU-shader Android experiments.",
-  location: "Bengaluru, India",
   timezone: "Asia/Kolkata",
   github: "https://github.com/atomicx7",
   linkedin: "https://www.linkedin.com/in/yash-deep-singh/",

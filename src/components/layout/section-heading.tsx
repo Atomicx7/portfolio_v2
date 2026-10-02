@@ -20,7 +20,7 @@ export function SectionHeading({
       whileInView="show"
       viewport={{ once: true, amount: 0.35 }}
       transition={{ staggerChildren: 0.08 }}
-      className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}
+      className={align === "center" ? "reveal-blur mx-auto max-w-3xl text-center" : "reveal-blur max-w-3xl"}
     >
       <motion.p variants={fadeUp} className="eyebrow">
         <span className="text-accent">// {index}</span> — {eyebrow}

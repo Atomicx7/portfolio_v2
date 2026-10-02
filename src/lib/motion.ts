@@ -6,8 +6,8 @@ export const ease = {
 export const dur = { fast: 0.18, base: 0.45, slow: 0.9 } as const
 
 export const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 24, filter: "blur(7px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)" },
 }
 
 export const stagger = (s = 0.06) => ({

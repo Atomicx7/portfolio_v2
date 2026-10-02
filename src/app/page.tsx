@@ -7,6 +7,7 @@ import { Lab } from "../components/lab"
 import { Navigation } from "../components/navigation"
 import { Projects } from "../components/projects"
 import { Skills } from "../components/features"
+import { IntroReveal } from "../components/fx/intro-reveal"
 import { site } from "../content/site"
 import { repoStats } from "../lib/github"
 
@@ -21,11 +22,11 @@ export default async function HomePage() {
     jobTitle: site.title,
     url: "https://atomicx7.dev",
     sameAs: [site.github, site.linkedin],
-    address: { "@type": "PostalAddress", addressLocality: "Bengaluru", addressCountry: "IN" },
   }
 
   return (
     <main className="min-h-screen overflow-x-clip bg-bg text-fg">
+      <IntroReveal />
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Navigation />
       <div id="main-content">

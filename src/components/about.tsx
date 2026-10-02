@@ -1,13 +1,13 @@
 "use client"
 
-import Image from "next/image"
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import portrait from "../assets/avatar-new2cutout.png"
 import { fadeUp } from "../lib/motion"
 import { SectionHeading } from "./layout/section-heading"
+import ProfileCard from "./ProfileCard"
 
-const copy = "I built the RAG-based support assistant at BigBasket that serves 1,500+ employees, and the open-source DuoFold animation for Android with 200+ stars. I like problems where backend reliability and visual polish both matter."
+const copy = "At BigBasket, I helped build a support tool used by 1,500+ people. On the side, I made DuoFold, an Android animation experiment that picked up 200+ GitHub stars. I care about the unglamorous reliability work as much as the satisfying final detail."
 
 function RevealParagraph() {
   const ref = useRef<HTMLParagraphElement>(null)
@@ -26,6 +26,15 @@ function RevealParagraph() {
 }
 
 export function About({ stats }: { stats: { stars: number; downloads: number } }) {
+  const [finePointer, setFinePointer] = useState(false)
+  useEffect(() => {
+    const query = window.matchMedia("(pointer: fine)")
+    const update = () => setFinePointer(query.matches)
+    update()
+    query.addEventListener("change", update)
+    return () => query.removeEventListener("change", update)
+  }, [])
+
   return (
     <section id="about" className="section-shell">
       <div className="page-shell grid gap-16 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
@@ -38,7 +47,7 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
             {[
               ["1,500+", "internal users"],
               [`${stats.stars}+`, "DuoFold stars"],
-              ["8.96", "CGPA · B.Tech IT"],
+              ["9.0", "CGPA · B.Tech IT"],
             ].map(([value, label]) => (
               <motion.div variants={fadeUp} key={label} className="py-5 pr-3 first:border-r first:border-line sm:py-7 sm:pr-6 [&:nth-child(2)]:border-r [&:nth-child(2)]:border-line">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{label}</dt>
@@ -47,15 +56,23 @@ export function About({ stats }: { stats: { stars: number; downloads: number } }
             ))}
           </motion.dl>
         </div>
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="relative mx-auto w-full max-w-sm self-stretch border border-line bg-surface">
-          <div className="absolute left-0 top-8 z-10 h-px w-full bg-accent" />
-          <div className="absolute left-1/2 top-0 h-full w-px bg-white/10" />
-          <div className="relative aspect-[4/5] overflow-hidden">
-            <Image src={portrait} alt="Yashdeep Singh" fill className="object-cover object-[50%_30%] opacity-90 grayscale transition duration-700 hover:grayscale-0" sizes="(max-width: 1024px) 384px, 30vw" />
-          </div>
-          <div className="relative flex items-center justify-between border-t border-line px-4 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-            <span>Yashdeep Singh</span><span className="text-accent">// 2026</span>
-          </div>
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="profile-card-wrap relative mx-auto w-full max-w-sm self-stretch">
+          <ProfileCard
+            name="Yashdeep Singh"
+            title="Software Engineer"
+            handle="atomicx7"
+            status="Building, learning, shipping"
+            contactText="Say hi"
+            avatarUrl={portrait.src}
+            miniAvatarUrl={portrait.src}
+            enableTilt={finePointer}
+            enableMobileTilt={false}
+            behindGlowEnabled={finePointer}
+            behindGlowColor="rgba(25, 93, 210, 0.35)"
+            innerGradient="linear-gradient(145deg, rgba(12, 29, 64, 0.96) 0%, rgba(27, 91, 191, 0.52) 100%)"
+            onContactClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+          />
+          <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-muted">Move your cursor over the card</p>
         </motion.div>
       </div>
     </section>

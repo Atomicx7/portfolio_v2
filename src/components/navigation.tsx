@@ -2,10 +2,11 @@
 
 import { AnimatePresence, motion } from "framer-motion"
 import { Menu, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { site } from "../content/site"
 import { CommandPalette } from "./layout/command-palette"
 import { ScrollProgress } from "./layout/scroll-progress"
+import { ThemeToggle } from "./theme-toggle"
 
 const navigationItems = [
   { label: "Work", target: "work" },
@@ -16,6 +17,15 @@ const navigationItems = [
 
 export function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   const scroll = (target: string) => {
     setMenuOpen(false)
     const section = document.getElementById(target)
@@ -30,7 +40,7 @@ export function Navigation() {
     <>
       <ScrollProgress />
       <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-5">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between border border-white/10 bg-[#111114]/70 px-3 backdrop-blur-xl sm:px-4">
+        <div className={`nav-shell ${scrolled ? "is-scrolled" : ""}`}>
           <button onClick={() => scroll("hero")} className="group flex min-h-11 items-center gap-2 px-1 font-mono text-xs font-medium uppercase tracking-[0.16em] text-fg" aria-label="Return to page top">
             <span className="size-2 rounded-full bg-accent transition-transform group-hover:scale-150" />
             {site.handle}
@@ -43,6 +53,7 @@ export function Navigation() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <div className="hidden sm:block"><CommandPalette /></div>
             <a href={site.resume} target="_blank" rel="noreferrer" className="button button-small hidden sm:inline-flex">Resume <span aria-hidden>↗</span></a>
             <button className="grid size-11 place-items-center lg:hidden" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}>
