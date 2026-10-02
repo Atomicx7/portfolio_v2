@@ -1,269 +1,123 @@
 "use client"
 
-import { useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { ArrowUpRight, ChevronDown, Github, ExternalLink, Star, GitFork, Sparkles } from "lucide-react"
-import { Button } from "./ui/button"
+import * as Dialog from "@radix-ui/react-dialog"
 import Image from "next/image"
-import Link from "next/link"
-import { featuredProjects, otherProjects, Project } from "../lib/data"
-import { SectionMarquee } from "./section-marquee"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { ArrowUpRight, ExternalLink, Github, Play, Star, X } from "lucide-react"
+import { useEffect, useState } from "react"
+import { projects, type Project, type ProjectTag } from "../content/projects"
+import type { RepoStats } from "../lib/github"
+import { SectionHeading } from "./layout/section-heading"
 
-function primaryLink(project: Project): string | undefined {
-  if (project.liveUrl && project.liveUrl !== "#") return project.liveUrl
-  if (project.githubUrl && project.githubUrl !== "#") return project.githubUrl
-  return undefined
+const filters: { id: "all" | ProjectTag; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "mobile", label: "Mobile" },
+  { id: "ai", label: "AI" },
+  { id: "web", label: "Web" },
+]
+
+function ProjectVisual({ project }: { project: Project }) {
+  if (project.slug === "bb-help") return <div className="case-visual case-visual-bb" aria-hidden><span>BB</span><i /><small>RAG / SUPPORT</small></div>
+  return <Image src={project.image} alt="" fill className="object-cover transition duration-700 group-hover:scale-[1.035]" sizes="(max-width: 768px) 100vw, 700px" />
 }
 
-function Stats({ project }: { project: Project }) {
-  if (project.stars === undefined && project.forks === undefined) return null
+function ProjectDialog({ project, stats, onClose }: { project: Project | null; stats: RepoStats; onClose: () => void }) {
   return (
-    <div className="flex items-center gap-3 text-sm font-bold text-zinc-600 dark:text-zinc-300">
-      {project.stars !== undefined && (
-        <span className="inline-flex items-center gap-1.5">
-          <Star className="size-4 fill-yellow-400 text-yellow-400" />
-          {project.stars}
-        </span>
-      )}
-      {project.forks !== undefined && (
-        <span className="inline-flex items-center gap-1.5">
-          <GitFork className="size-4" />
-          {project.forks}
-        </span>
-      )}
-    </div>
-  )
-}
-
-export function ProjectCard({
-  project,
-  index,
-  open,
-  onToggle,
-}: {
-  project: Project
-  index: number
-  open: boolean
-  onToggle: () => void
-}) {
-  const href = primaryLink(project)
-  const isFeatured = index === 0
-  const hasDetails = !!project.highlights?.length || !!href
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.45 }}
-      className="group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-zinc-200/60 bg-white/70 p-4 backdrop-blur-lg transition-shadow duration-300 hover:shadow-2xl hover:shadow-purple-500/10 dark:border-zinc-800 dark:bg-zinc-900/60 sm:flex-row sm:gap-7 sm:rounded-3xl sm:p-7"
-    >
-      {/* hover sheen */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-all duration-700 group-hover:left-[130%] group-hover:opacity-100 dark:via-white/10"
-      />
-
-      <div className="relative aspect-[16/10] shrink-0 overflow-hidden rounded-2xl sm:aspect-auto sm:h-44 sm:w-60 lg:h-48 lg:w-72">
-        <Image
-          src={project.imageUrl}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
-        />
-      </div>
-
-      <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-black tracking-widest text-zinc-300 dark:text-zinc-600">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          {isFeatured && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-              <Sparkles className="size-3" />
-              Featured
-            </span>
-          )}
-          <span className="ml-auto flex items-center gap-2">
-            <Stats project={project} />
-            {hasDetails && (
-              <button
-                type="button"
-                onClick={onToggle}
-                aria-expanded={open}
-                aria-label={open ? `Collapse ${project.title} details` : `Expand ${project.title} details`}
-                className="flex size-9 items-center justify-center rounded-full text-zinc-500 transition-all hover:scale-110 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white"
-              >
-                <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
-                  <ChevronDown className="size-4" />
-                </motion.span>
-              </button>
-            )}
-          </span>
-        </div>
-
-        {href ? (
-          <Link
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-flex w-fit items-center gap-2 text-xl font-extrabold tracking-tight text-zinc-900 transition-colors group-hover:text-purple-600 dark:text-zinc-50 dark:group-hover:text-purple-300 sm:text-2xl lg:text-3xl"
-          >
-            {project.title}
-            <ArrowUpRight className="size-5 sm:size-6 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </Link>
-        ) : (
-          <h3 className="mt-2 text-xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-2xl lg:text-3xl">
-            {project.title}
-          </h3>
-        )}
-
-        <p className="mt-2.5 max-w-3xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-          {project.description}
-        </p>
-
-        <p className="mt-4 text-xs font-semibold uppercase tracking-[0.15em] text-zinc-400 dark:text-zinc-500">
-          {project.technologies.join("  ·  ")}
-        </p>
-
-        <AnimatePresence initial={false}>
-          {open && (
-            <motion.div
-              key="details"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.32, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <div className="border-t border-zinc-200/70 pt-5 mt-5 dark:border-zinc-700/70">
-                {project.highlights && project.highlights.length > 0 && (
-                  <ul className="space-y-2.5">
-                    {project.highlights.map((point, i) => (
-                      <motion.li
-                        key={i}
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.06 * i }}
-                        className="flex gap-2.5 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-300"
-                      >
-                        <span
-                          aria-hidden
-                          className="mt-[7px] size-1.5 shrink-0 rounded-full bg-gradient-to-r from-purple-600 to-pink-600"
-                        />
-                        {point}
-                      </motion.li>
-                    ))}
-                  </ul>
-                )}
-                {(project.githubUrl !== "#" || project.liveUrl !== "#") && (
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    {project.githubUrl && project.githubUrl !== "#" && (
-                      <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Button variant="outline">
-                          <Github className="w-4 h-4 mr-2" />
-                          View Code
-                        </Button>
-                      </Link>
-                    )}
-                    {project.liveUrl && project.liveUrl !== "#" && (
-                      <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <Button>
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          Live Demo
-                        </Button>
-                      </Link>
-                    )}
+    <Dialog.Root open={Boolean(project)} onOpenChange={(open) => !open && onClose()}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-[80] bg-black/75 backdrop-blur-sm" />
+        {project && (
+          <Dialog.Content data-lenis-prevent className="case-dialog">
+            <div className="flex items-start justify-between gap-5 border-b border-line px-5 py-4 sm:px-7">
+              <div><p className="eyebrow"><span className="text-accent">// {project.year}</span> — CASE STUDY</p><Dialog.Title className="mt-2 text-2xl font-semibold tracking-tight">{project.title}</Dialog.Title></div>
+              <Dialog.Close className="grid size-10 shrink-0 place-items-center border border-line text-muted transition-colors hover:border-accent hover:text-fg" aria-label="Close case study"><X className="size-4" /></Dialog.Close>
+            </div>
+            <div className="max-h-[calc(90vh-82px)] overflow-y-auto" data-lenis-prevent>
+              <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
+                <div className="min-h-[280px] border-b border-line bg-[#101015] lg:min-h-[520px] lg:border-b-0 lg:border-r">
+                  {project.media ? (
+                    <iframe
+                      className="h-full min-h-[280px] w-full lg:min-h-[520px]"
+                      src={`https://drive.google.com/file/d/${project.media.driveId}/preview`}
+                      title={`${project.title} video demo`}
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                      loading="lazy"
+                    />
+                  ) : <div className="case-art"><ProjectVisual project={project} /></div>}
+                </div>
+                <div className="p-5 sm:p-7">
+                  <Dialog.Description className="text-base leading-7 text-muted">{project.summary}</Dialog.Description>
+                  {project.caseStudy && <dl className="mt-8 space-y-5 border-y border-line py-6"><div><dt className="eyebrow text-accent">Problem</dt><dd className="mt-2 text-sm leading-6 text-fg">{project.caseStudy.problem}</dd></div><div><dt className="eyebrow text-accent">Approach</dt><dd className="mt-2 text-sm leading-6 text-fg">{project.caseStudy.approach}</dd></div><div><dt className="eyebrow text-accent">Result</dt><dd className="mt-2 text-sm leading-6 text-fg">{project.caseStudy.result}</dd></div></dl>}
+                  <div className="mt-7"><p className="eyebrow">Build notes</p><ul className="mt-4 space-y-3">{project.highlights.map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted"><span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />{item}</li>)}</ul></div>
+                  {project.slug === "duofold" && <div className="mt-7 flex gap-5 border-t border-line pt-5 font-mono text-xs uppercase tracking-[0.12em] text-muted"><span><Star className="mr-1 inline size-3.5 text-accent" />{stats.stars} stars</span><span>{stats.downloads.toLocaleString()}+ downloads</span></div>}
+                  <div className="mt-7 flex flex-wrap gap-3">
+                    {project.links?.code && <a href={project.links.code} target="_blank" rel="noreferrer" className="button button-small"><Github className="size-4" />Code</a>}
+                    {project.links?.live && <a href={project.links.live} target="_blank" rel="noreferrer" className="button button-small button-quiet"><ExternalLink className="size-4" />Live site</a>}
                   </div>
-                )}
+                </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.article>
+            </div>
+          </Dialog.Content>
+        )}
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
 
-export function ProjectList({
-  projects,
-  offset = 0,
-  defaultOpen = 0,
-}: {
-  projects: Project[]
-  offset?: number
-  defaultOpen?: number | null
-}) {
-  const [openIndex, setOpenIndex] = useState<number | null>(defaultOpen)
+export function ProjectIndex({ duoStats, compact = false }: { duoStats: RepoStats; compact?: boolean }) {
+  const [filter, setFilter] = useState<"all" | ProjectTag>("all")
+  const [selected, setSelected] = useState<Project | null>(null)
+  const [focusedSlug, setFocusedSlug] = useState<string | null>(null)
+  const reduceMotion = useReducedMotion()
+  useEffect(() => {
+    const focusProject = (event: Event) => {
+      const slug = (event as CustomEvent<string>).detail
+      setFilter("all")
+      setFocusedSlug(slug)
+      window.setTimeout(() => document.getElementById(`project-${slug}`)?.focus({ preventScroll: false }), 50)
+    }
+    document.addEventListener("portfolio:project-focus", focusProject)
+    return () => document.removeEventListener("portfolio:project-focus", focusProject)
+  }, [])
+  const visibleProjects = projects.filter((project) => filter === "all" || project.tags.includes(filter))
+
   return (
-    <div className="flex flex-col gap-5">
-      {projects.map((project, i) => (
-        <ProjectCard
-          key={project.title}
-          project={project}
-          index={offset + i}
-          open={openIndex === i}
-          onToggle={() => setOpenIndex((prev) => (prev === i ? null : i))}
-        />
-      ))}
-    </div>
+    <>
+      {!compact && <div className="mb-12 flex flex-wrap gap-2" aria-label="Filter projects">{filters.map((item) => <button key={item.id} onClick={() => { setFilter(item.id); setFocusedSlug(null) }} className={`filter-chip ${filter === item.id ? "is-active" : ""}`}>{item.label}</button>)}</div>}
+      <div className="project-list border-t border-line">
+        <AnimatePresence mode="popLayout">
+          {visibleProjects.map((project, index) => {
+            const focused = focusedSlug === project.slug
+            return (
+              <motion.article key={project.slug} id={`project-${project.slug}`} tabIndex={-1} initial={{ opacity: 0, y: reduceMotion ? 0 : 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduceMotion ? 0 : -12 }} transition={{ duration: 0.35 }} className={`project-row group ${focused ? "project-focused" : ""}`}>
+                <button className="absolute inset-0 z-10 cursor-pointer" onClick={() => setSelected(project)} aria-label={`Open ${project.title} case study`} />
+                <div className="relative z-0 grid gap-5 py-7 md:grid-cols-[70px_minmax(0,1fr)_minmax(150px,0.45fr)_90px] md:items-center md:gap-7 md:py-9">
+                  <span className="font-mono text-[11px] tracking-[0.16em] text-muted">{String(index + 1).padStart(2, "0")}</span>
+                  <div><h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">{project.title}{project.slug === "duofold" && <span className="ml-2 inline-flex align-middle text-accent"><Play className="size-4 fill-current" /></span>}</h3><p className="mt-2 max-w-xl text-sm leading-6 text-muted sm:text-base">{project.outcome}</p></div>
+                  <div className="flex flex-wrap gap-2">{project.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}{project.slug === "duofold" && <span className="tag border-accent/50 text-fg"><Star className="size-3 text-accent" />{duoStats.stars}</span>}</div>
+                  <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted md:justify-end"><span className="transition-transform duration-300 group-hover:translate-x-1">View</span><ArrowUpRight className="size-4 text-accent" /></span>
+                </div>
+                <div className="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-[44%] overflow-hidden opacity-0 transition duration-500 group-hover:opacity-100 md:block"><ProjectVisual project={project} /><div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/80 to-transparent" /></div>
+              </motion.article>
+            )
+          })}
+        </AnimatePresence>
+      </div>
+      <ProjectDialog project={selected} stats={duoStats} onClose={() => setSelected(null)} />
+    </>
   )
 }
 
-export function Projects() {
-  const [showMore, setShowMore] = useState(false)
+export function Projects({ duoStats }: { duoStats: RepoStats }) {
   return (
-    <div className="relative py-20 sm:py-32 overflow-hidden">
-      {/* giant backdrop word */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-16 -translate-x-1/2 select-none whitespace-nowrap text-[22vw] font-black leading-none text-zinc-900/[0.04] dark:text-white/[0.04]"
-      >
-        WORK
-      </span>
-      <div className="relative max-w-6xl mx-auto px-6">
-        <SectionMarquee
-          eyebrow="Selected Work"
-          title="Projects"
-          sub="Shipped products, open source, and experiments — click a row to dig in."
-          texts={["Projects ✦"]}
-        />
-
-        <ProjectList projects={featuredProjects} defaultOpen={0} />
-
-        <div className="mt-10 text-center sm:mt-12">
-          <Button variant="outline" onClick={() => setShowMore((v) => !v)} className="rounded-full px-6">
-            {showMore ? "Hide extra projects" : `Show more projects (${otherProjects.length})`}
-            <motion.span
-              animate={{ rotate: showMore ? 180 : 0 }}
-              transition={{ duration: 0.25 }}
-              className="ml-2 inline-flex"
-            >
-              <ChevronDown className="size-4" />
-            </motion.span>
-          </Button>
-        </div>
-        <AnimatePresence initial={false}>
-          {showMore && (
-            <motion.div
-              key="more-projects"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <div className="pt-5">
-                <ProjectList
-                  projects={otherProjects}
-                  offset={featuredProjects.length}
-                  defaultOpen={null}
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+    <section id="work" className="section-shell">
+      <div className="page-shell">
+        <SectionHeading index="02" eyebrow="Selected work" title="Built to be used.">
+          Open-source experiments, production systems, and products with a real interaction at the center.
+        </SectionHeading>
+        <div className="mt-12"><ProjectIndex duoStats={duoStats} /></div>
       </div>
-    </div>
+    </section>
   )
 }

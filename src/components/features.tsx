@@ -1,73 +1,41 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Cloud, Code2, Database, GitBranch, Server, Smartphone } from "lucide-react"
-import { SectionMarquee } from "./section-marquee"
+import { motion, useReducedMotion } from "framer-motion"
+import { ArrowUpRight } from "lucide-react"
+import { skillTiles } from "../content/skills"
+import { SectionHeading } from "./layout/section-heading"
 
-const skills = [
-  {
-    title: "Languages",
-    description: "Java, Python, JavaScript, TypeScript, C++, SQL.",
-    icon: <Code2 className="h-6 w-6 sm:h-7 sm:w-7" />,
-  },
-  {
-    title: "Backend & APIs",
-    description: "REST API design, Microservices, FastAPI, Node.js, Express.js.",
-    icon: <Server className="h-6 w-6 sm:h-7 sm:w-7" />,
-  },
-  {
-    title: "Databases",
-    description: "MySQL, MongoDB, Firestore — relational + NoSQL modeling.",
-    icon: <Database className="h-6 w-6 sm:h-7 sm:w-7" />,
-  },
-  {
-    title: "Cloud & DevOps",
-    description: "GCP, Docker, Jenkins, Git/GitHub, Linux, Postman, CI/CD.",
-    icon: <Cloud className="h-6 w-6 sm:h-7 sm:w-7" />,
-  },
-  {
-    title: "Engineering Practices",
-    description: "Agile/Scrum, sprint planning, code reviews, unit & integration testing, SDLC.",
-    icon: <GitBranch className="h-6 w-6 sm:h-7 sm:w-7" />,
-  },
-  {
-    title: "Core CS + Mobile",
-    description: "DSA, OOP, DBMS, OS, CN, System Design; React Native / Expo.",
-    icon: <Smartphone className="h-6 w-6 sm:h-7 sm:w-7" />,
-  },
-]
+function sendProjectFocus(slug?: string) {
+  if (!slug) return
+  document.dispatchEvent(new CustomEvent("portfolio:project-focus", { detail: slug }))
+  document.getElementById("work")?.scrollIntoView({ behavior: "smooth", block: "center" })
+}
 
 export function Skills() {
+  const reduced = useReducedMotion()
   return (
-    <div className="relative py-20 sm:py-32 overflow-x-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <SectionMarquee
-          eyebrow="Skills"
-          title="My Skills"
-          sub="The tools and practices I use to ship production software end to end."
-          texts={["Skills ✦"]}
-        />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          {skills.map((skill, i) => (
-            <motion.div
-              key={skill.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: (i % 3) * 0.1, duration: 0.5 }}
-              className="bg-white/80 dark:bg-zinc-800/80 backdrop-blur-lg rounded-2xl border border-zinc-200/50 dark:border-zinc-700/50 shadow-xl p-5 sm:p-8 flex flex-row items-center gap-4 text-left sm:flex-col sm:text-center"
-            >
-              <div className="h-12 w-12 shrink-0 sm:h-16 sm:w-16 sm:mb-4 rounded-full bg-gradient-to-br from-purple-600/15 to-pink-600/15 dark:from-purple-500/20 dark:to-pink-500/20 border border-zinc-200/60 dark:border-zinc-700/60 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
-                {skill.icon}
+    <section id="skills" className="section-shell border-y border-line bg-surface/40">
+      <div className="page-shell">
+        <SectionHeading index="03" eyebrow="Capabilities" title="Built across the stack.">
+          Hover or tap a tool to trace it to the work it helped ship.
+        </SectionHeading>
+        <div className="mt-14 grid gap-3 md:grid-cols-2">
+          {skillTiles.map((tile, index) => (
+            <motion.article key={tile.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ delay: index * 0.06 }} whileHover={reduced ? undefined : { y: -4 }} className={`skill-tile skill-${tile.size}`}>
+              <div className="flex items-start justify-between gap-5">
+                <div><p className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent">{tile.kicker}</p><h3 className="mt-4 text-2xl font-semibold tracking-tight">{tile.title}</h3></div>
+                <span className="grid size-8 shrink-0 place-items-center border border-line text-muted"><ArrowUpRight className="size-4" /></span>
               </div>
-              <div className="min-w-0">
-                <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-zinc-900 dark:text-white">{skill.title}</h3>
-                <p className="text-[15px] sm:text-base text-zinc-600 dark:text-zinc-400">{skill.description}</p>
+              {tile.title === "Backend & AI" && <div aria-hidden className="pipeline mt-8"><span>Tickets</span><i /><span>Retrieve</span><i /><span>Answer</span></div>}
+              {tile.title === "Mobile & GPU" && <div aria-hidden className="shader-mini mt-8"><span /><span /><span /></div>}
+              <p className="mt-6 max-w-lg text-sm leading-6 text-muted">{tile.description}</p>
+              <div className="mt-7 flex flex-wrap gap-2">
+                {tile.skills.map((skill) => <button key={skill.name} onClick={() => sendProjectFocus(skill.projects?.[0])} className="chip" disabled={!skill.projects?.[0]}>{skill.name}</button>)}
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -1,37 +1,41 @@
-My personal Portfolio website v2
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Yashdeep Singh — portfolio v3
 
-## Getting Started for this project
+A dark-first Next.js portfolio centred on **the fold**: production AI backend work on one side, GPU-shader Android experiments on the other.
 
-First, run the development server:
+## Stack
+
+- Next.js 14 App Router + TypeScript
+- Tailwind CSS + Framer Motion
+- Lenis smooth scroll (desktop only, disabled for reduced motion)
+- `react-hook-form` + Zod contact form with a Resend route
+
+## Local development
 
 ```bash
+npm install
+cp .env.example .env.local # optional until contact delivery is configured
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contact delivery
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Set these values in `.env.local` locally and in your deployment provider’s environment settings:
 
-## Learn More
+```bash
+RESEND_API_KEY=re_...
+CONTACT_TO_EMAIL=your-inbox@example.com
+```
 
-To learn more about Next.js, take a look at the following resources:
+The API route validates payloads, includes a honeypot field, and returns a graceful fallback when delivery is not configured. For production rate limiting, add an edge/firewall rule or an external service such as Upstash.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## DuoFold video
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The DuoFold case study embeds the supplied Google Drive video using Drive’s `/preview` URL. The Drive file must stay shared as **Anyone with the link**. For best Core Web Vitals later, replace the Drive embed with an optimized muted `.webm` and poster in `public/media/`.
 
-## Deploy on Vercel
+## Before shipping
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Replace `https://atomicx7.dev` in metadata, sitemap, robots, and JSON-LD if your final domain differs.
+- Confirm that the public BB Help statements are employer-approved.
+- Replace the existing resume PDF if it still contains contact information you do not want public.
