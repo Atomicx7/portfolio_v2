@@ -1,31 +1,32 @@
 "use client"
 
 import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion"
-import { ArrowDownRight, ArrowUpRight, Code2, Gamepad2, Headphones, Laptop, Smartphone } from "lucide-react"
+import { ArrowDownRight, ArrowUpRight, Gamepad2, Headphones, Laptop, Smartphone } from "lucide-react"
 import { useRef } from "react"
 
 function HeroSticker({
   className,
   icon: Icon,
-  label,
-  detail,
+  kind,
   x,
   y,
   rotate,
 }: {
   className: string
   icon: typeof Laptop
-  label: string
-  detail: string
+  kind: "laptop" | "controller" | "headphones" | "phone"
   x: MotionValue<number>
   y: MotionValue<number>
   rotate: number
 }) {
   return (
     <motion.div aria-hidden className={`hero-sticker ${className}`} style={{ x, y, rotate }}>
-      <Icon className="size-5" strokeWidth={1.7} />
-      <span>{label}</span>
-      <small>{detail}</small>
+      <span className="sticker-art">
+        <Icon strokeWidth={1.55} />
+        {kind === "laptop" && <b>{"</>"}</b>}
+        {kind === "controller" && <i className="sticker-led" />}
+        {kind === "phone" && <i className="sticker-spark">✦</i>}
+      </span>
     </motion.div>
   )
 }
@@ -62,11 +63,10 @@ export function Hero() {
     <section ref={ref} onPointerMove={moveObjects} id="hero" className="relative min-h-[100svh] overflow-hidden bg-bg pt-24" aria-labelledby="hero-title">
       <div className="hero-wash" aria-hidden />
       <div className="hero-playground" aria-hidden>
-        <HeroSticker className="hero-sticker-laptop" icon={Laptop} label="BUILD MODE" detail="</>" x={laptopX} y={laptopY} rotate={-7} />
-        <HeroSticker className="hero-sticker-controller" icon={Gamepad2} label="OFF DUTY" detail="PLAY" x={controllerX} y={controllerY} rotate={8} />
-        <HeroSticker className="hero-sticker-headphones" icon={Headphones} label="FOCUS" detail="ON" x={headphonesX} y={headphonesY} rotate={-10} />
-        <HeroSticker className="hero-sticker-phone" icon={Smartphone} label="MOBILE" detail="ANDROID" x={phoneX} y={phoneY} rotate={11} />
-        <div className="hero-code-mark"><Code2 className="size-5" /><span>systems / shaders / side quests</span></div>
+        <HeroSticker className="hero-sticker-laptop" icon={Laptop} kind="laptop" x={laptopX} y={laptopY} rotate={-7} />
+        <HeroSticker className="hero-sticker-controller" icon={Gamepad2} kind="controller" x={controllerX} y={controllerY} rotate={8} />
+        <HeroSticker className="hero-sticker-headphones" icon={Headphones} kind="headphones" x={headphonesX} y={headphonesY} rotate={-10} />
+        <HeroSticker className="hero-sticker-phone" icon={Smartphone} kind="phone" x={phoneX} y={phoneY} rotate={11} />
       </div>
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-6xl flex-col justify-between px-5 pb-7 pt-[15vh] sm:px-8 sm:pb-9">
         <motion.div style={{ opacity }}>
