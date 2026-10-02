@@ -3,33 +3,25 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { useEffect, useState } from "react"
 
-const sessionKey = "portfolio-intro-seen"
-
 export function IntroReveal() {
   const reduceMotion = useReducedMotion()
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    if (reduceMotion || window.sessionStorage.getItem(sessionKey)) {
+    if (reduceMotion) {
       setVisible(false)
       return
     }
-    const timeout = window.setTimeout(() => {
-      window.sessionStorage.setItem(sessionKey, "true")
-      setVisible(false)
-    }, 1750)
+    const timeout = window.setTimeout(() => setVisible(false), 1950)
     return () => window.clearTimeout(timeout)
   }, [reduceMotion])
 
-  const dismiss = () => {
-    window.sessionStorage.setItem(sessionKey, "true")
-    setVisible(false)
-  }
+  const dismiss = () => setVisible(false)
 
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div className="intro-reveal" initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.18 } }} aria-label="Welcome animation">
+        <motion.div className="intro-reveal" initial={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.22 } }} aria-label="Welcome animation">
           <motion.div className="intro-panel intro-panel-left" initial={{ x: 0 }} animate={{ x: "-102%" }} transition={{ delay: 1.05, duration: 0.6, ease: [0.76, 0, 0.24, 1] }} />
           <motion.div className="intro-panel intro-panel-right" initial={{ x: 0 }} animate={{ x: "102%" }} transition={{ delay: 1.05, duration: 0.6, ease: [0.76, 0, 0.24, 1] }} />
           <motion.div className="relative z-10 flex flex-col items-center px-6 text-center text-fg">

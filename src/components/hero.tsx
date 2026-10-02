@@ -48,6 +48,8 @@ export function Hero() {
   const controllerY = useTransform(softY, (value) => value * -28)
   const headphonesX = useTransform(softX, (value) => value * 17)
   const headphonesY = useTransform(softY, (value) => value * -20)
+  const phoneX = useTransform(softX, (value) => value * -14)
+  const phoneY = useTransform(softY, (value) => value * 20)
 
   const moveObjects = (event: React.PointerEvent<HTMLElement>) => {
     if (shouldReduceMotion) return
@@ -63,6 +65,7 @@ export function Hero() {
         <HeroObject className="hero-object-laptop" src="/media/hero-laptop.webp" x={laptopX} y={laptopY} rotate={-6} />
         <HeroObject className="hero-object-headphones" src="/media/hero-headphones.webp" x={headphonesX} y={headphonesY} rotate={-10} />
         <HeroObject className="hero-object-controller" src="/media/hero-controller.webp" x={controllerX} y={controllerY} rotate={8} />
+        <HeroObject className="hero-object-phone" src="/media/hero-phone.webp" x={phoneX} y={phoneY} rotate={5} />
       </div>
       <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-6xl flex-col justify-between px-5 pb-7 pt-[15vh] sm:px-8 sm:pb-9">
         <motion.div style={{ opacity }}>
